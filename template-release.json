@@ -1,0 +1,852 @@
+{
+ "kind": "chapbook-template-release",
+ "release": 8,
+ "version": "2026.11.24.8",
+ "managed": [
+  "astro.config.mjs",
+  "package.json",
+  "package-lock.json",
+  "public/fonts/",
+  "public/icons-manifest.json",
+  "public/icons-sprite.svg",
+  "scripts/",
+  "src/components/",
+  "src/content/config.ts",
+  "src/data/emoji-glyphs.json",
+  "src/data/themes.json",
+  "src/env.d.ts",
+  "src/layouts/",
+  "src/lib/",
+  "src/pages/",
+  "src/plugins/",
+  "src/scripts/",
+  "src/styles/"
+ ],
+ "files": {
+  "astro.config.mjs": "be7cb2d705eb10b9361ebc02f988b595772a67d2",
+  "package-lock.json": "d90936a9504048104a05b39078b75a377c10d1f2",
+  "package.json": "ba37a631aa2c0f70327d5ca76e4205e12f6259d2",
+  "public/fonts/AtkinsonHyperlegible-OFL.txt": "54e3127833733abae13b8da2b41c068f5d6197a3",
+  "public/fonts/Fraunces-OFL.txt": "1dd64787463c00cecd6ae6eb36585d0ec04131f3",
+  "public/fonts/Fredoka-OFL.txt": "d25934e195aded651d90f0b035b1de05ab883ff2",
+  "public/fonts/Newsreader-OFL.txt": "03ad13c32004b5c7c097e404810b0fdf7410d283",
+  "public/fonts/atkinson-hyperlegible-latin-400-italic.woff2": "c9b0ada0cc1b50695675519f9d45e1665211d6ce",
+  "public/fonts/atkinson-hyperlegible-latin-400-normal.woff2": "2e43c90d5456bbf449b5c4f8e119ae83d129abae",
+  "public/fonts/atkinson-hyperlegible-latin-700-normal.woff2": "bc31903acd1b6772780b04b4f6f7e0e9f36021bb",
+  "public/fonts/fraunces-latin-400-italic.woff2": "8b47701b3a939beb60a91ec08f580df0cddacdca",
+  "public/fonts/fraunces-latin-400-normal.woff2": "83cbd8ff4a0b4df7f1f19124577ea8c60028976e",
+  "public/fonts/fraunces-latin-600-normal.woff2": "58cee1fd39e841fc0299b080f79fa5b8d6958c76",
+  "public/fonts/fraunces-latin-700-normal.woff2": "71bbace60d84d20996214a3e68cf984ee3c0dabd",
+  "public/fonts/fraunces-latin-900-italic.woff2": "88b51c1f431aab81570a00fd459309c5ddbe5b7a",
+  "public/fonts/fraunces-latin-900-normal.woff2": "32f67e3ea526bea33906fc5822ce6d5a87b26931",
+  "public/fonts/fredoka-latin-400-normal.woff2": "8d91972d54c5c4fad5221f530675fa4827754e0b",
+  "public/fonts/fredoka-latin-500-normal.woff2": "1bde60b549b619c746d6178a53cd7866275926a9",
+  "public/fonts/fredoka-latin-600-normal.woff2": "ffc60e8c33e818fb1aabda2a23acd3b5e64ff6a8",
+  "public/fonts/fredoka-latin-700-normal.woff2": "47139ea524d5f1918e32cc7a66ec6650607b7a56",
+  "public/fonts/newsreader-latin-400-italic.woff2": "a662767db6000b69cc0cb3d6e6888dfd056aa5ef",
+  "public/fonts/newsreader-latin-400-normal.woff2": "8536068e1fca064421e37775949b0e9224efa3ac",
+  "public/fonts/newsreader-latin-600-italic.woff2": "010c5d8639bf70d21d40818cdd9d7b765c3d9ac3",
+  "public/fonts/newsreader-latin-600-normal.woff2": "d72ee9cde90047d5eec05cef1254a530e3996266",
+  "public/icons-manifest.json": "100cd26e071973f8c4612a21b6810e582666537a",
+  "public/icons-sprite.svg": "c0fb9f909943b6a74ccf3e8d802f771c46490c4a",
+  "scripts/_gen-placeholders.mjs": "490d9f7ddcdf4fc0dbbfcee779058aeaa13df11b",
+  "scripts/build-icons.mjs": "c350051401734205c3cd76a43e43e5d53f85d211",
+  "scripts/check-darkroom.mjs": "d4fc4aec660beaff1b3189a942495525887812f7",
+  "scripts/check-galaxy-data.mjs": "3ecbdb69c8202c374afdbf9b707022f73b3defcc",
+  "scripts/check-gallery.mjs": "81c7c2328d774c41711ca4e24f924690207b58a3",
+  "scripts/check-glyphs.mjs": "9b2bdc5589af7a4c50eefed859f77d955db4c533",
+  "scripts/check-site-config.mjs": "c4fb126c83903dc414ba72db1ae2d9186847e61d",
+  "scripts/flip-scheduled.mjs": "e0d6d8b239d47dc9782c0643ec640b3e26d48ff3",
+  "scripts/make-og-default.mjs": "d8602e05c295a5918f80ea2a8eae318c1e87f1b4",
+  "scripts/make-template-release.mjs": "6ee4b0da71c91c8ddc5bbe4674c9e6a12981af53",
+  "src/components/BlockPage.astro": "fc177d9b2adad6a5fdc8a3c50f0a6eb43fdfbdc6",
+  "src/components/BlogMotion.astro": "314554f18eb901209a053da489da4781ad86d366",
+  "src/components/GalaxyHero.astro": "c4e918ee189f441636b42bb863d9a0b7f5e274ce",
+  "src/components/GlenoidArt.astro": "009da8fa28c278e08e92ec4b25aa54a57d27058a",
+  "src/components/GlyphBadge.astro": "249f4877bb539b51a779d774050006ecad06c80d",
+  "src/components/Icon.astro": "a0080310784bac00daf511615b6da3d5e9646121",
+  "src/components/Marquee.astro": "ea58a8f4e2eed9f6d6af6f2ec2856f7d35cd21f5",
+  "src/components/PostCard.astro": "b9eb612a0f068abba19d993c06cdbf4b68863379",
+  "src/components/SiteHeader.astro": "ba660473d198216bb919fd8ee7f9e6c873dcc713",
+  "src/components/ThreeHero.astro": "abfd5d8b68c4c408d472941653e938b1290320f9",
+  "src/components/TopicRail.astro": "ef21eca3ad16bc308cba75324b4aba68fba58e28",
+  "src/components/home/HomeBlueprintBoard.astro": "1fe02581b9e8b94fce6270d936f51f1b71fdf893",
+  "src/components/home/HomeBusiness.astro": "4b4842b75862c557ab1469bb200bef2b56a1fc9f",
+  "src/components/home/HomeCollage.astro": "35b5764f97a95eb4d99e0a63af0a5501ebd9ca3e",
+  "src/components/home/HomeContactSheet.astro": "c4be4518edac18e481608a607ee2f2ac5608b545",
+  "src/components/home/HomeDesertArchive.astro": "11cd2fc8308c641924b4706f6939eea9561f13da",
+  "src/components/home/HomeEssayCover.astro": "127ae305019a9fb4908fef7053fe45e2955fa10f",
+  "src/components/home/HomeFieldAtlas.astro": "9900f6d0dfde9e9da95610ba23c3d9cfc1820e4d",
+  "src/components/home/HomeFolio.astro": "5ed38c70160c3a0ec1af48c1a4aeab8378f40d94",
+  "src/components/home/HomeFrontPage.astro": "a9031899911a4b960392bfe245393ed9fa57ad43",
+  "src/components/home/HomeIndex.astro": "0a35c2a2e64981e15e3fc8af0c1c7d066a503efb",
+  "src/components/home/HomeLightbox.astro": "7167cd98e3ca2e9d6d56b07e925860ef8f5cb5a0",
+  "src/components/home/HomeManga.astro": "68fd4536fefecc2eba4feb4fa1527bbfde4cadc7",
+  "src/components/home/HomeMarquee.astro": "0404a47e245bafc52cdd18c06755042e75f20ad8",
+  "src/components/home/HomeMissionControl.astro": "068fe24333f60ee3058fe9fc4a2d81936f45b37f",
+  "src/components/home/HomeNewsWall.astro": "4ee32de8d7c7c30baecf7352387e4343b9e93bb6",
+  "src/components/home/HomeNotebook.astro": "e80eff931538568418fcf53ed9d3a9a943339fe9",
+  "src/components/home/HomePhotoPile.astro": "d671b60f4361c2c928571f82ca6856a8efcf8a78",
+  "src/components/home/HomePinboard.astro": "e9e28f0372cdb2dad3dd40f51c85678b61b1b30a",
+  "src/components/home/HomePixelQuest.astro": "943379507c8d8bae14d1ddb121ce7ac523409e6d",
+  "src/components/home/HomePortrait.astro": "e5a64b072482b43fa7c6f19cc58da6ab665e6674",
+  "src/components/home/HomeRings.astro": "fd62983d68bb55dd4dd1e55e2b00218f70537b91",
+  "src/components/home/HomeSolo.astro": "6dc31b403dc0ae9b8dd4fe88be69bfba6f3b1cf5",
+  "src/components/home/HomeWoodlandChronicle.astro": "270647c5248a51ffda087862d080b530c393765d",
+  "src/components/professional/PracticeNotes.astro": "54b1ddf86658dfae8ea77f318a8ee4bfc44249c9",
+  "src/components/professional/ServiceMenu.astro": "bfdf013e64cddd5570be6d7b365293c955e8704b",
+  "src/content/config.ts": "f91d96294c60f03995c78f6627f1d2d42323a8e2",
+  "src/data/emoji-glyphs.json": "fbce9d599689947db66706c8c88668a38b43bfe5",
+  "src/data/themes.json": "df20053df41baa7695e7b88a0a511677f148c911",
+  "src/env.d.ts": "2219b8d1d77e5d82fd9e4f5cee00ef0873ca83de",
+  "src/layouts/Base.astro": "dd583c1322b67b602ca341e16e0ed79ac12940a0",
+  "src/lib/about.mjs": "0d821ea5a95b6f94f4bf7e94ecc036f62a3108db",
+  "src/lib/blog-homes.mjs": "10665b5b1eeb25eaa5599380321364c04c543ccf",
+  "src/lib/business-schema.mjs": "7cbee1dd26f8fe6f4e455faf93a49b514e85cd3b",
+  "src/lib/business/render.mjs": "33f2cadc9348af2e52e1ce7d6ae4146a642c230e",
+  "src/lib/darkroom-build.mjs": "26ee8db086a11b56997528f06226139e1ece494c",
+  "src/lib/darkroom.mjs": "3bf674d05968d33fe990583d3ba5c83dc96f9c6a",
+  "src/lib/galaxy/bodies.js": "66dca81c6fba00cb51271193ae951b8f2da0ac50",
+  "src/lib/galaxy/data.js": "656a4c8067f0b3c93c48e97acee533eb86e81bae",
+  "src/lib/galaxy/palette.js": "8ea76deeae3672edc7dc01065063bebe611ef363",
+  "src/lib/galaxy/wire.js": "cf8e4f2cba00f34945fd83ae0eb1d4448f0d805c",
+  "src/lib/glyphs/bone.js": "b0fc15500819ba7e14d6dc0ac2f3136546b70e2a",
+  "src/lib/glyphs/circuit.js": "7d0c894cc8b14b7685a84533f0182996a4bc2ac8",
+  "src/lib/glyphs/edinburgh-castle.js": "ddcd1b385d32c420e37f066a7f898bea35d9a8e9",
+  "src/lib/glyphs/film-reel.js": "ac988bea967e7ba4e28e03272a73bd5fd3785778",
+  "src/lib/glyphs/glenohumeral.js": "50f8a230ad6d4deb0900b5cb16ecf17eac3a4480",
+  "src/lib/glyphs/globe.js": "af122e0babc83e1f00e8effed93b0c5eb1f1fdcf",
+  "src/lib/glyphs/index.js": "02d2c40eedccf819b442850c3568c10c382b0eca",
+  "src/lib/glyphs/music-note.js": "c4d9d19e1f73f8af99f308bb8d6d0b9b22269d30",
+  "src/lib/glyphs/open-book.js": "2f6efe38002a45025923894933ffcd3d9cb674e6",
+  "src/lib/glyphs/opera-house.js": "6fff658397958f5c54d83a99562a9e569d783b91",
+  "src/lib/glyphs/presentation.js": "092ef5a7d94b3d218474cea6f29d67fa9a4ce431",
+  "src/lib/glyphs/reticle.js": "7ff0d0245a1cf6e8139ce423a50968489605cd42",
+  "src/lib/glyphs/scroll.js": "b8632560d855def1fb9ba1ed4b65502cc5295eb6",
+  "src/lib/glyphs/taj-mahal.js": "f9312b7ad0d82c3a55b66dcc3e763360ee63974c",
+  "src/lib/glyphs/themed.js": "d9d52b46e7c905c18b70a7754f874682e4719931",
+  "src/lib/glyphs/torus-knot.js": "ccccf9f69988d2fe441189ab91d4ba09d7f7256d",
+  "src/lib/home.ts": "d38b76ecd1802d54d3c02618a96d8ca9eb1d9689",
+  "src/lib/icons.js": "f5ea35a4a406e7d6892b1087ed35b133c568ec18",
+  "src/lib/og.ts": "0f12ca344566ac9a8dfe6f1b710811c0f2c4949d",
+  "src/lib/page-css.mjs": "6f21aacb20cb8b5aaa45cb7367ee23eca1241bbe",
+  "src/lib/pages/migrate.mjs": "fb3906b9ca04d7c0497a9532d0d93ac0839e1056",
+  "src/lib/pages/render.mjs": "adfb79eebcc1b3a6fa23386abc8156f4138a348f",
+  "src/lib/pages/schema.mjs": "a257093a2a353dbfc6bc2ab9cfb3ed50651072a6",
+  "src/lib/pages/site-pages.ts": "e10baa1f19d05b61cd480d35db44887830745c53",
+  "src/lib/post-cover.mjs": "2bc95c49dcb90d04bfc6e3f15917f93f7b9621af",
+  "src/lib/professional.mjs": "b38d81c9de6cd2924bdfc3cada28d98fb90c6083",
+  "src/lib/rehype-gallery.mjs": "bb610588d2865746a8911ff0d714fdaa4ee34d8b",
+  "src/lib/series.ts": "2cd316b40f4a3a49204a571691408fcfde56ca72",
+  "src/lib/site.ts": "d9dc8323ea6399c9992bcd91c32f54dfe5ea9699",
+  "src/lib/vocab.ts": "cc470586cbe72f4bcc79f8bf87a77dcc3324290d",
+  "src/lib/withBase.ts": "5da4a7af1d196465f3b7194baedf162bf7aa0a2c",
+  "src/pages/[slug].astro": "7e4cd3a68bbb60f98ab7e2ebe18a289be84a1578",
+  "src/pages/about.astro": "5a61371fa1bfc2e8346efcc386b1c0d96490ebf0",
+  "src/pages/add-to-calendar/[file].ics.js": "47c612c72ddb6eedd8b388419955b55c02658df6",
+  "src/pages/appointments.astro": "e53c69b33cdd5a5848076f65d6917d65b08bebb5",
+  "src/pages/apps.astro": "acc07f1db783c9f62f80846dc3f84d95e21b554a",
+  "src/pages/blog/[slug].astro": "5600a2f96a9aaec7867fcb51bb554bf4d5ce0013",
+  "src/pages/blog/index.astro": "10f13a550ccedc8c9f87a0f34dae995a984d3fce",
+  "src/pages/c/[topic].astro": "9487acc8c384f0cae5b4f7bc565d9ed49dbb0da6",
+  "src/pages/contact.astro": "18ce837d153f6024422bef6b1e51ffd3f86cc2bf",
+  "src/pages/darkroom.astro": "8569834bc618e09f3d5e76b1266230c40d16e8ac",
+  "src/pages/glyph-preview.astro": "f2071ecee5be32769501e99ec9e0f5a4227116a6",
+  "src/pages/icons.astro": "5de9aed68aea1a8211bec8fa88f42ae774043320",
+  "src/pages/index.astro": "661eab585a99c09b703f5891873db312f61883cc",
+  "src/pages/observatory.astro": "a13a1966e903962c32145e3f7fde7bcbd242efe5",
+  "src/pages/og/[slug].png.ts": "379b0960c60044bdcd9b5864e81f429e6d87bded",
+  "src/pages/posts/index.astro": "65e941cbe8432d085aa71e8ae14bab08cf76c980",
+  "src/pages/rss.xml.js": "7cb797ee77cb6a3e0bd923d759f2c356d9ab354f",
+  "src/pages/series/[slug].astro": "32ad82a38b70b6d7440c2fbb31a7089551d95dcd",
+  "src/pages/writing/index.astro": "5d5130e01a218bf78e31bff1b708b8a811a97c94",
+  "src/plugins/remark-base-path.mjs": "d7770814aa7a3eb5b048d68b29e66c40e1a4f7ba",
+  "src/scripts/booking-calendar.js": "a89308c9c3bbbc20cf973ba26947a0c2c7460f15",
+  "src/scripts/darkroom.js": "0331e75b39808f1e34a0666c67e8fe93758d5aee",
+  "src/scripts/galaxy.js": "ed9cc139ed7faf94855104463e6ee36f9e8a9d42",
+  "src/scripts/lightbox.js": "3fa2c900501759d4305b1d87d254cb10a4c8fdff",
+  "src/scripts/page-actions.js": "46b3409de665307eb6b650a8269e10f84c217cf9",
+  "src/scripts/page-motion.js": "c917f5f4f915ff405e8023cc3663dac9c8f955bd",
+  "src/styles/blocks.css": "18ff48707427e3512bc3128dc8125553b804fa77",
+  "src/styles/fonts.css": "e142947a14c875bbedeffdef21c6b7bcba762b0e",
+  "src/styles/global.css": "cfa4731cb5064fed7c6a09ac13b2dc697d828360",
+  "src/styles/headers.css": "e2fa515ba8162e0d37014cc0db6e4a3bf6309728",
+  "src/styles/motion.css": "a0c2b583b1c2f9af62d156dd6b8dc81065329e1c",
+  "src/styles/professional.css": "a2df00310603b9aeb1fa8ef8c7a0fe1f79266511",
+  "src/styles/signature.css": "1424a8f6a0a70a928f08c218784e1ba903b379e7",
+  "src/styles/themes.css": "0b9635ecfaecc749f2e07b5b042b5d2011e527e9",
+  "src/styles/themes/_kids-extras.css": "8f3b65c0a42edc8ab6d687fefb433d2b2e24b3f8",
+  "src/styles/themes/air.css": "26d337b7b7bc3790c40f6d808f30d2e58a0a1bc4",
+  "src/styles/themes/blueprint-workshop.css": "b8bf07c3c0bf65424c2ba8d86944632644bb774d",
+  "src/styles/themes/broadsheet.css": "db43d8aea8f30608cdb31727f21c61b6e96005a3",
+  "src/styles/themes/clinic.css": "7a9eeef41e380bd8d10b92a3aa8e9411286d3c4b",
+  "src/styles/themes/comic.css": "b4f8c0f8611badd1016f2364df7e86e2a84f7fd6",
+  "src/styles/themes/contact-sheet.css": "b85df94c1ebc851362afab11e2aa4eef305341d9",
+  "src/styles/themes/contour.css": "023dd41b9449dbd89361fbe63f21320d8eb9e7b3",
+  "src/styles/themes/counsel.css": "e54c00360eec50ecfd767e5f0f8599ff6cd67622",
+  "src/styles/themes/cut.css": "36e234c6b8abcbf5d0aae32258d55b44b89c60c5",
+  "src/styles/themes/darkroom.css": "437c4f389825958304953c56e6e4005795588e27",
+  "src/styles/themes/desert-archive.css": "a9d116638c3ab931f05a069c8f5c8752b7028ffe",
+  "src/styles/themes/doodle.css": "c17193ef5af9b1bc55f1a4aaea14636c06bc4c9b",
+  "src/styles/themes/field-atlas.css": "f0cfc05c7cb6e13e68f53aad56ad0f963780efca",
+  "src/styles/themes/folio.css": "e12338ee932aa553126b649119bcebb426cd78b8",
+  "src/styles/themes/journal.css": "a37bcdedcf6b9171110a23bd240fbbfe14563bf6",
+  "src/styles/themes/kiosk.css": "f4ac8bb76dcd0177e24a6b696e2f37174060919a",
+  "src/styles/themes/ledger.css": "9ff2c712353e5c631f79027173e6ca13e8806d1c",
+  "src/styles/themes/neon.css": "3ddb0dea8aa9be04cb92e0eda850fb4440d97b08",
+  "src/styles/themes/observatory.css": "f84775f0db0ae40845e5198e747bfdeb84d3159d",
+  "src/styles/themes/office.css": "a411987b6f88bb51b62258dbd548382207bd12e1",
+  "src/styles/themes/petal.css": "646b4613d2bb308eac55bed8c25c5f90d4d4f3f3",
+  "src/styles/themes/pixel.css": "e9dfbf1550cc8ef489689c27d314024ef98e7475",
+  "src/styles/themes/polaroid.css": "a330fbe88d7c9ea435303b7b9ed2f4fbf46ad069",
+  "src/styles/themes/portrait.css": "b277ba7689c2d37181909702f362ecb84db83bc4",
+  "src/styles/themes/practice.css": "a1578f8dbf32d077e86691deb9f5a9d938f58c68",
+  "src/styles/themes/pulse.css": "94982254ac048a186df429df5fd800684991ac86",
+  "src/styles/themes/rocket.css": "0ddfd8ab7aa55849ba0514f6a528fdcfb281755b",
+  "src/styles/themes/scrapbook.css": "c55796e588c703dc2ae667ab99581fc4751484a3",
+  "src/styles/themes/shopfront.css": "b84d2838a77fc67a596d1fba68b126687c38f965",
+  "src/styles/themes/still.css": "caf2d55d767f28491930860ca5ea33967ade5141",
+  "src/styles/themes/table.css": "ca7b033caf5f0dfa6d99c3143e72577e1b5da8de",
+  "src/styles/themes/trade.css": "4c6f5ef1fe22c06a64fb68f8a8f4af9ac3226239",
+  "src/styles/themes/woodland-chronicle.css": "3729daaad4b1d701269428914970a1cbfd467244",
+  "src/styles/themes/zine.css": "2965c02c12970fa7f0fc3edda3f35301593a17c1"
+ },
+ "history": {
+  "src/scripts/page-actions.js": [
+   "7954b1d9ab742e618bd70fdbec133cc6ad91ec07",
+   "d38263108b873ae4383ff07cff240f37cddd7de3",
+   "434bcb9522fab754b451df5b1519c43a84795716",
+   "c90cedb19f28c7e121984b444f0dc94c1c038c01",
+   "36466e6af21b78b8f3bdd33bc721d960189a5e7b",
+   "1e4fb9c05c2d1f5f52fd431d7ff9f8e4a8977cf8",
+   "e8927934d180770403b61732a80f3e06dee5a2d4",
+   "756f376acf8486f3b7edc9d4a2c0a193aca23f83",
+   "971b33db93d02dfa37e8aed40c8fc60e54f88c51",
+   "22ef359fcb839e1b7fa4ad2bc4f95a56acf2ad58",
+   "d7572e5a07033182c398f3cedbd18490b456c250",
+   "86e1324023f42fe3d9ac4a1dd8cbab960383d857",
+   "99b03540520322b78bd10066d54ded63d7e4690c",
+   "64a98d7e2ad0ac9e874bae3cc53e137d5f9b842c",
+   "c41e57da498d9cc3004cb0ccd53114b5f484ccaa",
+   "ffcce1c652c785d670b4c0f8b18344e1c35fec2f",
+   "f0f6e9c75eb65b9c47970c0815a73570de5087b6",
+   "5addd8a7c408bb499206f52a0bcdd150374ca68b",
+   "c08fda2bedbf408c4574abc4bf7623fe983d6e14",
+   "419869c7e5d9a25af8f4517f1b9f2fd56451a7f8",
+   "f1e8d005503afce76faad8de3f6827c42fa62609",
+   "5d397a3c8ff7089e6633b0ff6bf1c5cc5c8e8cf9"
+  ],
+  "src/lib/pages/render.mjs": [
+   "3ce5939f8920a7c84e84b6c922d12a18fbe62707",
+   "11d4956453a8d5d64f015b9ac0cc2f07fd1d1f46",
+   "3f29fe15608e1f2a25fa88d9dd3a77902ddb3e73",
+   "01949fa563c223431620f9054b97bb22af908479",
+   "400e597344bba82f93e293dac42c6169aa067778",
+   "ba80846bfec930dea14463aa6921715aa2d01727",
+   "f360e6c9d2437cf080f560dbe0087520b2082e0e",
+   "65b6953883ce4dbc8a6df0974e08f0471e82e38e",
+   "085b0d7474f11268ee0e39e87ec7297c79438ee2",
+   "0e16da8812aff2d289bc14f52914481b2851ebbc",
+   "101df6a65906dafaa9cc074f32766a1fae02ab53",
+   "e8109cd4a55eddce5204295c5a4771de2326d89e",
+   "f6226ac35e1cb5d1efba907d2481c55daabf8c64",
+   "efe5e8c0574c41ee72c25df6615c5e142c9037f6",
+   "22ddc79a9ae6d670ed41ec7a03eb634c935ef678",
+   "ecc2698ceb46e15b3532648230b1c6ad3c8eb46a",
+   "e13d4907aadcd798426e4167126f483bf040065e",
+   "234296aec6ad4109b20eead9c447c03469d564d0",
+   "349d3358af3258b6ffef6aa300e72a9224bfaa38",
+   "5413602f42ea344f75bd5acde51fbe350cd57f2b",
+   "a3e83bfbc1e4a53bf069aabe9aa4414444ca9222",
+   "5782f0af15406d20979c0172bf416001675f0e67",
+   "1fa3f10f27193318e45334cbd5ae7ec252e6cf11",
+   "7fe87a241abae59dbaabbb0d42ecda6069a42ace",
+   "309ec59321e3b649118c01cd036cdc7a59499f28",
+   "8a1ee039a23303bc0147e7482c450d27d1c04062",
+   "192cadc5f2ea9048c2472b88d9f99961c69ec5f3",
+   "086717493365f6cac6acc30acb38cacb5976aa22",
+   "d4c014735388847f8dc68f44fcc058c0db628f28",
+   "36c96cf5e7bd333871f9820a1e95d8017c4db14d",
+   "f9f6d4a442e44777f11ead88d3b2b064777cd744",
+   "d11e0fcb5d3aab651f9a39f53480de3df0c10610",
+   "eb347a31e583116a5de5da0b20443452e8c57af7",
+   "0d7bd2bc3ced6d28402761dd7dd2dcff259c253c",
+   "87d18c44adca29d91d9a2a4c4679428c6cddce3a",
+   "3d9f661871c9b3fd94ea65bd60c61c9630ce172e",
+   "cf9c16e730bd048d3c836d4893b43ae436557da3",
+   "d4307623f20cdd7a35e8245ad9833d8a48cb5321",
+   "645fa1d1787fe7089887e314335b039b8bbffff1",
+   "ddc1fab29e98f5c45d1ff16b6cc662f9b0539d8f",
+   "d37d27ae4c8f710a8d06817bcd1b534aa822e478",
+   "1fa590b7373af79f0af353e11385f333c86e5e5d",
+   "4e639c42bf7ee61052f4296e7f2a8a47be1adc0a",
+   "7b67b002899a19d4109747b4fea1ea226573045e",
+   "c322e04341ff09dbb96443de7acd1e5fd319c1e3",
+   "43341aa49f0ee3990834cd36d6d2dd3805859b79",
+   "2c4b3d37503ab37642d86bd7371ef392d8ec6806",
+   "09ee3bb13fbea5dcb60325b4e871be985182c795",
+   "03dd8bfc81ba8dfdde6c272aeb0eeaa7b18fdebd",
+   "b9edb62540430e1d4411c42268ddf65f6f0d70a9",
+   "95a321ce3718f95afe904fec68be80d6cdaac19a",
+   "6df3066093a0851273b0afdb0bf08c9f0fc34872",
+   "038bc4787a5965d411dd526a26f62358d7f14fdb",
+   "ccea8d00bb1e566561bfc52d8fbf59d77b9e1b72",
+   "6a2f3c4d4ab11b7b8dfe801ad2d00b76bb53f796",
+   "2a206f7e52fa8119239ed085ac19119dc8574532",
+   "4577ad0b4b22ccf624465560602a61e5a25931f5",
+   "5241015c32487b88c735f86c6b5fcf815deb1854",
+   "1d87933d1d6a069cbce622018f29a64868af5d0b",
+   "72f5cf087667ae7c3bdfd9373a2f84be5c5ea85c",
+   "0fd8ed5220b418acbefd890df24f645e067cb42b",
+   "e9457fe29130da278763d41668578941a1894592",
+   "1dbaa1c73ffd5cf2b2ea0b1e152e3064b6a65d09",
+   "d64ed1e939908ed31044aac2b2518a2c249173df",
+   "df3c0ce5432af9b1bf7178a7a974d815ee9f4ce4",
+   "364e3e88c2c8a5e0d1efb9b0060b445f44fbb6de",
+   "c7226998668f0fbee76774c9de823a6b4e21fcfe",
+   "282310dd71e696d7ea398138d08cae4e6ffdf3c0"
+  ],
+  "src/lib/business-schema.mjs": [
+   "f1e072ad0934d93b88a7148164321de4a925ab80",
+   "95c12315777cf035e158625c819b3b63316328c1"
+  ],
+  "src/lib/pages/schema.mjs": [
+   "1b74e28a27f2f7f4d4c00c154f0ade5eeb7c57f4",
+   "556a460063c52ee0ce8f0537969988b47af9f692",
+   "8e74dc541b0180a78c19f0af16a89d63d34e5549",
+   "b04622c10127bb6d3a9912d3ffcbfb325b62a955",
+   "2c9da4d2f5e78082834854ee043c736ddd1dfaa6",
+   "d239991a25829bef99cf4e98e661886427f9980a",
+   "9c0ce8ec6b18f47d4e7249eb4567cd336a68d70e",
+   "212578c8d8a1496a5d2b47a78849de1710664c4a",
+   "6823fb6465abaa073133cb9b3f6b99eff2f46c54",
+   "9ff535c60efeb17ace57126dafe8248256048172",
+   "5de8deb1db118da0ab571868a93fd972e746e42a",
+   "32be0af10c448c5d2df9e27b781fa0488396de97",
+   "da5ef817a6a19ef72474d038115d3d8ec921b561",
+   "5f9dd3fe718cc6d5574e664652a12b053d1923bb",
+   "653631a1d38eb7ed39054018a6b6dfe67c2db3f5",
+   "ee19eead2e809ad3213e629ce901ec4a2f2e95a5",
+   "9556e9a76a3029cfbeb92b33a1a50d64e31a54cd",
+   "8a050fd7ac7b1457f57332a050598068bff9c801",
+   "7ab6a35a66f944a4e4e6f3f4deb8b9e37d368c04",
+   "3f540a4fcd464693400dc9c6e94ee155a526c779",
+   "eb919a4218dbe842ae4c780e64cd4603830ca625",
+   "cf04dfde9ff59ddcb566012fd12d94397eeb5b0a",
+   "d8c59e07f07f579cd98e0039e599381c351b393f",
+   "88e9425a36d45f21e3b9778283905dcc46bafc7b",
+   "9d69e0c7fe21ec4832c18bb704bf4b634f531706",
+   "88a1e5b53ca1cf85a6f537b195625b06c389a696",
+   "6652a66162571fb8e2fdfeee19583b9116681c05",
+   "207a3263a7a14c887c7542beec35a9233fae99f5",
+   "b1aeef84e54c1a118123863ee498ae069570dd51",
+   "ae25db08ed0f618bbacb0f5e06da4ded1b56a177",
+   "1ad93de5bb569b50f1d6fb23d338ff92cd43033e",
+   "efa0ef27f058fe2af1a589e5c50bc8fcb00f1984",
+   "282ea8eba6ddce8be962ea390c5126876bb052ce",
+   "9cf88e37505e75695de46f6e869301cf431c590c",
+   "55b1df5a9a94d15062751a68e366b2059f1bf75a",
+   "df17499ea907e57d793de67a17eb8a8078f753b0",
+   "cf81fb63c6424ce2bedf5f8563fcc91fbbd782ca",
+   "09baab156a3a0a6a1e577eed8db8115618800402"
+  ],
+  "src/lib/professional.mjs": [
+   "f6248addd1922ddc5de32d50a5ec61fa91d99e68",
+   "c301823ef4856379e58e3688cffb1b83f574f063",
+   "f77728e6d1d876e0dc435c69de239f36d3f8a4c5",
+   "dac1183aa9cc2ac4769ad72d6de693380beb9415",
+   "e0b95c94e8bf934c43dc1f4298b797d11f255761",
+   "ea7b75af3134d832007e9aeabe97080d74fe62c7",
+   "b9c9fb9cad6851bc26b089f5f7e19a0c3b8655d6",
+   "f1806dac591239f447e6cd15cb272b40916c1aaf",
+   "38243e7dfcb562107f1fafa511c950db37f23e9e",
+   "f6228b9a5ceb15847a1e8599b87784b1af38f61c",
+   "aa9f50c5bf4bf64fb0ee5ae0f3935f56ed51cd48"
+  ],
+  "src/lib/pages/migrate.mjs": [
+   "ac3d603f17de28b7ee79a291ed39ba8b093ad0f5",
+   "9f5fe20140be5b8460a8ce0e28f619fa96a996ab",
+   "c729d7bf2cb2d216e9b036db420683a9faf93969"
+  ],
+  "src/pages/appointments.astro": [
+   "d308f4cb6d686e77bfaaf3a288f3026b62ee2e69",
+   "11a6d4cf197163696af52ac687484bbf3f221d89",
+   "ed9e53ff906d7abc763ac7bd232d3802ff993ed7",
+   "9425e319e1c6b7e9ce286901d7a9b7e36711c708",
+   "df3325de5ca15b472c2a331b80c835595df4744c",
+   "de8667366e0a58e37a568569fd522e50773074b5",
+   "e9187167f8d493d59c27552a2dca5bfc70f450b2",
+   "90bf2e7617a64c6f825a24b9682a9bbd52533489",
+   "f2cc9b5c32ea17121e3b846806c3f0f870e4315b",
+   "8bfa1a371731efbd0c00df3a54f369720a90d7e3",
+   "13e22d5a6026e60cb45b9f6650679411d5c73145",
+   "b2ac55fe8ffe23a6d89d01a496b46564c3f2bd44",
+   "013d789f180b6f0491bd60d97b182f54244457df"
+  ],
+  "src/scripts/booking-calendar.js": [
+   "f7bceef4e7abe845c5a6ffcecf960d58db3491ad",
+   "7c13e1b7ee085e3b67e5a2579db3a86d04438658",
+   "b8e2ba875bde94b369afedbd898bc1357eecd520",
+   "c1014241c43d76335878cb5f9d72f5c750408a56",
+   "dfe9a48112fa36e12020334cd6177a32ec372109",
+   "f1de460bcf5d96af76659439d5394ab8908c730c"
+  ],
+  "src/styles/professional.css": [
+   "f8a7757991598e502d01394cb27e0883e0fb684a",
+   "b2f940e51ad200f24b7e2d39158d744ef6468c23",
+   "ba2f4cd94e90b7e8dfe11e6d074a2ef3b3a9d2f7",
+   "ae5a31058ba848d23e327054c7dfec79b9e2e397",
+   "501b97e7eaeab03f7f24d4d66c999b3511f26f7a",
+   "b44e17c6093f9f22f8a4f923601f7bca02ce8222",
+   "fbfebb1714b13979b9bee09df5c7a195f801353b",
+   "52f9c6043b07cd7c95ab012214bd68d384240e15"
+  ],
+  "src/lib/business/render.mjs": [
+   "a56ec384025e400dc5b969ec338d0481fde855a3",
+   "f15bb306db99ea5e6a2a2c2836128d364afb9a99",
+   "1fa2311b8c256a010f576db2441b40be1c016971"
+  ],
+  "src/pages/contact.astro": [
+   "8d40d41385c946bcd5073de51a4ddb20f14de7aa",
+   "4c1c28a304fd76a289ec21096f9dc0ddd6a28d8d",
+   "251ef496cb504d404aa82037416aa6c96ba8fa7e",
+   "225fe16df4b9485737ec226432bfa867510c515b",
+   "47fb24e1fb23b5b52f4c153a6173059b01061406",
+   "59ee3d0f95418c09f6a3983643690c7fd0a9a2da"
+  ],
+  "src/scripts/page-motion.js": [
+   "d4ab7b9887b01153588376138bbbc53456a43319",
+   "f1d295651ede9cddd1e72cf47c829310064b310d",
+   "5335e9428f2bd59a76ad859559ea3272a4ee8ab3",
+   "2985c8e327937ac6115c60e591fc88e3fa2e388b",
+   "19d9b2fe75172c1903353ca92d3c6a7b38e5ee9f",
+   "c4fab886fb0ba31257eab5ab7793812cc6c940da",
+   "ea9655a7b0d8ae1fff7028e51eade51dad39e044",
+   "0b84172d0a26cdf2b30cc08ddfc4e77fbc815e45",
+   "3011c7e79d54d339b68e98a4ba76386e0a1db787",
+   "908c19a17d87ac891255db8ffd6bc7294f485636",
+   "71d5c87a2ee7dc4fecee0fa47aa89a9d889d1fb0",
+   "16b8f8549f12c0f159034c31f338940ae784c610",
+   "5e24fe8b2a14a8d4bc376fccae6407935f434054",
+   "1812176dd531fd19e6788045fbd9d5e9625421ec",
+   "484c1b44f4f2ccda2e26475aa5537c9d59b1db17",
+   "da63f3fb1c3bb2c5de9a064f8be0ae069cc0353d",
+   "4840942f7962b029ec0caf4c7320980f5ab7234b",
+   "bf8152f0b8069ece615c70d3552cb496e97b0df4",
+   "767f7cd65f0a28cd93411313c13ff3d30b1d5fe5",
+   "566e26987acbdb857612c6f4c799d0fc3f68e4e8"
+  ],
+  "scripts/make-template-release.mjs": [
+   "694cef0bd3063ee6e1947c2c56b1eb92c3c034af",
+   "ed211f421a33ace366f98b7a3b7f165491602bb4",
+   "9e69ed8145b6e6d820ecca8b0a7fcdb484ad9cd3",
+   "402d0b115b4d2b9016116127526738cbab345ff3",
+   "22b69f9371e72fa6764363579725e6391354855e",
+   "08e919a5f3995b73fe2522d9c0314250723096d2",
+   "d701cf0abb517f4be962f2b214cd1be0270d8823"
+  ],
+  "src/data/themes.json": [
+   "947f1a1a32aa15dbd88851f89c2a41bfb5723f79",
+   "3869b2c9b318918c8e75103ce3bc691adcec3357",
+   "c9784af741d295469e0c256fbeee8dde7c2296bd",
+   "280798e190c14d1f9d82b064ae9dcedc55fd5b1a",
+   "6e88c6a4af5e9e29476db6321ff050da9a7f55dc",
+   "1e92d279e921283aa6a844f53f108ff917f92c92",
+   "9d30cb4bf9956d47c725acbabad1ec5d6d6f74b9"
+  ],
+  "src/styles/signature.css": [
+   "e4a2e8c1656515f97932d4c4da2df9cd34e3a72b",
+   "a949fd09cbb032295b9a388d790cc9a128331b47",
+   "dab8fa7b6a5dd6e8ff5bc98362be7a7fddc9083e",
+   "282724a341e430b74321c6db66b199bf2b317a01",
+   "ce0eb9f44f570470222c08daf15f1adc8e2a9489",
+   "88fc1ff9a8b46920b906cc6d6571a588143947d4",
+   "ea794d1456b59d3bc04c8c9819cc6b0d59c407ac",
+   "5b5fbf893b7b129a7963bdd5306bec534dea3b78",
+   "b7ba7a7379fd40f077ca9679365f678b275a061c",
+   "9c52018400ec18067a6f44c5dbb0168368211936",
+   "1b6b1e0271788fd4831026b432d575eb579005d4",
+   "4037672931f8ea89fa0df48731825c011b3c6ab7",
+   "61a489f82a8ecabe773827cbcc77dcabdb2bfeea",
+   "492dda981b3d8ff6f179c46c49ddd87f06362ccf",
+   "91aac7984c1c082d02e65f6cdb3d2c4601af501c",
+   "a4008d7b53199fb179657c2e4d03d2b29e4932c8",
+   "0d6cf3d8524ac44a75634417f07f375eef99f1ce",
+   "b2c3721ff2a38da0c516c1b8d3e2b6d34bf92f9f",
+   "df3aa9c850678bbe1b9ab9b8b2c63692f49b54cc",
+   "3549cb6b7d0942c3d0a3868b8ba650b6e1af4c95",
+   "4352f34c9d7a150b1869e3ee1638446d804bc67c",
+   "bddb80bc3978af09e17db5262e7800348a6b5272",
+   "3377e7ce2f775df0bd6de641606f22d1c2393df3",
+   "a1b0eca4c071404e4aca6bc6ddbf166dd015c443",
+   "7ed3651ae5f8fbd9c5fbd99483f15d56633ea673",
+   "93753752479ff64011cf510091684965091ecad7",
+   "d91e24a8d5f5da7022faf10bcda39f6267d47f66",
+   "45dcd8f8131c9f09820a8a191f103bc34a099157",
+   "123acb28e8f522c0e5c8049797d7a9530d4d8c69",
+   "80850e1b5d5f3278cdd1764a37372ec9936f693c",
+   "10088a2d58dedb3079a698803482cd16e4b46ec9",
+   "696701e7b2d1eda83198638ccc046b0fca5a8c25",
+   "3878bd8b8c26df0ee7a839983716604a4953ae22",
+   "ca1c46412f291755d8a136e5b418964c53206047",
+   "758eefd8260b7c5f55678032baac7bfedea8e9b2",
+   "cc9c337ebc9af2d068abd50dc1465fcf051e4fb2",
+   "7106f00136096de00ccfa9cd1411e4fa34b20558",
+   "8ce1293e2c0b1b398995ddd634025b6d4636d91e",
+   "22d668646916ff519e00401ea78b2dd7a399f92c",
+   "ce4a0e158dd1e9d74193bdf39a6a75f38cd68c5a",
+   "6654661fe9740b88faa79bf3a00bfe360cf7dac0",
+   "d3c62a9bef8ac37a6ed68a77ffb5e73ee28838a2",
+   "4aa669933d8d6a0c8fc39216c14e8df73061cba5",
+   "8365ab1756023c67e9aea2f214b68689f91fc382",
+   "d7b29c64b65ba6fe312a78d7870381e059d2364e",
+   "99dea03f16c18888398ac4b55813c247e84c3f63",
+   "efc6fb31a3ee6b0105f2f832d157e0433172c6e3",
+   "e96e1fff0e8a41fc31388cce1880a68a2e183ef4",
+   "6d1c6a75320522819cd2fd316a6fe4931a87b4e5",
+   "f3f3701582db4e09f2a833cd64e3bedf7dfd1dd0",
+   "e9e1e87e8c62e93224a707a20acf257435a5137d",
+   "361fa37d6fa56533db9ccd668a4b7100ee9bf220",
+   "6f9704fd976ad0f1880322ba0b4d63ecb1c28907",
+   "270d95cceed2c987c28acb7acb1ced53c56d2d27"
+  ],
+  "src/styles/headers.css": [
+   "3bbe832f4872134220bc25cdbc44459dd8e2a1b3",
+   "e1185f920b33af785a1a6bb55bf4d5595e37bc3d",
+   "04a97dcea20511878f10d8f8177b0ecb933f07b1",
+   "806c15e7948c6786dafeb2f11a1cd6d3c4b8ef62",
+   "5e75fd27066c06ee6dd302f7234bf60f84135b06",
+   "21b32156987272656a04f9666590625fe00bae12"
+  ],
+  "src/styles/motion.css": [
+   "603febc3516fdefd679e6979f1457c2ffca0bc19",
+   "c8d819b9641b8a8d586ce86d5f9a04ed72690458",
+   "27bb462fd0970b7b21538100b386163d775e6f2f",
+   "7b31c3c077f8efc6ca00dfa688923d0d9e164fca",
+   "ad2323e4e76339b48f9274b1ae6ab66b7d9065a0",
+   "822a12d2a7b78638fc9d0ac9d8171c049e036f9d",
+   "c17df7e914bb0e00b20ccaf0fd1f3c69f6a63deb",
+   "39694d6ce15fd38cbac605d8bd12957f63384bca",
+   "2265dfb917491836edacb0257c1e384234ea28aa"
+  ],
+  "src/styles/themes/woodland-chronicle.css": [
+   "c781a2d3647f5eb486bd794eef26904ace1dc7de"
+  ],
+  "src/components/BlockPage.astro": [
+   "7eac2c1854bc2d4cbef8654eea6c5cd76998793c",
+   "a1f3406ee736bcbdb159ded93376bec2b37bf6c3",
+   "37c9d8f355d67d6b8df9806d97cf385f6a6170fb",
+   "5c4dcf69a666949f77cd09a102764d80760f5f54",
+   "739687ffca698ceec9afee8b9f25ab6b99799de8",
+   "2f705a7b8876a18868177a6e241504463e1608d2",
+   "84a3e938199a06c5ed8a9d0ea9f9e7b3671af77a",
+   "a7f8e2649c4ec89b0aa58731c9d864544259e7d1",
+   "f91b94e0a6657b73446c0c27d90fdb3c7bc6e73a",
+   "a7177807b1f44be2753d88896de9a39651fb9d77",
+   "3acdafef8459e94be7e9b7f4736d8e9b727b01f5",
+   "3fd61d68226f1737e5828bd9015771ba1ec68fdf",
+   "f9e703a15f39e84fb9ce8264c8aaee9bc4457c19",
+   "918c67baa3dafcf6875945e896b75f87fdab0174",
+   "fa63b12ca39f9d7120d9c07090f82433b1335e86",
+   "4139fe17af22d0c79510041aeff10143b61a1568",
+   "09ede662e8cb4e2dd82a83b30b084cc8eccc64a0",
+   "f4da275fa5d496b9f3c6017ace1d045aa1c44638",
+   "15a3c8f318aa003b2532d2a30fdee8d85786eabb",
+   "15eec77c38e2932aba3b9c86a463a23f39bd4491",
+   "2d6fe15db5862c1abbc93cfae28751fed5ebe95e",
+   "b48354818e26eb565a10bae4e50619958fd4dadc",
+   "4aeb6b0630190e92df0fff8ff3919bb35fb914dc",
+   "a703234e7934d2ebc903b123b21a3da3db828c88",
+   "23df6ebe76d35fe35c1d901c7239db4b9cf47875"
+  ],
+  "src/styles/blocks.css": [
+   "456df641c717408a9d831a3654efad1766932307",
+   "665b04faeda335a9700433ecd8bc36259fd24954",
+   "046073076b4f75e43c854aa0b556f71109bc0295",
+   "a4cb9239a215652ec26fdec345ef74d526358ae9",
+   "ffd208e649ed094839b10140012b801d23c3a997",
+   "424252ea03a918bf184d77c0bcaf6336dcf0382e",
+   "8c0e159e3b2bb0fc4ba44a11d62c957ae1ebaa2b",
+   "68f1585f96278960905bf321d898853be24ea870",
+   "a6d4d3e28247433e07e5f630983e6b26b0a02a66",
+   "bbda5192b66a93c2f8c64d3b1a347afa31494738",
+   "2664205a1e9ef12614ee1c3d23926c45a0b518bc",
+   "b5684235ef4a8b5ace083d5ac8327bc30c2ce925",
+   "7fb75b1da8c1a4fa9b3a878f13cd9e23fd60915e",
+   "fc3cfff2344375066d775d34c6c348fe0fae711a",
+   "330a2f971987799c588773a96f8df7490e0a3c82",
+   "7f71c83646b2feddc1302723f25668e2815973cc",
+   "73800060ff4fd7b8589f8f4ed6380b513ef9b7bd",
+   "9d5b426ecd5a077cc33a564a1b1f5f5a261d6c0b",
+   "ff187c59345dd59f41167ab3a69c44b6fe7ee54e",
+   "e6e3545ade228836264fbb7a8d728d4c56af6d33",
+   "b925c4fe266a1b1500e87725082eec65c780aa43",
+   "7e8e31068b327653f58d71e88f2f3098597ec9ff",
+   "708fe7c01bba959fb46cdc695a801c6b9da0918f",
+   "38b178a9aa040db1f5a4c0bf3f68ba23ccadc952"
+  ],
+  "astro.config.mjs": [
+   "685b8e42a11fa755c12cfeb9651543faf3b1d421",
+   "7192ca8d87a12a8f1dfaf38e4a9e403f5d936eed",
+   "269d762fb2993ad9eba18a57e20254eb19dcc999",
+   "d6d832d18023e4b783bc3348aa24192e3eeac636"
+  ],
+  "src/layouts/Base.astro": [
+   "2e9f7e04af72dfb6e3f336602a5ee12df75b699d",
+   "b6fd9f7befafb5a963edb09d50c93bea87f2a1e2",
+   "cdacb363557dc5474bff12363a32a6b43b129685",
+   "fce50e1b1b14f9e8b9f69678952785f8aff56a0a",
+   "251178170e8c7fb3a69f3831c33fa8e6365ad715",
+   "b59b2de11d63fbbe28cea35b576df423c3168ddb",
+   "325bf5713b9bb2db60ae37b9343289aa6978bc80",
+   "8ca222c447d5ef519c0c1f8fc353076f2d5d06d9",
+   "cdcdb5e70cac0f21aa530491f90e94b4d831d154",
+   "564765752a8a2e31eb360104ad0d3551f221d396",
+   "4defff1ef386c08a1871f2f2dd3087139ce77a2f",
+   "8b7165ae94456e16b013f3e68bd3b4411b58b7f6"
+  ],
+  "src/lib/page-css.mjs": [
+   "20e6831841e0ec7e57e83279a5f8e96dd98aa1f1"
+  ],
+  "src/pages/index.astro": [
+   "f3faaaa459be670f30fa4a7a629d9484796fcc41",
+   "de8c3621149d250dbb4cd600f6f84c19c96a4057",
+   "03aee262cb1ef941e7bd85b0f40853f4bf889789",
+   "5643fa5502a9a592af147664a0bdf119a7da9c6a",
+   "f46417a2f4f5b80c50a7dd681771f8279edb258a",
+   "9fc550578f67a5e9914c287814941b39f12a4f08",
+   "c6b7e383843fdfb0fbc623406f9dd7dcabf6cd01",
+   "e1b565756dde71acc84587f5520abff9d607430b",
+   "d6c0d92933cfba538ebefc9c871f8f22d579369f",
+   "6268445d58c08849754dbb4ad724d967d504cd75"
+  ],
+  "src/env.d.ts": [
+   "9bc5cb41c24efc40c0c90abe23ec56c974f16a6c"
+  ],
+  "src/components/SiteHeader.astro": [
+   "e4d806b1aa82306dae62a8f59127e3ac3a85d41d",
+   "88932850dc3eb46af40b288785524dea82145e48",
+   "e04b595f2e84f3e8ca1b3987d3a1680009c174db",
+   "d20f46c90859552dd741ae0330b2e9207875092e",
+   "b713e4119273821c1ee53df7626e35a7a10fca79"
+  ],
+  "src/lib/site.ts": [
+   "30cdc341b44956eff77f89e32ab86c2a9f25c6d3",
+   "5236a3190b9bb581c7dff63a662468892cdd51cd",
+   "bb9624db071684345458e3d0e70d3590035e7d40",
+   "d5c68ef245b1a6ffbec5692863e85fa2e8dfaa40",
+   "349448c77564e1156836e41d1795587ff9eb8258",
+   "16e8168793aed22b6d4cd931981891cc7575ab24",
+   "c559a0ebae1d8d57a2748943214b59fbb2424217",
+   "32b20e2252b8b789a126560e578649d67c65c21e"
+  ],
+  "src/pages/apps.astro": [
+   "33ec997033e78e054a72c21b5efbb9914f7b9852"
+  ],
+  "src/components/home/HomeFolio.astro": [
+   "dff842b9cb0473b6ddbf7c49202f74e5117da35c",
+   "8e758748a8f00ff585f185c346c5eed4fbcbf140",
+   "5eeddd1000722b596fa2c96da98485a8787b9ff7"
+  ],
+  "src/pages/about.astro": [
+   "0d77c4bc602b14ec642a03960405b0b10a83a73d",
+   "98832107d09f6ddee836e5fbdb189a3335585097",
+   "f4397df9a2a9baf274713eb5c4aad21f8d9548b6"
+  ],
+  "scripts/check-site-config.mjs": [
+   "2cb8ca9e2e4c68915f08ec1cfdc7ba4b163d7aa6",
+   "9a4b3afdeaa3b3a05b04071191b70afa332a3857"
+  ],
+  "src/pages/icons.astro": [
+   "de2c14964f6c511c10c11c7c49388fcdd9900f9d",
+   "b6eb8bc4201cca4307516bcefabd97b578cc8a7e"
+  ],
+  "src/pages/observatory.astro": [
+   "07091bc4017d0f82c8ff5af5c7659cf5909e3fe0",
+   "2af0851a8d106e224026ce3fc90cf23880c49caa"
+  ],
+  "src/pages/posts/index.astro": [
+   "f5607fda208849a5e044de745e8b0062957a5eea",
+   "22ae40cc07cec7ddd71548f4490c1b788a2a2bb0",
+   "d52608e4f662c1e2b3d7211bc9c40ef7b2f5c84c",
+   "af442d1ee848bed1c99bba947eaa32ee6322661a",
+   "f1d107c2fa6cfaf4ff03264788be82f26ab4cca4"
+  ],
+  "src/pages/rss.xml.js": [
+   "b12dadd32dc0281942605bdc9126bd3e1ec1ee05"
+  ],
+  "src/pages/series/[slug].astro": [
+   "3bd872811786031f9e903d54a31b2bce6014200e",
+   "666b77fc6f39669c1e4b99e2218dfb4de3761719"
+  ],
+  "src/components/home/HomeRings.astro": [
+   "dfe9a3a73c8b18ce2efb4612c5ffedadf78666ec",
+   "e5740ecec8d088bda61a3e3ea4317545e8a7ae5f"
+  ],
+  "src/lib/pages/site-pages.ts": [
+   "52ca86a38a1dda27ade3583bcac3e3d8fa248c86"
+  ],
+  "src/styles/global.css": [
+   "22f067efcbea5ba35a71327bfca6f9be401b5848",
+   "a0084ef66dcacc4c0a6b925dfd33f5732a834b82",
+   "90c6c03f51a274e084184c424d48593e72e3b1f4",
+   "0388b88309f829b98bdd1a900f8f45d51f03c905",
+   "3475a03f41fda2faac995a7cbe29850d7906165a",
+   "71ca54222eebe09d1ce1442805beebbe3bd76989",
+   "19303775e9e561c0df2616f74f44d42a373898ee",
+   "a1bfcda733d71485f8379830864288841198cd19",
+   "eb71a83eba629a9a807092626c9ff795198d88f3",
+   "d19c56154788d78dfad0a455dad3b24407677b98"
+  ],
+  "src/components/GlyphBadge.astro": [
+   "464419f16bd1906fe2dfb666562fd165d8c76632",
+   "5ca45cff22da1dbbc38cf571d682de3a8f5faa21",
+   "3c473e43c5b15d6f08b517b4e98a013ac2062eb1",
+   "7ce6da4663f3367e0a77973097425548549af56c"
+  ],
+  "src/lib/glyphs/presentation.js": [
+   "af6abd55757b1ce5ae40c8e70352f7dba9b0e6c9",
+   "2518347787558afa88efa85f5701b9e4e6dd5648"
+  ],
+  "src/components/professional/ServiceMenu.astro": [
+   "dbb56c091111108e9004be578dc69d12d3cb7362"
+  ],
+  "src/lib/vocab.ts": [
+   "28ca7c2fc48a949638e6876b7d5cf6185335bec1"
+  ],
+  "src/pages/blog/[slug].astro": [
+   "8747da0df2516983eee15f503d012c4fe872aa54",
+   "39a7aada2d1aa4f255ebfb2d96edf3a762af6051"
+  ],
+  "src/pages/c/[topic].astro": [
+   "260413cd358cb2ee58bc13e9bfd96cb5b829c00e"
+  ],
+  "src/styles/themes.css": [
+   "32c40c1dfd0e4257713fd687889b7fab6aba4d67",
+   "956390a61e77952697aa6901cceb524b9461166f",
+   "d53c94a36195ff73d356f1c7b4f5de1af73e1d68",
+   "4afa052813851032e2f1cacd70db57f481e04710"
+  ],
+  "src/styles/themes/contour.css": [
+   "6a6b8424ef3267713cadc37f30b5108f78049461"
+  ],
+  "src/styles/themes/cut.css": [
+   "5fb3f7c6d5717f1431515dc27571e4e465ca92ad"
+  ],
+  "src/styles/themes/office.css": [
+   "3ee3b9a6f9e23ecfed218e0b63f83ffaf0c9785f"
+  ],
+  "src/styles/themes/petal.css": [
+   "88bca33fcf0d4febca165b213bdbf686256b48c0"
+  ],
+  "src/styles/themes/practice.css": [
+   "48a216b8b95c5b51ed639b9367c6e5cae9274ed3"
+  ],
+  "src/styles/themes/still.css": [
+   "615c095e1bae92f51d86f0b39f68f3b2617e5720"
+  ],
+  "src/content/config.ts": [
+   "1b52c32ef918bbdd22ad1ad1fdf4f626e0bc525d"
+  ],
+  "src/components/home/HomePortrait.astro": [
+   "02d3be94129bbeee3cfa46328d66bbecea9e87a0"
+  ],
+  "package-lock.json": [
+   "21fc86c55dbd01ade7c38851caf2bf781f882310"
+  ],
+  "package.json": [
+   "341175faa1736316f1d7294b73431b8138f25c14"
+  ],
+  "src/plugins/remark-base-path.mjs": [
+   "8219e2dae740778787c2ac870459ba4df2333641"
+  ],
+  "src/components/home/HomeContactSheet.astro": [
+   "a8c30521010a3448870a680a29b3ac262d8c5765"
+  ],
+  "src/components/home/HomeFrontPage.astro": [
+   "47c565cef94a96968e1ae5da7505d79dd25a4c21"
+  ],
+  "src/components/home/HomeLightbox.astro": [
+   "bcda0923360c6e69a2354b3c5e474784052aef6d"
+  ],
+  "src/components/home/HomeNewsWall.astro": [
+   "3d935de2931cca2bba0ef25fdda83c25ee7cce97"
+  ],
+  "src/components/home/HomePhotoPile.astro": [
+   "a3d23f9e6425d66c968da6f5338f15bea45e2756"
+  ],
+  "src/components/home/HomePinboard.astro": [
+   "db6cee35ee5c6526c51502e7ecb990ba1922af66"
+  ],
+  "src/components/home/HomeSolo.astro": [
+   "0e86baa65e090add31821c1f6dd9ca5e7c12b3ed"
+  ],
+  "src/lib/home.ts": [
+   "4928eb856caf1999379a10b2b09842d43410d70e"
+  ],
+  "src/lib/darkroom-build.mjs": [
+   "c116042842a2708e8667f022a8dd9848be858905"
+  ],
+  "src/styles/themes/observatory.css": [
+   "8b658063930f2023538c7945b74e5dad95822774",
+   "acf30a0a10639aa406fec320ae6248a17ca4213e"
+  ],
+  "src/lib/rehype-gallery.mjs": [
+   "80e34241ed2ee2f54c9df58901a5c39c8ad346d4"
+  ],
+  "scripts/check-darkroom.mjs": [
+   "2d1a6c26b780514eef7d790c8c0794dac397cb68"
+  ],
+  "src/styles/themes/_kids-extras.css": [
+   "ec5555083c94425ce805adf79a60e5cf3ac44568"
+  ],
+  "src/styles/themes/contact-sheet.css": [
+   "5a42663338b13abd56e3dfb078306054944064e0"
+  ],
+  "src/styles/themes/darkroom.css": [
+   "6cf8bb3267f58057dbcb1f10978ce8f8b307dfd8"
+  ],
+  "src/styles/themes/polaroid.css": [
+   "9d51aed6f2c45842026f7e2f735112c13afae177"
+  ],
+  "src/styles/themes/comic.css": [
+   "df323292e90bfa694096907ec16dd0b4d88c820d"
+  ],
+  "src/styles/themes/rocket.css": [
+   "5db07550e183c5452b14060705f48d06eba0eae0"
+  ],
+  "src/styles/themes/neon.css": [
+   "2aacea19ea05286faf47fdc07cad034fe012f23a"
+  ],
+  "src/styles/themes/scrapbook.css": [
+   "a96c415bee9b581b1f3d0b8475e35327a2ab89cf"
+  ],
+  "src/styles/themes/zine.css": [
+   "12943456de5b5f96e208e5e0a8c3d055935e0b9d"
+  ],
+  "src/styles/themes/broadsheet.css": [
+   "36b7fcb8cf8640a22a3f72c0cfb5b0efef797516"
+  ],
+  "src/styles/themes/journal.css": [
+   "51fdbf1e8163219ffec8551094816b423f82df7c"
+  ],
+  "src/styles/themes/kiosk.css": [
+   "c453e7d067a74ac7dd908a6f8d658cbd652d8fad"
+  ],
+  "src/styles/themes/air.css": [
+   "c0827598c30c1f0408502c599fb233982691b937"
+  ],
+  "src/styles/themes/ledger.css": [
+   "3742c69c5106f2e95bcbbb237a77cf1a3a191145"
+  ],
+  "src/pages/og/[slug].png.ts": [
+   "3107a32d40ee3bf57bc0a73fa8a253743d122b4f"
+  ],
+  "src/components/PostCard.astro": [
+   "3fa1a6295f1c2a04bcd453ea16a9bfe7e302fa5e"
+  ],
+  "src/components/ThreeHero.astro": [
+   "d15f6d16eb063649e1d287f096a4eebc4483eec8"
+  ]
+ }
+}

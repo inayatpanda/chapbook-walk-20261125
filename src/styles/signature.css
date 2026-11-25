@@ -1,0 +1,1489 @@
+/* Signature sections and their movement (website design release 7).
+   The sections: booking strip, ways to pay, spaces remaining, menu board, tiles, before and
+   after, timetable, case study, pinned scenes; and the newer layouts of contact (drawn map,
+   hours table), team (carousel), reviews (drifting wall), gallery (sideways) and facts (ticker).
+
+   The rules of blocks.css and motion.css hold here too:
+   1. Colours come from the page's own tokens, so every palette and all 34 looks are covered.
+   2. Phone first: one column, touch targets of 44px or more, nothing wider than the screen
+      except strips made to be swiped.
+   3. Movement only ever adds. It needs the page's script (html.cbm-js) and a visitor who has not
+      asked for less motion; without either, everything is simply there. Only transforms,
+      opacity and clip paths move, so a mid-range phone keeps up. */
+
+.cb-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.cb-bs [hidden],.cb-bookbar[hidden],.cb-sp [hidden],.cb-sp-none[hidden],.cb-cmp [hidden],.cb-mb-col[hidden]{display:none!important}
+/* A soft panel: its own readable text colours, whatever the palette. */
+.cb-bs-strip,.cb-bs-cards .cb-bs-opt,.cb-mb-slide .cb-mb-col,.cb-tl-item,.cb-tt-item,.cb-find-card,.cb-rv-drift .cb-review,.cb-sp-tickets .cb-sp-item,.cb-sc-full .cb-sc-body{background:var(--cb-surface);color:var(--cb-surface-ink);--ink:var(--cb-surface-ink);--ink-dim:var(--cb-surface-dim);--cb-accent-text:var(--cb-surface-accent);--line:color-mix(in srgb,var(--cb-surface-ink) 14%,transparent);--line-strong:color-mix(in srgb,var(--cb-surface-ink) 30%,transparent)}
+.cb-bg-tint :is(.cb-bs-strip,.cb-bs-cards .cb-bs-opt,.cb-mb-slide .cb-mb-col,.cb-tl-item,.cb-tt-item,.cb-find-card,.cb-rv-drift .cb-review,.cb-sp-tickets .cb-sp-item){background:var(--bg-0,#fff);color:var(--cb-page-ink,var(--cb-surface-ink));--ink:var(--cb-page-ink,var(--cb-surface-ink));--ink-dim:var(--cb-page-dim,var(--cb-surface-dim));--cb-accent-text:var(--cb-page-accent,var(--cb-surface-accent))}
+
+/* ---- Booking strip -------------------------------------------------------------------- */
+.cb-bs{display:grid;gap:1rem}
+.cb-bs-strip{align-items:center;padding:clamp(.7rem,1.6vw,1rem);border-radius:calc(var(--cb-r) + .6rem);box-shadow:0 1px 0 var(--line),0 18px 40px -28px color-mix(in srgb,var(--ink) 55%,transparent)}
+.cb-bs-pick{display:flex;flex-wrap:wrap;gap:.5rem;margin:0;padding:0;border:0;min-width:0}
+.cb-bs-strip .cb-bs-opt{position:relative;display:flex;flex-direction:column;justify-content:center;gap:.15rem;flex:1 1 100%;min-height:3.25rem;padding:.6rem 1rem;border-radius:var(--cb-r);border:1.5px solid var(--line);cursor:pointer;transition:background-color .18s,color .18s,border-color .18s}
+.cb-bs-opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.cb-bs-strip .cb-bs-opt:has(input:checked){background:var(--accent);color:var(--cb-on-accent);border-color:var(--accent);--ink-dim:var(--cb-on-accent)}
+.cb-bs-strip .cb-bs-opt:has(input:focus-visible){outline:3px solid var(--cb-accent-text,var(--accent));outline-offset:3px}
+.cb-bs-name{font-weight:650;font-size:1.02rem;line-height:1.25}
+.cbp .cb h3.cb-bs-name{font-size:1.2rem}
+.cb-bs-meta{display:flex;flex-wrap:wrap;gap:.1rem .7rem;margin:0;font-size:.88rem;color:var(--ink-dim)}
+.cb-bs-time+.cb-bs-price::before{content:"";display:inline-block;width:.25rem;height:.25rem;margin-right:.7rem;border-radius:50%;background:currentColor;vertical-align:middle}
+.cb-bs-go{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.cb-bs-go .cb-btn{flex:1 1 auto;min-height:3.25rem;padding-inline:1.8rem}
+.cb-bs-live{flex-basis:100%;margin:0;font-size:.86rem;color:var(--ink-dim)}
+.cb-bs-live::before{content:"";display:inline-block;width:.5rem;height:.5rem;margin-right:.5rem;border-radius:50%;background:var(--cb-accent-text,var(--accent))}
+.cb-bs-note{margin:.9rem 0 0}
+.cb-bs-cards .cb-bs-pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:1rem}
+.cb-bs-cards .cb-bs-opt{display:flex;flex-direction:column;gap:.5rem;padding:1.3rem;border-radius:calc(var(--cb-r) + .3rem)}
+.cb-bs-cards .cb-bs-opt .cb-btn{margin-top:auto;align-self:flex-start;min-height:max(2.75rem,44px)}
+.cb-bs-cards .cb-bs-meta{margin-bottom:.6rem}
+.cb-bs-bar{align-items:center;gap:1rem 2.5rem}
+.cb-bs-bar .cb-bs-words>:last-child{margin-bottom:0}
+@media (min-width:761px){
+  .cb-bs-strip{grid-template-columns:minmax(0,1fr) auto}
+  .cb-bs-strip .cb-bs-opt{flex:1 1 9.5rem}
+  .cb-bs-bar{grid-template-columns:minmax(0,1fr) auto}
+  .cb-bs-go .cb-btn{flex:0 0 auto}
+}
+/* The Book bar that stays at the bottom of a phone screen. The page's script puts it there and
+   takes it away while the strip itself, or the foot of the page, is on screen. */
+.cb-bookbar{display:none}
+@media (max-width:760px){
+  html.cba-js .cb-bookbar.is-live{display:flex;gap:.6rem;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:.6rem max(.9rem,env(safe-area-inset-left)) calc(.6rem + env(safe-area-inset-bottom)) max(.9rem,env(safe-area-inset-right));background:color-mix(in srgb,var(--bg-0,#fff) 94%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line-strong);transform:translate3d(0,110%,0);transition:transform .3s cubic-bezier(.22,1,.36,1);color:var(--ink)}
+  html.cba-js .cb-bookbar.is-live.is-on{transform:none}
+  .cb-bookbar .cb-btn{flex:1;min-height:3rem}
+  /* Room under the page, so the bar never rests on the last lines of the footer. */
+  body:has(.cb-bookbar.is-live){padding-bottom:calc(4.4rem + env(safe-area-inset-bottom))}
+  body:has(.cb-bookbar.is-live.is-on) .cbm-pause{bottom:calc(5rem + env(safe-area-inset-bottom))}
+}
+@media (prefers-reduced-motion:reduce){.cb-bookbar{transition:none!important}}
+@media print{.cb-bookbar{display:none!important}}
+
+/* ---- Ways to pay ---------------------------------------------------------------------- */
+.cb-pl{display:grid;gap:clamp(1rem,2vw,1.5rem);grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));align-items:stretch;padding-top:.9rem}
+.cb-pl-item{position:relative;display:flex;flex-direction:column;gap:.9rem;padding:clamp(1.4rem,2.4vw,1.9rem);border:1.5px solid var(--line-strong);border-radius:calc(var(--cb-r) + .4rem)}
+.cb-pl-item.is-popular{background:var(--cb-deep);color:var(--cb-on-deep);border-color:var(--cb-deep);--ink:var(--cb-on-deep);--ink-dim:color-mix(in srgb,var(--cb-on-deep) 80%,var(--cb-deep));--line:color-mix(in srgb,var(--cb-on-deep) 18%,transparent);--line-strong:color-mix(in srgb,var(--cb-on-deep) 34%,transparent);--cb-accent-text:var(--cb-on-deep)}
+.cb-bg-dark .cb-pl-item.is-popular{background:var(--accent);color:var(--cb-on-accent);border-color:var(--accent);--ink:var(--cb-on-accent);--ink-dim:color-mix(in srgb,var(--cb-on-accent) 84%,var(--accent));--cb-accent-text:var(--cb-on-accent)}
+.cb-pl-item.is-popular .cb-btn{background:var(--ink);color:var(--cb-deep);border-color:var(--ink)}
+.cb-bg-dark .cb-pl-item.is-popular .cb-btn{color:var(--accent)}
+.cb-pl-flag{position:absolute;top:0;right:1.2rem;transform:translateY(-50%);margin:0;padding:.32rem .75rem;border-radius:99px;background:var(--accent);color:var(--cb-on-accent);font-size:.78rem;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.cb-bg-dark .cb-pl-flag,.cb-bg-accent .cb-pl-flag{background:var(--cb-deep);color:var(--cb-on-deep)}
+.cb-pl-price{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem .5rem}
+.cb-pl-amount{font-family:var(--cb-head);font-size:clamp(2.3rem,4.2vw,3.1rem);font-weight:600;letter-spacing:-.035em;line-height:1}
+.cb-pl-per{color:var(--ink-dim);font-size:.95rem}
+.cb-pl-inc{font-size:.98rem;line-height:1.55}
+.cb-pl-inc ul{list-style:none;padding:0;margin:0}
+.cb-pl-inc li{position:relative;padding-left:1.7rem;margin:.45em 0}
+.cb-pl-inc li::before{content:"";position:absolute;left:.2rem;top:.5em;width:.72rem;height:.38rem;border-left:2px solid var(--cb-accent-text,var(--accent));border-bottom:2px solid var(--cb-accent-text,var(--accent));transform:rotate(-45deg)}
+.cb-pl-foot{margin-top:auto;display:grid;gap:.6rem;padding-top:.4rem}
+.cb-pl-foot .cb-btn{width:100%;min-height:3rem}
+.cb-pl-small{margin:0}
+.cb-pl-ask{margin:0;font-weight:600}
+.cb-pl-note{margin:1.2rem 0 0}
+@media (min-width:761px){
+  /* Steps that rise: each card stands a little taller than the one before. */
+  .cb-pl-ladder{align-items:end}
+  .cb-pl-ladder>.cb-pl-item:nth-child(1){min-height:22rem}
+  .cb-pl-ladder>.cb-pl-item:nth-child(2){min-height:25rem}
+  .cb-pl-ladder>.cb-pl-item:nth-child(3){min-height:28rem}
+  .cb-pl-ladder>.cb-pl-item:nth-child(n+4){min-height:31rem}
+  .cb-pl-ladder>.cb-pl-item{border-radius:calc(var(--cb-r) + .4rem) calc(var(--cb-r) + .4rem) 0 0;border-bottom-width:4px;border-bottom-color:var(--accent)}
+  .cb-pl-rows{grid-template-columns:1fr}
+  .cb-pl-rows .cb-pl-item{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(11rem,auto);grid-template-areas:"name inc foot" "price inc foot";align-items:center;gap:.5rem 2.5rem}
+  .cb-pl-rows .cb-pl-name{grid-area:name;align-self:end}.cb-pl-rows .cb-pl-price{grid-area:price;align-self:start}.cb-pl-rows .cb-pl-inc{grid-area:inc}.cb-pl-rows .cb-pl-foot{grid-area:foot;margin:0}
+}
+
+/* ---- Spaces remaining ----------------------------------------------------------------- */
+.cb-sp{list-style:none;margin:0;padding:0;display:grid;gap:.8rem}
+.cb-sp-item{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:.9rem 1.1rem;padding:clamp(.9rem,1.8vw,1.2rem) clamp(1rem,2vw,1.5rem);border:1.5px solid var(--line-strong);border-radius:calc(var(--cb-r) + .3rem)}
+.cb-sp-date{display:grid;justify-items:center;align-content:center;min-width:3.9rem;min-height:4.2rem;padding:.45rem .6rem;border-radius:var(--cb-r);background:var(--accent);color:var(--cb-on-accent);line-height:1.05;text-align:center}
+.cb-sp-dow,.cb-sp-mon{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.cb-sp-day{font-family:var(--cb-head);font-size:1.75rem;font-weight:600;letter-spacing:-.02em}
+.cb-sp-nodate{background:none;color:var(--ink-dim);border:1.5px dashed var(--line-strong);font-size:.75rem;font-weight:600}
+.cb-sp-meta{display:flex;flex-wrap:wrap;gap:.15rem 1rem;margin:.3rem 0 0;color:var(--ink-dim);font-size:.94rem}
+.cb-sp-price{font-weight:650;color:var(--ink)}
+.cb-sp-state{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .9rem}
+.cb-sp-state:empty{display:none}
+.cb-sp-left{margin:0;font-weight:700;font-size:.95rem;white-space:nowrap}
+.cb-sp-left.is-last{color:var(--cb-accent-text,var(--accent))}
+.cb-sp-left.is-full{color:var(--ink-dim)}
+.cb-sp-src{font-weight:500;font-size:.8rem;color:var(--ink-dim)}
+.cb-sp-meter{display:block;flex:1 1 6rem;max-width:11rem;height:.4rem;border-radius:99px;background:color-mix(in srgb,var(--ink) 13%,transparent);overflow:hidden}
+.cb-sp-meter i{display:block;height:100%;transform-origin:0 50%;transform:scaleX(var(--f,0));background:var(--cb-accent-text,var(--accent));border-radius:inherit}
+.cb-sp-acts{grid-column:1/-1;margin:0;display:flex;flex-wrap:wrap;gap:.5rem}
+.cb-sp-acts .cb-btn{flex:1 1 auto;min-height:2.9rem}
+.cb-sp-item.is-past{opacity:.72}
+.cb-sp-item.is-past .cb-sp-date,.cb-sp-item.is-full .cb-sp-date{background:color-mix(in srgb,var(--ink) 12%,transparent);color:var(--ink)}
+.cb-sp-none,.cb-sp-asof,.cb-sp-note{margin:1rem 0 0}
+.cb-sp-cards{grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr));gap:1rem}
+.cb-sp-cards .cb-sp-item{align-items:start;align-content:start}
+.cb-sp-cards .cb-sp-acts{margin-top:auto}
+/* Tickets: a stub for the date, torn along a dotted line. */
+.cb-sp-tickets .cb-sp-item{--stub:5.4rem;position:relative;border:0;padding-left:0;-webkit-mask:radial-gradient(circle .6rem at var(--stub) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle .6rem at var(--stub) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;mask:radial-gradient(circle .6rem at var(--stub) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle .6rem at var(--stub) 100%,#0000 97%,#000) bottom/100% 51% no-repeat}
+.cb-sp-tickets .cb-sp-date{width:var(--stub);min-height:4.6rem;border-radius:0;background:none;color:inherit;border-right:2px dashed var(--line-strong)}
+.cb-sp-tickets .cb-sp-day{color:var(--cb-accent-text,var(--accent))}
+.cb-sp-tickets .cb-sp-state,.cb-sp-tickets .cb-sp-acts{padding-left:calc(var(--stub) + 1.1rem)}
+@media (min-width:761px){
+  .cb-sp-rows .cb-sp-item,.cb-sp-tickets .cb-sp-item{grid-template-columns:auto minmax(0,1fr) minmax(9rem,auto) auto;gap:.9rem clamp(1rem,2.5vw,2rem)}
+  .cb-sp-rows .cb-sp-state,.cb-sp-tickets .cb-sp-state{grid-column:auto;display:grid;justify-items:end;gap:.4rem;padding-left:0}
+  .cb-sp-rows .cb-sp-meter,.cb-sp-tickets .cb-sp-meter{width:9rem;flex:none}
+  .cb-sp-rows .cb-sp-acts,.cb-sp-tickets .cb-sp-acts{grid-column:auto;justify-content:flex-end;padding-left:0}
+  .cb-sp-rows .cb-sp-acts .cb-btn,.cb-sp-tickets .cb-sp-acts .cb-btn{flex:0 0 auto}
+}
+
+/* ---- Menu board ----------------------------------------------------------------------- */
+.cb-mb-track{display:grid;gap:clamp(1.6rem,3vw,3rem);grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));align-items:start}
+.cb-mb-col{min-width:0}
+.cbp .cb h3.cb-mb-group{font-size:clamp(1.35rem,2.2vw,1.7rem);padding-bottom:.7rem;border-bottom:2px solid currentColor;margin-bottom:.3rem}
+.cb-mb-rows{list-style:none;margin:0;padding:0}
+.cb-mb-row{padding:.85rem 0;border-bottom:1px solid var(--line)}
+.cb-mb-row:last-child{border-bottom:0}
+.cb-mb-line{display:flex;align-items:baseline;gap:.6rem}
+.cb-mb-name{font-weight:650;font-size:1.05rem;line-height:1.3}
+.cb-mb-line i{flex:1;min-width:1rem;border-bottom:1.5px dotted var(--line-strong);transform:translateY(-.25em)}
+.cb-mb-price{font-variant-numeric:tabular-nums;font-weight:650;white-space:nowrap}
+.cb-mb-tag{flex:none;font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.14rem .45rem;border:1px solid currentColor;border-radius:99px;color:var(--cb-accent-text,var(--accent));white-space:nowrap}
+.cb-mb-desc{margin:.3rem 0 0;color:var(--ink-dim);font-size:.94rem;line-height:1.5;max-width:46ch}
+.cb-mb-note{margin:1.4rem 0 0}
+/* In the editor, a line can start a new group: the box for its name shows when the line is chosen. */
+.cb-mb-newgroup{display:none;margin:0 0 .5rem;font-weight:700;font-size:.9rem}
+.pe-item>.cb-mb-newgroup,.cb-mb-newgroup:not([data-cb-empty]),.cb-mb-newgroup[contenteditable]{display:block}
+/* Tabs: one group at a time (the page's script makes the buttons). */
+.cb-mb-tablist{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.cb-mb-tablist button{min-height:max(2.75rem,44px);padding:.5rem 1.15rem;border-radius:99px;border:1.5px solid var(--line-strong);background:transparent;color:inherit;font:600 .95rem/1.2 var(--font-body,inherit);cursor:pointer}
+.cb-mb-tablist button[aria-selected=true]{background:var(--accent);color:var(--cb-on-accent);border-color:var(--accent)}
+.cb-mb-tabs.is-live .cb-mb-track{display:block;max-width:44rem}
+.cb-mb-tabs.is-live .cb-mb-group{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+
+/* ---- A strip that slides sideways (menu board, gallery) -------------------------------- */
+.cb-hs{position:relative}
+.cb-hs-view{width:100vw;margin-left:calc(50% - 50vw);padding-inline:max(var(--cb-gutter),calc(50vw - var(--cb-max) / 2));padding-bottom:.9rem;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:max(var(--cb-gutter),calc(50vw - var(--cb-max) / 2));scrollbar-width:thin}
+.cb-hs-view:focus-visible{outline:3px solid var(--cb-accent-text,var(--accent));outline-offset:-3px}
+.cb-hs-track{display:flex;gap:clamp(1rem,2.5vw,2rem);width:max-content;align-items:stretch}
+.cb-hs-track>*{scroll-snap-align:start}
+.cb-hs-bar{display:none}
+.cb-mb-slide .cb-mb-track{counter-reset:mb;grid-template-columns:none}
+.cb-mb-slide .cb-mb-col{position:relative;flex:0 0 min(84vw,25rem);padding:clamp(1.3rem,2.6vw,2.1rem);border-radius:calc(var(--cb-r) + .5rem);counter-increment:mb}
+.cb-mb-slide .cb-mb-col::before{content:counter(mb,decimal-leading-zero);position:absolute;top:1.1rem;right:1.3rem;font:700 .85rem/1 var(--cb-head);color:var(--cb-accent-text,var(--accent));letter-spacing:.04em}
+.cb-mb-still .cb-mb-track{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr))}
+.cb-gal-side .cb-hs-track figure{flex:0 0 min(78vw,26rem);margin:0}
+.cb-gal-side .cb-hs-track img,.cb-gal-side .cb-hs-track video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:calc(var(--cb-r-img) + .2rem)}
+.cb-gal-side figcaption{margin-top:.6rem;font-size:.86rem;color:var(--ink-dim)}
+@media (min-width:761px){.cb-gal-side .cb-hs-track figure:nth-child(even){margin-top:clamp(1.5rem,4vw,3.5rem)}}
+
+/* ---- Tiles ---------------------------------------------------------------------------- */
+.cb-tl{display:grid;gap:clamp(.7rem,1.4vw,1.1rem);grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(9.5rem,auto);grid-auto-flow:dense}
+.cb-tl-item{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:9.5rem;border-radius:calc(var(--cb-r) + .5rem);overflow:hidden;isolation:isolate}
+.cb-tl-body{display:grid;gap:.35rem;padding:clamp(1rem,2vw,1.4rem)}
+.cb-tl-value{margin:0;font-family:var(--cb-head);font-size:clamp(2.5rem,5vw,4.2rem);font-weight:600;letter-spacing:-.04em;line-height:.95;color:var(--cb-accent-text,var(--accent))}
+.cb-tl-text{margin:0;font-size:.95rem;line-height:1.45;color:var(--ink-dim)}
+.cb-tl-pic img,.cb-tl-pic .cb-pic-empty{width:100%;aspect-ratio:auto;height:100%;min-height:7rem;object-fit:cover;border-radius:0}
+/* (Outranks the soft panel colours a tinted section gives every tile.) */
+.cbp .cb .cb-tl-item.has-pic{color:#fff;--ink:#fff;--ink-dim:rgba(255,255,255,.92);--cb-accent-text:#fff;background:#16181d;min-height:13rem}
+.cb-tl-item.has-pic .cb-tl-pic{position:absolute;inset:0;z-index:-1}
+.cb-tl-item.has-pic .cb-tl-pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 28%,rgba(0,0,0,.42) 55%,rgba(0,0,0,.82))}
+.cb-tl-item.has-pic .cb-tl-body{text-shadow:0 1px 14px rgba(0,0,0,.45)}
+.cbp .cb .cb-tl-item h3.cb-tl-name{font-size:clamp(1.15rem,1.8vw,1.45rem);line-height:1.2}
+.cb-tl-item.has-pic .cb-credit{position:absolute;right:.5rem;top:.4rem;color:#fff}
+/* A tile led by a number takes the accent colour, every other one. */
+.cb-tl-item.has-value:not(.has-pic):nth-child(odd){background:var(--accent);color:var(--cb-on-accent);--ink:var(--cb-on-accent);--ink-dim:var(--cb-on-accent);--cb-accent-text:var(--cb-on-accent)}
+.cb-tl>:nth-child(3n+1){grid-column:span 2}
+.cb-tl>:last-child:nth-child(3n+2){grid-column:span 2}
+@media (min-width:761px){
+  .cb-tl{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(11rem,auto)}
+  .cb-tl>:nth-child(n){grid-column:span 1}
+  .cb-tl-mosaic>:nth-child(6n+1){grid-column:span 2;grid-row:span 2}
+  .cb-tl-mosaic>:nth-child(6n+2),.cb-tl-mosaic>:nth-child(6n+5){grid-column:span 2}
+  .cb-tl-mosaic>:last-child:nth-child(6n+3),.cb-tl-mosaic>:last-child:nth-child(6n){grid-column:span 2}
+  .cb-tl-mosaic>:last-child:nth-child(6n+5){grid-column:span 4}
+  .cb-tl-mosaic>:last-child:nth-child(6n+2){grid-row:span 2}
+  .cb-tl-mosaic>:last-child:nth-child(6n+1):not(:first-child){grid-column:span 4;grid-row:span 1}
+  .cb-tl-mosaic>:only-child{grid-column:span 4}
+  .cb-tl-feature>:first-child{grid-column:span 2;grid-row:span 2}
+  .cb-tl-feature>:nth-child(n+6){grid-column:span 2}
+  .cb-tl-feature:has(>:nth-child(3):last-child)>:not(:first-child){grid-row:span 2}
+  .cb-tl-feature>:last-child:nth-child(2){grid-column:span 2;grid-row:span 2}
+  .cb-tl-feature>:last-child:nth-child(4){grid-column:span 2}
+  .cb-tl-feature>:last-child:nth-child(6),.cb-tl-feature>:last-child:nth-child(8){grid-column:span 4}
+  .cb-tl-feature>:only-child{grid-column:span 4}
+  .cb-tl-row{grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));grid-auto-rows:minmax(21rem,auto)}
+}
+
+/* ---- Before and after ----------------------------------------------------------------- */
+.cb-cmp{display:grid;gap:clamp(1.6rem,3vw,2.6rem)}
+.cb-cmp:has(>.cb-cmp-item:nth-child(2)){grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr))}
+.cb-cmp-pair,.cb-cmp-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.5rem;position:relative}
+.cb-cmp-one{position:relative}
+.cb-cmp-one img,.cb-cmp-one .cb-pic-empty,.cb-cmp-stage img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--cb-r-img)}
+.cb-cmp-b{order:2}
+.cb-cmp-tag{position:absolute;left:.7rem;bottom:.7rem;z-index:2;padding:.28rem .65rem;border-radius:99px;background:rgba(0,0,0,.7);color:#fff;font-size:.78rem;font-weight:700;line-height:1.2}
+.cb-cmp-one:nth-child(2) .cb-cmp-tag,.cb-cmp-tag-b{left:auto;right:.7rem}
+.cb-cmp-handle{display:none}
+.cb-cmp-cap{margin-top:1rem}
+.cb-cmp-desc{margin-top:.5rem;color:var(--ink-dim);font-size:.98rem}
+/* With the page's script: one frame, the first photo drawn over the second up to the handle. */
+html.cba-js .cb-cmp-stage.is-live{display:block;aspect-ratio:3/2;overflow:hidden;border-radius:calc(var(--cb-r-img) + .2rem);-webkit-user-select:none;user-select:none}
+html.cba-js .cb-cmp-stage.is-live img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;border-radius:0}
+html.cba-js .cb-cmp-stage.is-live .cb-cmp-a{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
+html.cba-js .cb-cmp-stage.is-live .cb-cmp-handle{display:block;position:absolute;top:0;bottom:0;left:var(--pos,50%);width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.28);z-index:3}
+html.cba-js .cb-cmp-stage.is-live .cb-cmp-handle::after{content:"";position:absolute;top:50%;left:50%;width:2.9rem;height:2.9rem;margin:-1.45rem;border-radius:50%;background:#fff no-repeat center/1.5rem url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181d' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l-6 6 6 6M15 6l6 6-6 6'/%3E%3C/svg%3E");box-shadow:0 2px 12px rgba(0,0,0,.4)}
+html.cba-js .cb-cmp-stage.is-live .cb-cmp-range{display:block!important;position:absolute;inset:0;z-index:4;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+html.cba-js .cb-cmp-stage.is-live:has(.cb-cmp-range:focus-visible){outline:3px solid var(--cb-accent-text,var(--accent));outline-offset:3px}
+@media (min-width:761px){.cb-cmp-side .cb-cmp-item,.cb-cmp:not(:has(>.cb-cmp-item:nth-child(2))) .cb-cmp-item{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(1.5rem,4vw,3.5rem);align-items:center}.cb-cmp:has(>.cb-cmp-item:nth-child(2)) .cb-cmp-item{display:block}.cb-cmp-item .cb-cmp-cap{margin-top:0}.cb-cmp:has(>.cb-cmp-item:nth-child(2)) .cb-cmp-cap{margin-top:1rem}.cb-cmp-item>.cb-credits{grid-column:1}}
+
+/* ---- Timetable ------------------------------------------------------------------------ */
+.cb-tt{display:grid;gap:clamp(.8rem,1.6vw,1.2rem)}
+.cb-tt-day{min-width:0;display:flex;flex-direction:column;gap:.7rem;padding:1rem;border:1.5px solid var(--line-strong);border-radius:calc(var(--cb-r) + .3rem)}
+.cbp .cb h3.cb-tt-dayname{display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:1.05rem;padding-bottom:.65rem;border-bottom:1.5px solid var(--line-strong)}
+.cb-tt-day.is-today{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.cb-tt-now{font:700 .68rem/1 var(--font-body,inherit);letter-spacing:.06em;text-transform:uppercase;padding:.28rem .5rem;border-radius:99px;background:var(--accent);color:var(--cb-on-accent)}
+.cb-tt-list{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.cb-tt-item{display:grid;gap:.2rem;padding:.75rem .85rem;border-radius:var(--cb-r)}
+.cb-tt-time{font-weight:700;font-size:.86rem;color:var(--cb-accent-text,var(--accent));font-variant-numeric:tabular-nums}
+.cb-tt-name{margin:0;font-weight:650;line-height:1.3}
+.cb-tt-detail{margin:.1rem 0 0;font-size:.87rem;color:var(--ink-dim)}
+.cb-tt-level{justify-self:start;margin-top:.25rem;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:.14rem .45rem;border:1px solid currentColor;border-radius:99px}
+.cb-tt-book{display:inline-flex;align-items:center;min-height:max(2.75rem,44px);font-size:.9rem;font-weight:650}
+.cb-tt-note{margin:1.2rem 0 0}
+@media (min-width:761px){
+  .cb-tt-week{grid-template-columns:repeat(auto-fit,minmax(10.5rem,1fr))}
+  .cb-tt-days .cb-tt-day{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:1.5rem;border-width:1.5px 0 0;border-radius:0;padding:1.3rem 0}
+  .cb-tt-days .cb-tt-day.is-today{box-shadow:inset 0 3px 0 var(--accent)}
+  .cbp .cb-tt-days h3.cb-tt-dayname{border:0;padding:0;align-self:start;flex-direction:column;align-items:flex-start}
+  .cb-tt-days .cb-tt-item{grid-template-columns:5.5rem minmax(0,1fr) auto auto;align-items:center;gap:.4rem 1.2rem}
+  .cb-tt-days .cb-tt-level{margin:0}
+}
+
+/* ---- Find us: a drawn map, and opening hours as a table -------------------------------- */
+.cb-find{display:grid;gap:clamp(1.4rem,4vw,3.5rem);align-items:stretch}
+.cb-find-card{padding:clamp(1.5rem,3.5vw,2.6rem);border-radius:calc(var(--cb-r) + .5rem)}
+.cb-find .cb-facts{margin-top:1.5rem}
+.cb-hours-table{width:100%;border-collapse:collapse;margin-top:1.4rem;font-size:1rem;line-height:1.4}
+.cb-hours-table th{text-align:left;font-weight:600;padding:.62rem 1rem .62rem 0;vertical-align:top}
+.cb-hours-table td{text-align:right;padding:.62rem 0;font-variant-numeric:tabular-nums}
+.cb-hours-table td[colspan]{text-align:left}
+.cb-hours-table tr{border-bottom:1px solid var(--line)}
+.cb-hours-table tr.is-today{font-weight:700}
+.cb-hours-table tr.is-today th::before{content:"";display:inline-block;width:.55rem;height:.55rem;margin-right:.55rem;border-radius:50%;background:var(--cb-accent-text,var(--accent))}
+.cb-find-table .cb-hours-table{margin-top:0;font-size:1.08rem}
+.cb-find-plan{position:relative;min-height:15rem;border-radius:calc(var(--cb-r) + .5rem);overflow:hidden;background:color-mix(in srgb,var(--accent) 14%,var(--bg-0,#fff))}
+.cb-find-plan i{position:absolute;left:-10%;right:-10%;height:1.1rem;top:40%;background:var(--bg-0,#fff);transform:rotate(-9deg)}
+.cb-find-plan i:nth-child(2){top:74%;height:.6rem}
+.cb-find-plan i:nth-child(3){top:12%;height:.45rem}
+.cb-find-plan i:nth-child(4),.cb-find-plan i:nth-child(5),.cb-find-plan i:nth-child(6){left:60%;right:auto;top:-20%;bottom:-20%;width:1.1rem;height:auto}
+.cb-find-plan i:nth-child(5){left:26%;width:.6rem}
+.cb-find-plan i:nth-child(6){left:86%;width:.45rem}
+.cb-find-plan i:nth-child(7){left:8%;right:auto;top:50%;width:14%;height:17%;border-radius:.6rem;background:color-mix(in srgb,var(--accent) 30%,var(--bg-0,#fff))}
+.cb-find-pin{position:absolute;left:60%;top:40%;width:1.7rem;height:1.7rem;margin:-2rem 0 0 -.25rem;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--accent);box-shadow:0 0 0 .4rem color-mix(in srgb,var(--accent) 26%,transparent)}
+.cb-find-pin::after{content:"";position:absolute;inset:32%;border-radius:50%;background:var(--cb-on-accent,#fff)}
+@media (min-width:761px){.cb-find{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cb-find-map{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}.cb-find-plan{min-height:22rem}}
+
+/* ---- Team: carousel, and a person's qualifications -------------------------------------- */
+.cb-person-quals{margin:.3rem 0 0;font-size:.86rem;color:var(--ink-dim);letter-spacing:.01em}
+.cb-team-carousel{display:flex;gap:clamp(1rem,2.4vw,1.6rem);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:1rem;scrollbar-width:thin}
+.cb-team-carousel>article{flex:0 0 min(78%,19rem);scroll-snap-align:start}
+.cb-team-carousel .cb-portrait{margin-bottom:1rem}
+.cb-team-carousel>.pe-add-cell{flex:0 0 12rem}
+
+/* ---- Reviews: a wall of columns that drift --------------------------------------------- */
+.cb-rv-drift{display:grid;gap:0 1.1rem}
+.cb-rv-drift .cb-review{margin-bottom:1.1rem;padding:1.35rem;border-radius:var(--cb-r)}
+.cb-rv-drift [aria-hidden=true]{display:none}
+@media (min-width:761px){.cb-rv-drift{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ---- Facts: a rolling band of numbers --------------------------------------------------- */
+.cb-mq-facts .cb-ft{display:inline-flex;align-items:baseline;gap:.7rem}
+.cb-ft-value{font-family:var(--cb-head);font-size:clamp(2.4rem,6vw,4.6rem);font-weight:600;letter-spacing:-.04em;line-height:1.05;color:var(--cb-accent-text,var(--accent))}
+.cb-ft-label{font-size:clamp(1rem,1.6vw,1.25rem);color:var(--ink-dim);line-height:1.2}
+
+/* ---- Case study ----------------------------------------------------------------------- */
+.cb-cs-top{display:grid;gap:clamp(1.5rem,4vw,4rem);align-items:center}
+.cb-cs-main img,.cb-cs-main .cb-pic-empty{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--cb-r-img) + .3rem)}
+.cb-cs-facts{margin:1.7rem 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem 1.5rem;padding-top:1.3rem;border-top:1.5px solid var(--line-strong)}
+.cb-cs-fact dt{font-size:.8rem;font-weight:650;color:var(--ink-dim)}
+.cb-cs-fact dd{margin:.2rem 0 0;font-family:var(--cb-head);font-size:1.35rem;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.cb-cs-parts{display:grid;gap:clamp(1.5rem,3vw,2.6rem);margin-top:clamp(2rem,5vw,4rem)}
+.cb-cs-part{padding-top:1.1rem;border-top:2px solid currentColor}
+.cb-cs-n{margin:0 0 .5rem;font-family:var(--cb-head);font-size:.95rem;font-weight:700;color:var(--cb-accent-text,var(--accent))}
+.cbp .cb h3.cb-cs-title{margin-bottom:.7rem}
+.cb-cs-more{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));margin-top:clamp(1.5rem,3vw,2.6rem)}
+.cb-cs-more:empty{display:none}
+.cb-cs-more img,.cb-cs-more .cb-pic-empty{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--cb-r-img)}
+@media (min-width:761px){
+  .cb-cs-top:not(.cb-solo){grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+  .cb-cs-chapters .cb-cs-top:not(.cb-solo){grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+  .cb-cs-spread .cb-cs-parts{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .cb-cs-chapters .cb-cs-part{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:.3rem 3rem;padding-top:1.5rem}
+  .cb-cs-chapters .cb-cs-part>.cb-rich{grid-column:2;grid-row:1/3}
+  .cb-cs-chapters .cb-cs-n{font-size:clamp(2.2rem,4vw,3.4rem);line-height:1;margin:0}
+}
+
+/* ---- Pinned scenes -------------------------------------------------------------------- */
+.cb-sc-list{display:grid;gap:clamp(2.2rem,5vw,4.5rem)}
+.cb-sc-item{display:grid;gap:1.2rem clamp(2rem,5vw,4.5rem);align-items:center}
+.cb-sc-pic img,.cb-sc-pic .cb-pic-empty{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--cb-r-img) + .3rem)}
+.cb-sc-tag{margin:0 0 .6rem;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cb-accent-text,var(--accent))}
+.cbp .cb h3.cb-sc-name{font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.1;letter-spacing:-.02em}
+.cb-sc-desc{margin-top:.9rem}
+.cb-sc-body .cb-link{display:inline-flex;align-items:center;min-height:max(2.75rem,44px);margin-top:.6rem}
+.cb-sc-stage{display:none}
+@media (min-width:761px){
+  .cb-sc-item{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .cb-sc-item:nth-child(even) .cb-sc-pic{order:2}
+}
+
+.cb-faq-accordion details[open] summary::after{content:"\2212";transform:rotate(180deg)}
+
+/* ---- Marked words (M16): plain underline or highlight; the page's script draws it in ---- */
+.cbp mark.cb-mark{background:none;color:inherit;text-decoration:underline;text-decoration-color:var(--cb-accent-text,var(--accent));text-decoration-thickness:max(2px,.07em);text-underline-offset:.16em;text-decoration-skip-ink:none}
+.cbp[data-m-mark=highlight] mark.cb-mark{text-decoration:none;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--accent) 24%,transparent) 0);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+:is(.cb-bg-dark,.cb-bg-accent,.cb-bg-picture) mark.cb-mark{text-decoration-color:currentColor}
+.cbp[data-m-mark=highlight] :is(.cb-bg-dark,.cb-bg-accent,.cb-bg-picture) mark.cb-mark{background:linear-gradient(transparent 58%,color-mix(in srgb,currentColor 22%,transparent) 0)}
+
+/* ---- Opening: large words, then a photo from edge to edge (S2, with M1) ------------------ */
+.cb-reveal{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(2rem,5vw,4.5rem)}
+.cb-reveal-words{max-width:64rem}
+.cbp .cb-hero--reveal .cb-hero-h{font-size:clamp(2.6rem,7.2vw,7.4rem);line-height:.98;max-width:15ch}
+.cbp:is(.cbp-hf-clean,.cbp-hf-grotesk) .cb-hero--reveal .cb-hero-h{letter-spacing:-.02em}
+.cb-reveal .cb-lead{max-width:38rem;font-size:clamp(1.06rem,1.4vw,1.22rem);line-height:1.6}
+.cbp .cb-reveal-pic{position:relative;width:100vw;margin:0 0 0 calc(50% - 50vw);height:clamp(22rem,74vh,54rem);overflow:hidden;background:var(--cb-surface)}
+.cb-reveal-in{display:block;width:100%;height:100%}
+.cbp .cb-reveal-in :is(img,video,.cb-pic-empty){display:block;width:100%;height:100%;object-fit:cover;border-radius:0}
+.cb-hero--reveal .cb-credits{margin-top:.6rem}
+@media (max-width:760px){.cbp .cb-reveal-pic{height:58vh}}
+
+/* ---- Opening: one statement that fills the first screen (S3) ------------------------------ */
+.cb-statement{display:flex;flex-direction:column;justify-content:flex-end;gap:1.2rem;min-height:min(74vh,50rem);padding-block:clamp(1rem,5vh,3rem)}
+.cbp .cb-hero--statement .cb-hero-h{font-size:clamp(2.8rem,8.4vw,8.8rem);line-height:.98;max-width:16ch;margin:0}
+.cbp:is(.cbp-hf-clean,.cbp-hf-grotesk) .cb-hero--statement .cb-hero-h{letter-spacing:-.025em}
+.cb-statement .cb-lead{max-width:36rem;font-size:clamp(1.06rem,1.4vw,1.22rem);line-height:1.6}
+@media (max-width:760px){.cb-statement{min-height:60vh}}
+
+/* ---- Treatment or service list, pinned beside a photo (S6, with M3) ---------------------- */
+.cb-pin-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
+.cb-pin-item{display:grid;gap:1rem clamp(1.5rem,4vw,3.5rem);padding:clamp(1.4rem,3vw,2.2rem) 0;border-bottom:1px solid var(--line-strong)}
+.cb-pin-pic{margin:0}
+.cb-pin-pic img,.cb-pin-pic .cb-pic-empty{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--cb-r-img)}
+.cb-pin-n{margin:0 0 .5rem;font:600 .85rem/1 var(--cb-head);letter-spacing:.06em;color:var(--cb-accent-text,var(--accent));font-variant-numeric:tabular-nums}
+.cbp .cb .cb-pin-item h3.cb-svc-name{font-size:clamp(1.8rem,3.6vw,3.2rem);line-height:1.02;margin:0}
+.cbp:is(.cbp-hf-clean,.cbp-hf-grotesk) .cb-pin-item h3.cb-svc-name{letter-spacing:-.02em}
+.cb-pin-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2rem 1.2rem;margin:.75rem 0 0;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.cb-pin-meta:empty{display:none}
+.cb-pin-meta .cb-price{font-weight:650}
+.cb-pin-meta .cb-time{color:var(--ink-dim)}
+.cb-pin-body .cb-svc-desc{margin-top:.6rem;max-width:44ch;color:var(--ink-dim)}
+.cb-pin-body .cb-svc-links{margin-top:.9rem}
+.cb-pin-body .cb-svc-links .cb-link{display:inline-flex;align-items:center;min-height:max(2.75rem,44px)}
+.cb-pin-stage{display:none}
+@media (min-width:761px){.cb-pin-item{grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);align-items:center}.cb-pin-item>.cb-pin-body:only-child{grid-column:1/-1}}
+
+/* ---- Sticky steps (S14, with M10); each step may end in its own button -------------------- */
+.cb-stk-rail{display:none}
+.cb-steps-sticky{display:grid}
+.cb-steps-sticky>.cb-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.4rem clamp(1rem,3vw,2rem);align-items:start;padding:clamp(1.3rem,3vw,2rem) 0;border-top:1px solid var(--line-strong)}
+.cb-steps-sticky>.cb-step:last-child{border-bottom:1px solid var(--line-strong)}
+.cb-steps-sticky .cb-step-n{font-size:clamp(2.4rem,6vw,3.6rem);font-weight:500;letter-spacing:-.03em;min-width:2ch}
+.cbp .cb .cb-steps-sticky h3.cb-step-name{font-size:clamp(1.35rem,2.4vw,2.1rem);line-height:1.12}
+.cb-step-go{margin:1rem 0 0}
+.cb-step-go .cb-btn{min-height:max(2.75rem,44px)}
+
+/* ---- Team: a person with no photo yet gets their initials on a soft glow of the page's colour,
+   set large in the heading typeface, so the section still looks finished ----------------------- */
+.cbp .cb-initials{background:radial-gradient(120% 95% at 18% 8%,color-mix(in srgb,var(--accent) 20%,var(--cb-surface)),var(--cb-surface) 72%);font-size:clamp(2.6rem,6vw,4.4rem);letter-spacing:-.03em;border-color:color-mix(in srgb,var(--accent) 22%,transparent)}
+.cbp .cb-team-single>article:first-child .cb-initials{font-size:clamp(3.4rem,8vw,6rem)}
+/* ---- Team: each person's own Book button (S9) -------------------------------------------- */
+.cb-person-book{margin:1rem 0 0}
+.cb-person-book .cb-btn{min-height:max(2.75rem,44px)}
+
+/* ---- Open now (S15): filled in by the page's script from the opening hours ---------------- */
+.cb-opennow{display:inline-flex;align-items:center;gap:.6rem;margin:.1rem 0 1rem;padding:.45rem .95rem;border-radius:99px;font-weight:650;font-size:.95rem;line-height:1.3;background:color-mix(in srgb,currentColor 8%,transparent)}
+.cb-opennow::before{content:"";flex:none;width:.6rem;height:.6rem;border-radius:50%;background:currentColor;opacity:.45}
+.cb-opennow.is-open::before{background:#2f8f5b;opacity:1;box-shadow:0 0 0 .22rem color-mix(in srgb,#2f8f5b 28%,transparent)}
+
+/* ---- Numbers in a band (S17, with M9 on the page's count) --------------------------------- */
+.cb-factlist-band{grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr));gap:0;border-top:1px solid var(--line-strong)}
+.cb-factlist-band>.cb-fact{display:flex;flex-direction:column;gap:.7rem;padding:clamp(1.3rem,3vw,2.2rem) clamp(1rem,2.4vw,2rem) .4rem 0}
+.cb-factlist-band>.cb-fact+.cb-fact{border-left:1px solid var(--line-strong);padding-left:clamp(1rem,2.4vw,2rem)}
+.cb-factlist-band .cb-fact-value{font-size:clamp(3rem,6.6vw,6.2rem);font-weight:500;line-height:.92;letter-spacing:-.035em;color:inherit}
+.cb-factlist-band .cb-fact-label{max-width:20ch;font-size:1rem}
+@media (max-width:760px){.cb-factlist-band{grid-template-columns:repeat(2,minmax(0,1fr))}.cb-factlist-band>.cb-fact:nth-child(odd){border-left:0;padding-left:0}.cb-factlist-band>.cb-fact:nth-child(n+3){border-top:1px solid var(--line-strong)}}
+
+/* ---- Accreditation row, set as type (S18) ------------------------------------------------- */
+.cb-creds-row{display:flex;flex-wrap:wrap;border-block:1px solid var(--line-strong)}
+.cb-creds-row>li{flex:1 1 auto;padding:1.2rem clamp(1rem,2.4vw,1.8rem);font-family:var(--cb-head);font-size:clamp(1.02rem,1.5vw,1.28rem);line-height:1.25;text-align:center}
+.cb-creds-row>li+li{border-left:1px solid var(--line-strong)}
+@media (max-width:760px){.cb-creds-row{display:grid}.cb-creds-row>li{padding:.95rem 0;text-align:left}.cb-creds-row>li+li{border-left:0;border-top:1px solid var(--line)}}
+/* Four or more entries: two even columns between fine lines, so a long entry never leaves the
+   lines uneven. */
+@media (min-width:761px){
+  .cb-creds-row:has(>li:nth-child(4)){display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cb-creds-row:has(>li:nth-child(4))>li+li{border-left:0}
+  .cb-creds-row:has(>li:nth-child(4))>li:nth-child(even){border-left:1px solid var(--line-strong)}
+  .cb-creds-row:has(>li:nth-child(4))>li:nth-child(n+3){border-top:1px solid var(--line-strong)}
+  .cb-creds-row:has(>li:nth-child(4))>li:last-child:nth-child(odd){grid-column:1/-1}
+}
+
+/* ======================================================================================== */
+/* Movement                                                                                  */
+/* ======================================================================================== */
+@keyframes cbs-up{to{transform:translate3d(0,-50%,0)}}
+@keyframes cbs-arrive-fade{from{opacity:0}to{opacity:1}}
+@keyframes cbs-arrive-lift{from{opacity:0;transform:translate3d(0,26px,0)}to{opacity:1;transform:none}}
+@keyframes cbs-arrive-rise{from{transform:translate3d(0,8px,0)}to{transform:none}}
+@keyframes cbs-veil{from{transform:scaleY(1)}to{transform:scaleY(0)}}
+@keyframes cbs-depth-a{from{transform:translate3d(0,40px,0)}to{transform:translate3d(0,-40px,0)}}
+@keyframes cbs-depth-b{from{transform:translate3d(0,-8px,0)}to{transform:translate3d(0,8px,0)}}
+@keyframes cbs-depth-c{from{transform:translate3d(0,8px,0)}to{transform:translate3d(0,-8px,0)}}
+@keyframes cbs-reveal-frame{from{transform:scale(.76)}to{transform:none}}
+@keyframes cbs-reveal-in{from{transform:scale(1.4737)}to{transform:none}}
+@keyframes cbs-soft-open{from{opacity:0;transform:translate3d(0,-6px,0)}to{opacity:1;transform:none}}
+@keyframes cbs-pin{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 45%,transparent)}100%{box-shadow:0 0 0 1.5rem transparent}}
+
+@media screen and (prefers-reduced-motion:no-preference){
+  /* ---- As the page opens (and after each change of page inside the website) -------------- */
+  /* The opening itself is never faded in: its photo is what a phone paints first (the page's
+     largest picture), so it only lifts, by transform, and is there from the first frame. */
+  html.cbm-js .cbm[data-m-arrive=dissolve]:not([data-m-edit])>.cb:nth-child(-n+3):not(.cb-opening){animation:cbs-arrive-fade .7s var(--m-ease) both}
+  html.cbm-js .cbm[data-m-arrive=settle]:not([data-m-edit])>.cb:nth-child(-n+3):not(.cb-opening){animation:cbs-arrive-lift .8s var(--m-ease) both}
+  html.cbm-js .cbm[data-m-arrive=settle]:not([data-m-edit])>.cb.cb-opening{animation:cbs-arrive-rise .8s var(--m-ease) both}
+  html.cbm-js .cbm[data-m-arrive=settle]:not([data-m-edit])>.cb:nth-child(2){animation-delay:.08s}
+  html.cbm-js .cbm[data-m-arrive=settle]:not([data-m-edit])>.cb:nth-child(3){animation-delay:.16s}
+  /* Veil: a coloured band across the top of the screen draws up and away as the page opens. It
+     never covers the whole first screen (app walk, 24 Nov: a full-screen sheet read as a second
+     of solid colour on a computer). Transform only; nothing under reduced motion. */
+  html.cbm-js .cbm[data-m-arrive=veil]:not([data-m-edit])::before{content:"";position:fixed;inset:0 0 auto;height:min(22vh,11rem);z-index:90;background:var(--accent);transform-origin:50% 0;pointer-events:none;animation:cbs-veil .6s cubic-bezier(.7,0,.2,1) both}
+
+  /* ---- As people scroll: a wave from corner to corner, and a curtain that opens ---------- */
+  .cbm.cbm-ready[data-m-scroll=cascade] [data-m]{transform:translate3d(0,calc(var(--m-dist) + 16px),0) scale(.94) rotate(-1.2deg);transform-origin:0 100%}
+  /* (A curtain is drawn with a mask, as Wipe is: a clipped element would never be seen arriving.) */
+  .cbm.cbm-ready[data-m-scroll=curtain] [data-m]{opacity:1;transform:scale(1.035);-webkit-mask:linear-gradient(#000,#000) 50% 0/0% 100% no-repeat;mask:linear-gradient(#000,#000) 50% 0/0% 100% no-repeat}
+  .cbm.cbm-ready[data-m-scroll=curtain] [data-m].is-in{-webkit-mask-size:100% 100%;mask-size:100% 100%}
+
+  /* ---- Pictures: a coloured sheet slides off them ---------------------------------------- */
+  .cbm[data-m-pictures=sheet].cbm-ready [data-mp]{position:relative;overflow:hidden;border-radius:var(--cb-r-img)}
+  .cbm[data-m-pictures=sheet].cbm-ready [data-mp]::after{content:"";position:absolute;inset:-1px;z-index:5;background:var(--accent);transform-origin:50% 0;transition:transform calc(var(--m-dur) * 1.25) cubic-bezier(.7,0,.2,1) calc(var(--m-i,0) * var(--m-step))}
+  .cbm[data-m-pictures=sheet].cbm-ready [data-mp].is-in::after{transform:scaleY(0)}
+  .cbm[data-m-pictures=sheet].cbm-ready [data-mp] :is(img,video){scale:1.14;transition:scale calc(var(--m-dur) * 2) var(--m-ease) calc(var(--m-i,0) * var(--m-step))}
+  .cbm[data-m-pictures=sheet].cbm-ready [data-mp].is-in :is(img,video){scale:1}
+
+  /* ---- Pictures at their own depth: neighbours travel at different speeds ----------------- */
+  @supports (animation-timeline:view()){
+    .cbm[data-m-pictures=depth]:not([data-m-edit]) :is(.cb-pic-frame,.cb-figure,.cb-show-pic,.cb-cs-main){animation:cbs-depth-a linear both;animation-timeline:view();will-change:transform}
+    /* Neighbours in a grid travel less and in turn, so they never run into each other; a portrait
+       stays put, so it never covers the name under it. */
+    .cbm[data-m-pictures=depth]:not([data-m-edit]) :is(.cb-gallery>figure,.cb-tl-item,.cb-cs-more>figure):nth-child(odd){animation:cbs-depth-c linear both;animation-timeline:view();will-change:transform}
+    .cbm[data-m-pictures=depth]:not([data-m-edit]) :is(.cb-gallery>figure,.cb-tl-item,.cb-cs-more>figure):nth-child(even){animation:cbs-depth-b linear both;animation-timeline:view();will-change:transform}
+    .cbm[data-m-pictures=depth]:not([data-m-edit]) .cb-hero-bg :is(img,video){animation:cbm-sink linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  }
+
+  /* ---- Cards and tiles lean towards the pointer (the script sets the angles) -------------- */
+  .cbm[data-m-pointer=lean] [data-lean]{transform:perspective(1000px) rotateX(var(--lean-x,0deg)) rotateY(var(--lean-y,0deg)) translate3d(0,0,0);transition:transform .28s ease-out;will-change:transform}
+  .cbm[data-m-pointer=lean] [data-lean].is-lean{transition:transform .08s linear}
+  .cbm[data-m-pointer=lean] [data-lean]::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(22rem circle at var(--gx,50%) var(--gy,50%),color-mix(in srgb,#fff 22%,transparent),transparent 60%)}
+  .cbm[data-m-pointer=lean] [data-lean].is-lean::after{opacity:1}
+  /* A finger gets a press instead. */
+  @media (hover:none){.cbm[data-m-pointer=lean] :is(.cb-tl-item,.cb-pl-item,.cb-bs-cards .cb-bs-opt,.cb-sp-cards .cb-sp-item){transition:transform .18s ease-out}.cbm[data-m-pointer=lean] :is(.cb-tl-item,.cb-pl-item,.cb-bs-cards .cb-bs-opt,.cb-sp-cards .cb-sp-item):active{transform:scale(.985)}}
+
+  /* ---- Spaces: the bar fills as its row arrives ------------------------------------------ */
+  .cbm.cbm-ready .cb-sp-item[data-m] .cb-sp-meter i{transform:scaleX(0)}
+  .cbm.cbm-ready .cb-sp-item[data-m].is-in .cb-sp-meter i{transform:scaleX(var(--f,0));transition:transform 1.1s var(--m-ease) calc(var(--m-i,0) * var(--m-step) + .25s)}
+  /* Ways to pay: the most popular card stands a little proud once it has arrived. */
+  @media (min-width:761px){.cbm .cb-pl-cards>.cb-pl-item.is-popular{transform:translate3d(0,-.6rem,0);transition:transform .45s var(--m-ease)}}
+  /* The map pin lands, then rings three times. */
+  html.cbm-js .cbm:not([data-m-edit]) .cb-find-pin{animation:cbs-pin 1.6s ease-out 3}
+
+  /* ---- The plan's measured pace: entrances ease out, 800ms, 75ms apart, 28px of travel ----- */
+  .cbp[data-m-pace=measured]{--m-dur:.8s;--m-step:75ms;--m-ease:cubic-bezier(.22,1,.36,1);--m-dist:28px}
+  /* ---- The opening heading, line by line from behind a mask (M2: 800ms each, 80ms apart) ---- */
+  .cbm[data-m-heading=rising] .cbm-w>span{transform:translate3d(0,105%,0);transition:transform .8s cubic-bezier(.22,1,.36,1) calc(var(--k,0) * 80ms)}
+  /* A line's mask leaves room at its ends, so an italic word that leans past its box is not cut. */
+  .cbm[data-m-heading=rising] .cbm-w{padding-inline:.12em;margin-inline:-.12em}
+  .cbm[data-m-heading=rising] .is-in .cbm-w>span{transform:none}
+  /* ---- The curtain opening (M1): inset 12% at 1.12, open over 1400ms, once ----------------- */
+  html.cbm-js .cbm:not([data-m-edit]) .cb-reveal-pic{animation:cbs-reveal-frame 1.4s cubic-bezier(.22,1,.36,1) .15s both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-reveal-in{animation:cbs-reveal-in 1.4s cubic-bezier(.22,1,.36,1) .15s both}
+  /* ---- Marked words drawn left to right (M16: 700ms) --------------------------------------- */
+  html.cbm-js .cbp mark.cb-mark.cbm-mk-wait{text-decoration-color:transparent;background:none}
+  html.cbm-js .cbp mark.cb-mark.cbm-mk{text-decoration:none;background:none;position:relative;z-index:0}
+  html.cbm-js .cbp mark.cb-mark.cbm-mk::after{content:"";position:absolute;left:0;right:0;bottom:.02em;height:max(2px,.07em);z-index:-1;background:var(--cb-accent-text,var(--accent));transform:scaleX(0);transform-origin:0 50%;transition:transform .7s cubic-bezier(.22,1,.36,1)}
+  html.cbm-js .cbp[data-m-mark=highlight] mark.cb-mark.cbm-mk::after{bottom:.08em;height:.42em;background:color-mix(in srgb,var(--accent) 24%,transparent)}
+  html.cbm-js .cbp :is(.cb-bg-dark,.cb-bg-accent,.cb-bg-picture) mark.cb-mark.cbm-mk::after{background:currentColor}
+  html.cbm-js .cbp[data-m-mark=highlight] :is(.cb-bg-dark,.cb-bg-accent,.cb-bg-picture) mark.cb-mark.cbm-mk::after{background:color-mix(in srgb,currentColor 22%,transparent)}
+  html.cbm-js .cbp mark.cb-mark.cbm-mk.is-on::after{transform:none}
+
+  /* ---- Questions open softly (M17): the answer fades in as it drops 6px, 300ms; + becomes − -- */
+  .cb-faq-accordion details[open] .cb-a{animation:cbs-soft-open .3s cubic-bezier(.22,1,.36,1)}
+  .cb-faq-accordion summary::after{transition:transform .3s cubic-bezier(.22,1,.36,1)}
+
+  /* ---- Reviews drifting past each other --------------------------------------------------- */
+  @media (min-width:761px){
+    html.cbm-js .cbm:not([data-m-edit]) .cb-rv-drift{height:min(36rem,80vh);overflow:hidden;-webkit-mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000);mask-image:linear-gradient(#0000,#000 12%,#000 88%,#0000)}
+    html.cbm-js .cbm:not([data-m-edit]) .cb-rv-drift [aria-hidden=true]{display:block}
+    html.cbm-js .cbm:not([data-m-edit]) .cb-rv-run{animation:cbs-up var(--mq-dur,40s) linear infinite;will-change:transform}
+    html.cbm-js .cbm:not([data-m-edit]) .cb-rv-col:nth-child(2) .cb-rv-run{animation-direction:reverse}
+    html.cbm-js .cb-rv-drift:hover .cb-rv-run,html.cbm-js .cb-rv-drift:focus-within .cb-rv-run{animation-play-state:paused}
+  }
+}
+
+/* ---- Pinned and sideways movement: a wide screen, a script, and no wish for less motion ---- */
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  /* A strip that the page's own scrolling slides sideways. The script measures it (--hs-h is how
+     tall the section must be to give the strip room to travel) and moves it (--hs-x). */
+  html.cbm-js .cb-hs.is-live{height:var(--hs-h,auto)}
+  html.cbm-js .cb-hs.is-live .cb-hs-pin{position:sticky;top:var(--hs-top,5rem)}
+  html.cbm-js .cb-hs.is-live .cb-hs-view{overflow:hidden;scroll-snap-type:none;padding-bottom:0}
+  html.cbm-js .cb-hs.is-live .cb-hs-track{transform:translate3d(calc(-1 * var(--hs-x,0px)),0,0);will-change:transform}
+  html.cbm-js .cb-hs.is-live .cb-hs-bar{display:block;height:3px;margin-top:1.4rem;border-radius:3px;background:color-mix(in srgb,var(--ink) 12%,transparent);overflow:hidden}
+  html.cbm-js .cb-hs.is-live .cb-hs-bar i{display:block;height:100%;background:var(--cb-accent-text,var(--accent));transform-origin:0 50%;transform:scaleX(var(--hs-p,0))}
+
+  /* Pinned scenes, photo beside the words: the stage stays; each photo wipes up over the last
+     as its scene arrives (--w, from 0 to 1, set by the script). */
+  html.cbm-js .cb-sc.is-live .cb-sc-stage{display:block;overflow:hidden}
+  html.cbm-js .cb-sc.is-live .cb-sc-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:inset(calc((1 - var(--w,0)) * 100%) 0 0 0);scale:calc(1.14 - var(--w,0) * .14);will-change:clip-path,scale}
+  html.cbm-js .cb-sc.is-live .cb-sc-stage img:first-of-type{clip-path:none;scale:1}
+  html.cbm-js .cb-sc.is-live .cb-sc-pic{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%)}
+  html.cbm-js .cb-sc.is-live .cb-sc-count{position:absolute;left:1rem;top:1rem;z-index:2;padding:.38rem .75rem;border-radius:99px;background:rgba(0,0,0,.62);color:#fff;font:700 .8rem/1 var(--font-body,inherit);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+  html.cbm-js .cb-sc.is-live .cb-sc-ticks{position:absolute;right:1rem;top:50%;z-index:2;display:grid;gap:.4rem;transform:translateY(-50%)}
+  html.cbm-js .cb-sc.is-live .cb-sc-ticks i{width:3px;height:1.6rem;border-radius:2px;background:rgba(255,255,255,.45);transition:background-color .3s,transform .3s}
+  html.cbm-js .cb-sc.is-live .cb-sc-ticks i.is-on{background:#fff;transform:scaleX(1.8)}
+  html.cbm-js .cb-sc-split.is-live{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(2rem,5vw,5rem);align-items:start}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-stage{position:sticky;order:2;top:calc(var(--header-h,0px) + max(1.5rem,(100vh - var(--header-h,0px) - min(76vh,44rem)) / 2));height:min(76vh,44rem);border-radius:calc(var(--cb-r-img) + .5rem)}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-list{display:block}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-item{display:flex;flex-direction:column;justify-content:center;min-height:min(84vh,48rem)}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-body{opacity:.82;transform:translate3d(0,14px,0);transition:opacity .5s var(--m-ease,ease),transform .5s var(--m-ease,ease)}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-item.is-on .cb-sc-body,html.cbm-js .cb-sc-split.is-live .cb-sc-item:focus-within .cb-sc-body{opacity:1;transform:none}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-name{position:relative;padding-top:1.1rem}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-name::before{content:"";position:absolute;left:0;top:0;width:3.2rem;height:3px;background:var(--cb-accent-text,var(--accent));transform-origin:0 50%;transform:scaleX(0);transition:transform .6s var(--m-ease,ease)}
+  html.cbm-js .cb-sc-split.is-live .cb-sc-item.is-on .cb-sc-name::before{transform:scaleX(1)}
+  /* Full screen: the stage fills the screen and the words travel up over it on cards. */
+  html.cbm-js .cb-sc-full.is-live{width:100vw;margin-left:calc(50% - 50vw)}
+  html.cbm-js .cb-sc-full.is-live .cb-sc-stage{position:sticky;top:var(--header-h,0px);height:calc(100vh - var(--header-h,0px))}
+  html.cbm-js .cb-sc-full.is-live .cb-sc-stage::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.34),rgba(0,0,0,0) 62%)}
+  html.cbm-js .cb-sc-full.is-live .cb-sc-list{position:relative;z-index:1;display:block;margin-top:calc(-1 * (100vh - var(--header-h,0px)));padding-inline:max(var(--cb-gutter),calc(50vw - var(--cb-max) / 2))}
+  html.cbm-js .cb-sc-full.is-live .cb-sc-item{display:flex;align-items:flex-end;min-height:100vh;padding-bottom:12vh}
+  html.cbm-js .cb-sc-full.is-live .cb-sc-item:first-child{min-height:calc(100vh - var(--header-h,0px))}
+  html.cbm-js .cb-sc-full.is-live .cb-sc-body{max-width:31rem;padding:clamp(1.4rem,2.6vw,2.1rem);border-radius:calc(var(--cb-r) + .5rem);box-shadow:0 24px 60px -30px rgba(0,0,0,.6)}
+  html.cbm-js .cb-sc-full.is-live .cb-sc-ticks{right:1.5rem}
+}
+
+/* ---- Pinned list (M3) and sticky steps (M10): a wide screen, the script, movement allowed --- */
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  html.cbm-js .cb-pin.is-live{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:start}
+  html.cbm-js .cb-pin.is-live .cb-pin-stage{display:block;position:sticky;order:2;top:calc(var(--header-h,0px) + max(1.5rem,(100vh - var(--header-h,0px) - min(78vh,48rem)) / 2));height:min(78vh,48rem);overflow:hidden;border-radius:calc(var(--cb-r-img) + .4rem);background:var(--cb-surface)}
+  html.cbm-js .cb-pin.is-live .cb-pin-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s cubic-bezier(.65,0,.35,1)}
+  html.cbm-js .cb-pin.is-live .cb-pin-stage img.is-on{opacity:1}
+  html.cbm-js .cb-pin.is-live .cb-pin-pic{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%)}
+  html.cbm-js .cb-pin.is-live .cb-pin-item{display:flex;flex-direction:column;justify-content:center;min-height:min(66vh,38rem)}
+  html.cbm-js .cb-pin.is-live .cb-pin-item h3.cb-svc-name{opacity:.3;transition:opacity .4s cubic-bezier(.65,0,.35,1)}
+  html.cbm-js .cb-pin.is-live .cb-pin-item :is(.cb-pin-meta,.cb-svc-desc,.cb-offer,.cb-svc-links){opacity:0;transform:translate3d(0,16px,0);transition:opacity .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1)}
+  html.cbm-js .cb-pin.is-live .cb-pin-item:is(.is-on,:focus-within) h3.cb-svc-name{opacity:1}
+  html.cbm-js .cb-pin.is-live .cb-pin-item:is(.is-on,:focus-within) :is(.cb-pin-meta,.cb-svc-desc,.cb-offer,.cb-svc-links){opacity:1;transform:none}
+  html.cbm-js .cb-pin.is-live .cb-pin-item:is(.is-on,:focus-within) .cb-pin-meta{transition-delay:.06s}
+  html.cbm-js .cb-pin.is-live .cb-pin-item:is(.is-on,:focus-within) .cb-svc-desc{transition-delay:.12s}
+
+  html.cbm-js .cb-stk.is-live{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(2rem,6vw,6rem);align-items:start}
+  html.cbm-js .cb-stk.is-live .cb-stk-rail{display:grid;gap:1.1rem;align-content:start;position:sticky;top:calc(var(--header-h,0px) + 20vh)}
+  .cb-stk-num{position:relative;display:block;height:1em;overflow:hidden;font-family:var(--cb-head);font-size:clamp(6rem,13vw,12rem);font-weight:500;line-height:1;letter-spacing:-.04em;color:var(--cb-accent-text,var(--accent));font-variant-numeric:tabular-nums}
+  .cb-stk-num>span{position:absolute;left:0;top:0;opacity:0;transform:translate3d(0,100%,0);transition:transform .25s cubic-bezier(.22,1,.36,1),opacity .25s cubic-bezier(.22,1,.36,1)}
+  .cb-stk-num>span.is-on{opacity:1;transform:none}
+  .cb-stk-num>span.is-past{transform:translate3d(0,-100%,0)}
+  .cb-stk-of{font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim)}
+  .cb-stk-bar{display:block;width:min(14rem,80%);height:2px;background:var(--line-strong)}
+  .cb-stk-bar i{display:block;height:100%;background:var(--cb-accent-text,var(--accent));transform-origin:0 50%;transform:scaleX(calc(var(--k,1) / var(--n,1)));transition:transform .25s cubic-bezier(.22,1,.36,1)}
+  html.cbm-js .cb-stk.is-live .cb-steps-sticky>.cb-step{grid-template-columns:minmax(0,1fr);min-height:min(56vh,30rem);align-content:center;opacity:.38;transition:opacity .4s cubic-bezier(.65,0,.35,1)}
+  html.cbm-js .cb-stk.is-live .cb-steps-sticky>.cb-step:is(.is-on,:focus-within){opacity:1}
+  html.cbm-js .cb-stk.is-live .cb-steps-sticky .cb-step-n{display:none}
+}
+
+/* A page that stands still (print, thumbnails) shows every strip and wall in full. */
+@media print{.cb-hs-view{width:auto;margin:0;padding:0;overflow:visible}.cb-hs-track{width:auto;flex-wrap:wrap}.cb-cmp-range,.cb-cmp-handle{display:none!important}}
+
+/* ======================================================================================== */
+/* Aesthetics batch (release 7): two settings of the warm serif, a pinned split opening, a    */
+/* rail of cards under moving words, a menu index, ways to pay held like a hand, tiles that   */
+/* open, photos that float beside a statement, a still wash behind the opening.               */
+/* ======================================================================================== */
+
+/* ---- Heading typefaces: the warm serif set light, with an italic word; or heavy and italic -- */
+.cbp .cb-h em{font-style:italic}
+.cbp-hf-fine :is(.cb-h,.cb h3,.cb-fact-value,.cb-pl-amount,.cb-stk-num,.cb-ft-value,.cb-sp-day,.cb-initials){font-weight:400;letter-spacing:-.012em}
+.cbp-hf-fine :is(.cb-h,.cb h3) em{font-weight:400;font-style:italic}
+.cbp-hf-noir :is(.cb-h,.cb-stk-num,.cb-fact-value,.cb-pl-amount,.cb-ft-value,.cb-initials){font-weight:900;font-style:italic;letter-spacing:-.02em}
+.cbp-hf-noir .cb h3{font-weight:900;font-style:italic;letter-spacing:-.01em}
+.cbp-hf-noir .cb-h em{font-style:normal;font-weight:400}
+
+/* ---- Opening: words beside a photo that stays put while the story scrolls past (S1) ------- */
+.cb-pinhero{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.6rem,4vw,3rem)}
+.cbp .cb-pinhero-pic{margin:0;overflow:hidden;border-radius:var(--cb-r-img);background:var(--cb-surface)}
+.cbp .cb-pinhero-pic :is(img,video,.cb-pic-empty){display:block;width:100%;height:auto;aspect-ratio:4/5;max-height:72vh;object-fit:cover;border-radius:0}
+.cbp .cb-pinhero .cb-hero-h{font-size:clamp(2.5rem,5vw,5rem);line-height:1;max-width:15ch}
+.cb-pinhero .cb-lead{max-width:34rem;font-size:clamp(1.06rem,1.4vw,1.2rem);line-height:1.6}
+.cb-pinhero-story{max-width:35rem;font-size:clamp(1.02rem,1.2vw,1.12rem);line-height:1.72}
+.cb-pinhero-story>p:first-child{font-family:var(--cb-head);font-size:clamp(1.3rem,2vw,1.62rem);line-height:1.4;letter-spacing:-.01em}
+.cb-pinhero-story p+p{margin-top:1.1em}
+@media (max-width:760px){
+  .cb-pinhero-words{display:contents}
+  .cb-pinhero-pic{order:1}
+  .cb-pinhero-story,.cb-pinhero-words>.cb-credits{order:2}
+}
+@media (min-width:761px){
+  .cb-pinhero:not(.cb-solo){grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2.5rem,6vw,6.5rem);align-items:start}
+  .cbp .cb-pinhero-pic :is(img,video,.cb-pic-empty){aspect-ratio:auto;height:min(calc(100vh - var(--header-h,0px) - 3rem),58rem);max-height:none}
+  .cb-pinhero:not(.cb-solo) .cb-pinhero-first{min-height:min(calc(100vh - var(--header-h,0px) - 3rem),58rem);display:flex;flex-direction:column;justify-content:center}
+  .cb-pinhero-story{margin-top:clamp(2rem,5vw,4rem);padding-bottom:clamp(1rem,6vh,5rem)}
+}
+
+/* ---- A rail of cards that travels sideways (S5 with M4), under a band of words (M6) ------- */
+.cb-rail-band{margin-bottom:clamp(.6rem,1.6vw,1.4rem)}
+.cb-rail-band .cb-mq-item{font-family:var(--cb-head);font-size:clamp(2.6rem,7vw,6.2rem);font-weight:600;line-height:1.08;letter-spacing:-.03em;color:var(--ink)}
+.cb-rail-band .cb-mq-item:nth-child(even){color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+.cbp-hf-noir .cb-rail-band .cb-mq-item{font-weight:900;font-style:italic}
+.cbp-hf-fine .cb-rail-band .cb-mq-item{font-weight:400}
+.cb-rail .cb-hs-view{scroll-snap-type:x mandatory}
+.cb-rail-card{position:relative;display:flex;flex-direction:column;flex:0 0 min(80vw,21rem);border-radius:calc(var(--cb-r) + .4rem);overflow:hidden;background:var(--cb-surface);color:var(--cb-surface-ink);--ink:var(--cb-surface-ink);--ink-dim:var(--cb-surface-dim);--cb-accent-text:var(--cb-surface-accent);--line:color-mix(in srgb,var(--cb-surface-ink) 14%,transparent);--line-strong:color-mix(in srgb,var(--cb-surface-ink) 30%,transparent)}
+.cb-rail-pic{margin:0;overflow:hidden}
+.cbp .cb-rail-pic :is(img,.cb-pic-empty){display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:0}
+.cb-rail-body{display:flex;flex-direction:column;gap:.3rem;flex:1;padding:1.05rem 1.25rem 1.2rem}
+.cb-rail-n{margin:0;font:600 .8rem/1 var(--cb-head);letter-spacing:.08em;color:var(--cb-accent-text,var(--accent));font-variant-numeric:tabular-nums}
+.cbp .cb .cb-rail-card h3.cb-svc-name{font-size:clamp(1.35rem,2vw,1.75rem);line-height:1.08;margin:.25rem 0 0}
+.cb-rail-meta{display:flex;flex-wrap:wrap;gap:.1rem .9rem;margin:.15rem 0 0;font-size:.95rem;font-variant-numeric:tabular-nums}
+.cb-rail-meta:empty{display:none}
+.cb-rail-meta .cb-time{color:var(--ink-dim)}
+.cb-rail-meta .cb-price{font-weight:650}
+.cb-rail-body .cb-svc-desc{margin-top:.3rem;font-size:.95rem;line-height:1.5;color:var(--ink-dim)}
+.cb-rail-body .cb-offer{margin:.2rem 0 0;font-size:.85rem;color:var(--ink-dim)}
+.cb-rail-body .cb-svc-links{margin:auto 0 0;padding-top:.5rem}
+.cb-rail-body .cb-svc-links .cb-link{display:inline-flex;align-items:center;min-height:max(2.75rem,44px)}
+.cb-rail-card.cb-solo{justify-content:flex-end;min-height:22rem}
+.cb-rail-still{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr));gap:1rem}
+@media (min-width:761px){
+  .cb-rail-card{flex-basis:clamp(17rem,23vw,21rem)}
+  .cbp .cb-rail .cb-rail-pic :is(img,.cb-pic-empty){aspect-ratio:auto;height:min(38vh,23rem)}
+}
+@media (prefers-reduced-motion:reduce){.cb-rail-band{display:none}}
+html:not(.cbm-js) .cb-rail-band{display:none}
+
+/* ---- Menu index (S6): the groups stay beside the list, the one being read marked ---------- */
+.cb-mbi{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.2rem,3vw,2rem)}
+.cb-mbi-nav{min-width:0}
+.cb-mbi-nav ol{list-style:none;margin:0;padding:0 0 .2rem;display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none}
+.cb-mbi-nav a{position:relative;display:inline-flex;align-items:center;gap:.6rem;min-height:max(2.75rem,44px);padding:.4rem 1rem;border:1.5px solid var(--line-strong);border-radius:99px;color:inherit;text-decoration:none;white-space:nowrap;font-weight:600}
+.cb-mbi-nav a[aria-current=true]{background:var(--accent);border-color:var(--accent);color:var(--cb-on-accent)}
+.cb-mbi-count{font-size:.75rem;font-weight:600;font-variant-numeric:tabular-nums}
+.cb-mbi-bar{display:none}
+.cb-mbi-list{display:grid;gap:clamp(2rem,5vw,3.5rem);min-width:0}
+.cbp .cb .cb-mbi h3.cb-mb-group{font-size:clamp(1.7rem,3vw,2.5rem);scroll-margin-top:calc(var(--header-h,0px) + 1.5rem)}
+.cb-mb-time{flex:none;white-space:nowrap;color:var(--ink-dim);font-size:.92rem;font-variant-numeric:tabular-nums}
+.cb-mbi-row>details>summary{list-style:none;cursor:pointer;min-height:max(2.75rem,44px);align-items:center}
+.cb-mbi-row>details>summary::-webkit-details-marker{display:none}
+.cb-mbi-row>details>summary::after{content:"+";flex:none;display:grid;place-items:center;width:1.7rem;height:1.7rem;margin-left:.1rem;border:1px solid var(--line-strong);border-radius:50%;font-size:1rem;line-height:1;font-weight:500}
+.cb-mbi-row>details[open]>summary::after{content:"\2212"}
+.cb-mbi-row>details>summary:focus-visible{outline:3px solid var(--cb-accent-text,var(--accent));outline-offset:4px;border-radius:4px}
+.cb-mbi-row .cb-mb-desc{margin:.45rem 2.4rem .3rem 0}
+@media (max-width:760px){.cb-mbi .cb-mb-line{flex-wrap:wrap;gap:.15rem .7rem}.cb-mbi .cb-mb-line>i{display:none}.cb-mbi .cb-mb-name{flex:1 1 9rem}}
+@media (min-width:761px){
+  .cb-mbi{grid-template-columns:minmax(12rem,.6fr) minmax(0,1.4fr);gap:clamp(2rem,6vw,6rem);align-items:start}
+  .cb-mbi-nav{position:sticky;top:calc(var(--header-h,0px) + 2rem)}
+  .cb-mbi-nav ol{display:grid;gap:0;overflow:visible;border-top:1px solid var(--line-strong)}
+  .cb-mbi-nav a{display:flex;justify-content:space-between;border:0;border-bottom:1px solid var(--line-strong);border-radius:0;padding:.85rem 0;min-height:3.3rem;background:none;font-family:var(--cb-head);font-size:clamp(1.3rem,2vw,1.85rem);font-weight:600;letter-spacing:-.01em;color:var(--ink-dim)}
+  .cb-mbi-nav a[aria-current=true]{background:none;color:var(--ink)}
+  .cb-mbi-nav a::before{content:"";position:absolute;left:0;top:50%;width:1.1rem;height:2px;background:var(--cb-accent-text,var(--accent));transform:scaleX(0);transform-origin:0 50%}
+  .cb-mbi-nav a[aria-current=true]::before{transform:none}
+  .cb-mbi-nav a[aria-current=true] .cb-mbi-name{transform:translate3d(1.6rem,0,0)}
+  .cb-mbi-count{font-family:var(--font-body,inherit);font-size:.8rem}
+  .cb-mbi-bar{display:block;height:2px;margin-top:1.3rem;background:var(--line-strong)}
+  .cb-mbi-bar i{display:block;height:100%;background:var(--cb-accent-text,var(--accent));transform-origin:0 50%;transform:scaleX(calc(var(--k,1) / var(--n,1)))}
+  .cb-mbi-name{display:inline-block}
+}
+
+/* ---- Ways to pay held like a hand (S12): they spread into a row as the section arrives ---- */
+/* Each card is solid, so cards held over each other never show through. */
+.cb-pl-fan>.cb-pl-item:not(.is-popular){background:var(--bg-0,#fff)}
+@media (min-width:761px){
+  .cb-pl-fan{grid-template-columns:repeat(var(--n,3),minmax(0,1fr))}
+  .cb-pl-fan>.cb-pl-item.is-popular{z-index:2}
+}
+
+/* ---- Tiles that open (S4): the name on the photo; price, time and words on a panel -------- */
+.cb-tl-meta{display:flex;flex-wrap:wrap;gap:.1rem .8rem;margin:0;font-size:.92rem;font-weight:650;font-variant-numeric:tabular-nums}
+.cb-tl-meta .cb-tl-time{color:var(--ink-dim);font-weight:500}
+.cbp .cb .cb-tl-open .cb-tl-item.has-panel{justify-content:space-between;min-height:15rem}
+/* On a phone, one tile to a row, tall enough that the photo shows above its open panel. */
+@media (max-width:760px){
+  .cb-tl-open{grid-template-columns:minmax(0,1fr)}
+  .cbp .cb-tl.cb-tl-open>:nth-child(n){grid-column:auto}
+  .cbp .cb .cb-tl-open .cb-tl-item.has-panel{min-height:19rem}
+  .cbp .cb .cb-tl-open .cb-tl-item.has-value:not(.has-pic){min-height:0}
+}
+/* Its own pattern on a wide screen: the first tile large, the second wide, the rest one cell each,
+   and the last row always filled (the last one or two tiles widen to fit). */
+@media (min-width:761px){
+  .cb-tl-open{grid-auto-rows:minmax(14rem,auto)}
+  .cb-tl-open>:first-child{grid-column:span 2;grid-row:span 2}
+  .cb-tl-open>:nth-child(2){grid-column:span 2}
+  .cb-tl-open:has(>:last-child:nth-child(4n+2):not(:nth-child(2)))>:nth-last-child(-n+2){grid-column:span 2}
+  .cb-tl-open>:last-child:nth-child(4n+3){grid-column:span 2}
+  .cb-tl-open>:last-child:nth-child(4n+1):not(:first-child){grid-column:span 4}
+  .cb-tl-open>:only-child{grid-column:span 4}
+}
+.cb-tl-open .cb-tl-item.has-panel .cb-tl-pic::after{background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0) 42%,rgba(0,0,0,0) 62%,rgba(0,0,0,.3))}
+/* The panel is in the page's own colour (light on a light palette, dark on a dark one), with the
+   page's own text colours, so it belongs to the palette instead of darkening it. Solid, so its
+   words read the same whatever the photo behind it. */
+.cb-tl-panel{display:grid;gap:.35rem;padding:clamp(.9rem,1.8vw,1.2rem) clamp(1rem,2vw,1.4rem);background:var(--bg-0,#ffffff);color:var(--cb-page-ink,#16181d);--ink:var(--cb-page-ink,#16181d);--ink-dim:var(--cb-page-dim,#3d4250);--cb-accent-text:var(--cb-page-accent,var(--cb-page-ink,#16181d));text-shadow:none;box-shadow:0 -1px 0 color-mix(in srgb,var(--cb-page-ink,#16181d) 8%,transparent)}
+.cb-tl-panel .cb-tl-meta .cb-tl-price{color:var(--cb-page-accent,var(--cb-page-ink,#16181d))}
+.cb-tl-panel .cb-tl-text{color:var(--cb-page-dim,#3d4250)}
+.cb-tl-panel .cb-link{display:inline-flex;align-items:center;min-height:max(2.75rem,44px);color:var(--cb-page-accent,var(--cb-page-ink,#16181d));text-decoration-color:currentColor}
+.cb-tl-item.has-panel:focus-visible{outline:3px solid var(--cb-accent-text,var(--accent));outline-offset:3px}
+
+/* ---- Photos that float beside a statement (S3 with M5) ------------------------------------- */
+.cb-statement-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.5rem,4vw,2.5rem)}
+.cb-statement-wrap .cb-statement{min-height:0}
+.cb-float{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;align-items:start}
+.cbp .cb-float-pic{margin:0}
+.cbp .cb-float-pic :is(img,.cb-pic-empty){display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:clamp(1rem,2vw,1.6rem);box-shadow:0 28px 60px -34px color-mix(in srgb,var(--ink) 60%,transparent)}
+.cb-float>.cb-float-pic:nth-child(2){margin-top:1.8rem}
+.cb-float-more{display:contents}
+/* On a phone the photos come first: when the web fonts arrive and the words change height, nothing
+   visible below them moves (no layout shift). */
+@media (max-width:760px){.cb-statement-wrap.has-float .cb-float{order:-1}}
+@media (min-width:761px){
+  .cb-statement-wrap.has-float{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center;min-height:min(80vh,54rem)}
+  .cbp .cb-statement-wrap.has-float .cb-hero-h{font-size:clamp(2.8rem,6.6vw,7.2rem);max-width:12ch}
+  .cb-float:not(.cb-float-edit){position:relative;display:block;height:min(72vh,44rem)}
+  .cb-float:not(.cb-float-edit)>.cb-float-pic{position:absolute;margin:0}
+  .cb-float:not(.cb-float-edit)>.cb-float-pic:nth-child(1){right:0;top:0;width:70%}
+  .cb-float:not(.cb-float-edit)>.cb-float-pic:nth-child(2){left:-4%;top:40%;width:48%;z-index:2}
+  .cb-float:not(.cb-float-edit)>.cb-float-pic:nth-child(3){right:4%;bottom:-2%;width:42%;z-index:1}
+  .cbp .cb-float:not(.cb-float-edit)>.cb-float-pic:nth-child(2) img{aspect-ratio:1}
+  .cbp .cb-float:not(.cb-float-edit)>.cb-float-pic:nth-child(3) img{aspect-ratio:5/4}
+}
+
+/* ---- Accreditation row: an entry may link to the public register ---------------------------- */
+.cb-creds-row>li{display:flex;flex-direction:column;align-items:center;gap:.15rem}
+.cb-creds-link{display:inline-flex;align-items:center;min-height:max(2.75rem,44px);font-family:var(--font-body,inherit);font-size:.88rem;font-weight:500}
+.cb-creds-list>li .cb-creds-link,.cb-creds-badges>li .cb-creds-link{margin-left:.6rem}
+@media (max-width:760px){.cb-creds-row>li{align-items:flex-start}}
+
+/* ---- A still wash behind the opening, from peach to the page's colour ------------------------ */
+.cbm-bd-dawn>i{inset:0;background:radial-gradient(70% 90% at 10% 12%,color-mix(in srgb,#ffc4a3 55%,transparent),transparent 72%),radial-gradient(65% 85% at 94% 82%,color-mix(in srgb,var(--bd-a) 26%,transparent),transparent 70%),linear-gradient(118deg,color-mix(in srgb,#ffe0cf 45%,transparent),color-mix(in srgb,var(--bd-a) 12%,transparent))}
+
+/* ---- Movement for the parts above --------------------------------------------------------- */
+@keyframes cbs-slow-zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+@keyframes cbs-float-slow{to{transform:translate3d(0,40px,0)}}
+@keyframes cbs-float-fast{to{transform:translate3d(0,-40px,0)}}
+@keyframes cbs-wipe-off{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@keyframes cbs-wipe-zoom{from{transform:scale(1.08)}to{transform:none}}
+@media screen and (prefers-reduced-motion:no-preference){
+  /* The edge to edge opening, revealed by a sheet of the deep colour drawn off to the right (M8),
+     when the page's sections wipe in too. The photo itself is painted from the first frame. */
+  html.cbm-js .cbm[data-m-scroll=wipe]:not([data-m-edit]) .cb-reveal-pic{animation:none}
+  html.cbm-js .cbm[data-m-scroll=wipe]:not([data-m-edit]) .cb-reveal-in{animation:cbs-wipe-zoom 1.5s cubic-bezier(.22,1,.36,1) .1s both}
+  html.cbm-js .cbm[data-m-scroll=wipe]:not([data-m-edit]) .cb-reveal-pic::after{content:"";position:absolute;inset:-1px;z-index:2;background:var(--cb-deep);transform-origin:100% 50%;animation:cbs-wipe-off .9s cubic-bezier(.65,0,.35,1) .2s both;pointer-events:none}
+  /* Photos beside a statement, at their own depth (M5): 0.85, 1 and 1.15 of the scroll. */
+  @supports (animation-timeline:scroll()){
+    html.cbm-js .cbm:not([data-m-edit]) .cb-float:not(.cb-float-edit)>.cb-float-pic:nth-child(1) img{animation:cbs-float-slow linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+    html.cbm-js .cbm:not([data-m-edit]) .cb-float:not(.cb-float-edit)>.cb-float-pic:nth-child(3) img{animation:cbs-float-fast linear both;animation-timeline:scroll(root);animation-range:0 100vh}
+  }
+  /* Menu index: the marker slides to the group being read. */
+  .cb-mbi-nav a::before,.cb-mbi-name,.cb-mbi-bar i{transition:transform .4s cubic-bezier(.22,1,.36,1)}
+  .cb-mbi-nav a{transition:color .3s,background-color .3s,border-color .3s}
+  .cb-mbi-row>details[open] .cb-mb-desc{animation:cbs-soft-open .3s cubic-bezier(.22,1,.36,1)}
+  /* Tiles that open: pointed at or focused, the panel slides up and the photo eases in. A finger,
+     and the editor, keep the panel open. */
+  /* At rest the panel's first line, the time and the price, peeks up from the foot of the tile,
+     so a mouse user sees what each costs before pointing at it; pointed at, the rest slides up. */
+  @media (hover:hover) and (pointer:fine) and (min-width:761px){
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel .cb-tl-panel{transform:translate3d(0,calc(100% - var(--cb-tl-peek,2.85rem)),0);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel .cb-tl-panel>:not(.cb-tl-meta){opacity:0;transition:opacity .35s ease}
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel:is(:hover,:focus-within,:focus-visible) .cb-tl-panel>*{opacity:1}
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel:is(:hover,:focus-within,:focus-visible) .cb-tl-panel{transform:none}
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel .cb-tl-pic img{transition:transform .9s cubic-bezier(.22,1,.36,1)}
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel:is(:hover,:focus-within) .cb-tl-pic img{transform:scale(1.06)}
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel::before{content:"+";position:absolute;right:.9rem;top:.9rem;z-index:3;display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:rgba(255,255,255,.9);color:#16181d;font:500 1.2rem/1 var(--font-body,inherit);transition:transform .4s cubic-bezier(.22,1,.36,1)}
+    html.cbm-js .cbp:not([data-m-edit]) .cb-tl-open .cb-tl-item.has-panel:is(:hover,:focus-within)::before{transform:rotate(45deg)}
+  }
+}
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  /* The opening's photo stays put while the story scrolls past, and eases in by 8% (M14). */
+  .cb-pinhero:not(.cb-solo) .cb-pinhero-pic{position:sticky;top:calc(var(--header-h,0px) + 1.5rem)}
+  @supports (animation-timeline:view()){html.cbm-js .cbm:not([data-m-edit]) .cb-pinhero-pic img{animation:cbs-slow-zoom linear both;animation-timeline:view()}}
+  /* Ways to pay, held like a hand until the section comes into view (--p from the script). */
+  html.cbm-js .cbm .cb-pl-fan.is-live>.cb-pl-item{transform-origin:50% 130%;transform:translate3d(calc((1 - var(--p,0)) * var(--fi,0) * (-100% - clamp(1rem,2vw,1.5rem))),calc((1 - var(--p,0)) * (var(--fa,0) * 1.6rem + 2.4rem) - var(--p,0) * var(--lift,0rem)),0) rotate(calc((1 - var(--p,0)) * var(--fi,0) * 8deg)) perspective(1000px) rotateX(var(--lean-x,0deg)) rotateY(var(--lean-y,0deg));will-change:transform}
+  html.cbm-js .cbm .cb-pl-fan.is-live>.cb-pl-item.is-popular{--lift:.8rem}
+}
+
+/* ==== Doctor clinics batch (release 7): quick actions, team rail, specialities, regulator ===== */
+/* A clean sans set tight, with one warm serif italic phrase (the heading's *words*). */
+.cbp-hf-mixed :is(.cb-h,.cb h3){font-weight:600;letter-spacing:-.03em}
+.cbp-hf-mixed .cb-h em,.cbp-hf-mixed .cb-act-label em{font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+
+/* What to do when closed (NHS 111 and 999), set apart from the rest. */
+.cb-closed{margin:1.1rem 0 0;padding:.8rem 1rem;border-left:3px solid var(--cb-accent-text,var(--accent));border-radius:0 var(--cb-r) var(--cb-r) 0;background:color-mix(in srgb,var(--accent) 7%,transparent);font-size:.96rem;line-height:1.5;max-width:40rem}
+.cb-closed p{margin:0}
+.cb-closed a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.18em}
+.cb-hero-now{margin:1.1rem 0 0;justify-self:start;align-self:start;width:max-content;max-width:100%}
+/* The heading's marked word, per typeface: the warm serif in its own light italic (the bold
+   italic is not loaded, and would come out heavy); the geometric sans has no italic, so its
+   word is set upright in the accent colour instead of a slanted copy. */
+.cbp-hf-modern :is(.cb-h,.cb h3) em{font-weight:400}
+.cbp-hf-grotesk .cb-h em{font-style:normal;color:var(--cb-accent-text,var(--accent))}
+/* The rounded face has no italic of its own: a marked word is set in the accent instead of a
+   slanted copy of the letters. */
+.cbp-hf-friendly .cb-h em{font-style:normal;color:var(--cb-accent-text,var(--accent))}
+.cb-bg-dark.cbp-hf-friendly .cb-h em,.cbp-hf-friendly .cb-bg-dark .cb-h em,.cbp-hf-friendly .cb-bg-accent .cb-h em{color:inherit}
+.cb-bg-dark.cbp-hf-grotesk .cb-h em,.cbp-hf-grotesk .cb-bg-dark .cb-h em,.cbp-hf-grotesk .cb-bg-accent .cb-h em{color:inherit}
+
+/* ---- Quick actions over an Open now card (C1's opening) ------------------------------------ */
+/* The first screen must hold the heading, Open now and the actions: less room above it. */
+.cbp .cb-hero--actions{padding-top:clamp(1.25rem,4vw,3.5rem)}
+.cb-act{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.1rem,3vw,1.6rem)}
+.cbp .cb-act-words .cb-hero-h{font-size:clamp(2.55rem,6.4vw,5.9rem);line-height:.98;letter-spacing:-.035em;max-width:12.5ch}
+.cbp-hf-mixed .cb-act-words .cb-hero-h em{letter-spacing:-.02em}
+.cb-act-words .cb-lead{max-width:34rem;font-size:clamp(1.06rem,1.35vw,1.2rem);line-height:1.6}
+.cbp .cb-act-pic{margin:0;border-radius:calc(var(--cb-r) + .7rem);overflow:hidden;background:var(--cb-surface)}
+.cbp .cb-act-pic :is(img,video,.cb-pic-empty){display:block;width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;border-radius:0}
+.cb-act-panel{position:relative;z-index:1;border-radius:calc(var(--cb-r) + .7rem);overflow:hidden;background:var(--bg-0,#fff);color:var(--cb-page-ink,var(--ink));box-shadow:0 40px 70px -40px color-mix(in srgb,var(--cb-deep) 60%,transparent),0 0 0 1px color-mix(in srgb,var(--cb-page-ink,#16181d) 9%,transparent)}
+.cb-act-card{display:grid;gap:.45rem;padding:clamp(1rem,2vw,1.3rem) clamp(1.1rem,2.2vw,1.5rem);background:var(--cb-deep);color:var(--cb-on-deep);--cb-accent-text:var(--cb-on-deep)}
+.cb-act-card .cb-opennow{justify-self:start;margin:0;font-size:1.05rem;background:color-mix(in srgb,var(--cb-on-deep) 12%,transparent)}
+.cb-act-card .cb-opennow.is-open::before{background:#4fd08a;box-shadow:0 0 0 .22rem color-mix(in srgb,#4fd08a 30%,transparent)}
+.cb-act-hours{margin:0;font-size:.92rem;line-height:1.5;color:color-mix(in srgb,var(--cb-on-deep) 84%,var(--cb-deep))}
+.cb-act-card .cb-closed{margin:.2rem 0 0;padding:.55rem .8rem;font-size:.9rem;border-left-color:currentColor;background:color-mix(in srgb,var(--cb-on-deep) 9%,transparent);color:var(--cb-on-deep)}
+.cb-act-list{list-style:none;margin:0;padding:.55rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem}
+.cb-act-li{min-width:0;margin:0}
+.cbp .cb-act-item{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;align-content:end;column-gap:.6rem;row-gap:.2rem;height:100%;min-height:6.4rem;padding:1rem 1.05rem;border-radius:var(--cb-r);background:var(--cb-surface);color:var(--cb-surface-ink);text-decoration:none}
+.cb-act-label{grid-column:1;font:600 clamp(1.02rem,1.3vw,1.18rem)/1.18 var(--cb-head);letter-spacing:-.015em}
+.cb-act-detail{grid-column:1;font-size:.86rem;line-height:1.35;color:var(--cb-surface-dim)}
+.cb-act-go{grid-column:2;grid-row:1 / span 2;align-self:end;display:grid;place-items:center;width:2.3rem;height:2.3rem;border-radius:50%;background:color-mix(in srgb,var(--cb-surface-ink) 9%,transparent)}
+.cb-act-go::before{content:"";width:.5rem;height:.5rem;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:translateX(-.1rem) rotate(45deg)}
+/* The first action, usually Book, is the one accent on the screen. */
+.cbp .cb-act-li:first-child .cb-act-item{background:var(--accent);color:var(--cb-on-accent)}
+.cb-act-li:first-child .cb-act-detail{color:color-mix(in srgb,var(--cb-on-accent) 86%,var(--accent))}
+.cb-act-li:first-child .cb-act-go{background:color-mix(in srgb,var(--cb-on-accent) 18%,transparent)}
+.cbp .cb-act-item:focus-visible{outline:3px solid var(--cb-accent-text,var(--accent));outline-offset:3px}
+.cb-act-li:only-child,.cb-act-li:last-child:nth-child(odd){grid-column:1 / -1}
+.cb-act.cb-solo .cb-act-panel{max-width:44rem}
+@media (max-width:760px){
+  /* A phone's first screen: the heading, whether it is open, and the actions; the photo after. */
+  .cb-act-words{order:1}.cb-act-panel{order:2}.cb-act-pic{order:3}
+  .cbp .cb-act-item{min-height:5.4rem;padding:.85rem .9rem}
+  .cb-act-go{width:2rem;height:2rem}
+  .cbp .cb-act-pic :is(img,video,.cb-pic-empty){aspect-ratio:16/10}
+}
+@media (min-width:761px){
+  .cb-act:not(.cb-solo){grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto auto;column-gap:clamp(1rem,2vw,1.6rem);row-gap:0;align-items:start}
+  .cb-act:not(.cb-solo) .cb-act-words{grid-column:1 / 7;grid-row:1;padding:clamp(.5rem,3vw,2.5rem) 0 clamp(1.6rem,3vw,2.6rem)}
+  .cb-act:not(.cb-solo) .cb-act-pic{grid-column:7 / 13;grid-row:1 / 3;align-self:stretch;min-height:clamp(30rem,60vh,42rem)}
+  .cbp .cb-act:not(.cb-solo) .cb-act-pic :is(img,video,.cb-pic-empty){aspect-ratio:auto}
+  /* The panel sits over the photo's lower left corner. */
+  .cb-act:not(.cb-solo) .cb-act-panel{grid-column:1 / 10;grid-row:2;align-self:end;margin-bottom:clamp(1rem,3vw,2.4rem)}
+  .cb-act:not(.cb-solo) .cb-act-panel{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
+  .cb-act:not(.cb-solo) .cb-act-card{align-content:start}
+  .cb-act:not(.cb-solo) .cb-act-list{padding:.6rem}
+}
+
+/* ---- The team as cards travelling sideways (S9 as M4) --------------------------------------- */
+.cb-team-railtrack{display:flex}
+.cb-team-card{display:flex;flex-direction:column;flex:0 0 min(78vw,18.5rem);padding:clamp(.8rem,1.4vw,1rem);border-radius:calc(var(--cb-r) + .5rem);background:var(--cb-surface);color:var(--cb-surface-ink);--ink:var(--cb-surface-ink);--ink-dim:var(--cb-surface-dim);--cb-accent-text:var(--cb-surface-accent);--line:color-mix(in srgb,var(--cb-surface-ink) 14%,transparent)}
+.cb-bg-tint .cb-team-card{background:var(--bg-0,#fff);color:var(--cb-page-ink,var(--cb-surface-ink));--ink:var(--cb-page-ink,var(--cb-surface-ink));--ink-dim:var(--cb-page-dim,var(--cb-surface-dim));--cb-accent-text:var(--cb-page-accent,var(--cb-surface-accent))}
+.cbp .cb-team-card .cb-portrait{margin:0 0 1rem}
+.cbp .cb-team-card .cb-initials{aspect-ratio:5/4;border-radius:calc(var(--cb-r) + .2rem)}
+.cbp .cb-bg-tint .cb-team-card .cb-initials{background:radial-gradient(120% 95% at 18% 8%,color-mix(in srgb,var(--accent) 22%,var(--cb-surface)),var(--cb-surface) 72%)}
+.cb-team-card .cb-person{display:flex;flex-direction:column;flex:1;padding:0 .3rem .2rem}
+.cb-team-card .cb-person-book{margin-top:auto;padding-top:1rem}
+.cb-team-card .cb-person-quals{font-size:.88rem;color:var(--ink-dim)}
+@media (min-width:761px){.cb-team-card{flex-basis:clamp(15.5rem,21vw,18.5rem)}}
+
+/* A tile's link, and a service's own Book link, are full touch targets (44px), as everywhere else. */
+.cbp .cb-tl-item .cb-link,.cbp .cb-svc-links .cb-link{display:inline-flex;align-items:center;min-height:max(2.75rem,44px)}
+/* Words over a bright photo on a small tile: on a phone the shade starts higher, so white words
+   stay readable over white rooms. */
+@media (max-width:760px){.cb-tl-item.has-pic:not(.has-panel) .cb-tl-pic::after{background:linear-gradient(180deg,rgba(0,0,0,.16),rgba(0,0,0,.6) 36%,rgba(0,0,0,.86))}}
+
+/* ---- Specialities on the rail: who you will see, the usual wait and the fee ----------------- */
+.cb-rail-facts{display:grid;margin:.7rem 0 .25rem;border-top:1px solid var(--line)}
+.cb-rail-facts>div{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.5rem 0;border-bottom:1px solid var(--line);font-size:.93rem}
+.cb-rail-facts dt{color:var(--ink-dim)}
+.cb-rail-facts dd{margin:0;font-weight:650;text-align:right;font-variant-numeric:tabular-nums}
+.cbp .cb-rail-card.has-facts .cb-rail-pic :is(img,.cb-pic-empty){aspect-ratio:16/10}
+@media (min-width:761px){.cbp .cb-rail .cb-rail-card.has-facts .cb-rail-pic :is(img,.cb-pic-empty){height:min(26vh,14rem)}}
+
+/* ---- Regulator and registration ------------------------------------------------------------- */
+.cb-reg{display:grid;gap:clamp(1.6rem,4vw,3.5rem)}
+@media (min-width:761px){.cb-reg{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}}
+.cb-reg-cqc{margin-top:1.4rem;padding:clamp(1.1rem,2vw,1.5rem);border-radius:calc(var(--cb-r) + .4rem);background:var(--cb-deep);color:var(--cb-on-deep);--cb-accent-text:var(--cb-on-deep)}
+.cb-reg-label{margin:0 0 .6rem;font-size:.8rem;font-weight:650;letter-spacing:.09em;text-transform:uppercase}
+.cb-reg-rating{margin:0;display:grid;gap:.15rem}
+.cb-reg-small{font-size:.92rem}
+.cb-reg-word{font:600 clamp(2.1rem,4.2vw,3.2rem)/1 var(--cb-head);letter-spacing:-.025em}
+.cb-reg-date{margin:.45rem 0 .2rem;font-size:.93rem}
+.cbp .cb-reg-cqc .cb-link{color:inherit;display:inline-flex;align-items:center;min-height:max(2.75rem,44px)}
+.cb-reg-widget:empty{display:none}
+.cb-reg-cqc.is-drawn{padding:0;background:none;color:inherit}
+.cb-reg-cqc.is-drawn .cb-reg-line{display:none}
+.cb-reg-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.cb-reg-person{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.2rem 1.2rem;padding:.85rem 0;border-bottom:1px solid var(--line)}
+.cb-reg-name{font:600 clamp(1.02rem,1.4vw,1.18rem)/1.3 var(--cb-head);letter-spacing:-.01em}
+.cb-reg-num{font-variant-numeric:tabular-nums;color:var(--ink-dim)}
+.cb-reg-body{font-size:.8rem;font-weight:650;letter-spacing:.06em}
+.cb-reg-checks{display:flex;flex-wrap:wrap;gap:0 1.4rem;margin:.8rem 0 0}
+.cbp .cb-reg-check{display:inline-flex;align-items:center;min-height:max(2.75rem,44px)}
+.cb-reg-nocqc .cb-reg-side{grid-column:auto}
+/* One line: the rating set across the page on a slim band. */
+.cb-reg-oneline{display:grid;gap:.6rem}
+.cb-reg-title{margin:0;font:600 1.05rem/1.3 var(--cb-head)}
+.cb-reg-oneline .cb-reg-cqc{margin:0}
+@media (min-width:761px){
+  .cb-reg-oneline{grid-template-columns:auto minmax(0,1fr);align-items:center;gap:2rem}
+  .cb-reg-oneline .cb-reg-cqc{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 2rem;padding:.9rem 1.4rem}
+  .cb-reg-oneline .cb-reg-label{margin:0}
+  .cb-reg-oneline .cb-reg-line{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem 1.6rem}
+  .cb-reg-oneline .cb-reg-rating{display:flex;align-items:baseline;gap:.6rem}
+  .cb-reg-oneline .cb-reg-word{font-size:1.5rem}
+  .cb-reg-oneline .cb-reg-date{margin:0}
+}
+
+@media screen and (prefers-reduced-motion:no-preference){
+  /* The quick actions rise over the photo after the heading, one after another; the Open now dot
+     beats three times, then rests. Transforms only, so everything is painted from the first frame. */
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-panel{animation:cbs-act-rise 1.1s cubic-bezier(.22,1,.36,1) .2s both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-li{animation:cbs-act-rise .8s cubic-bezier(.22,1,.36,1) both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-li:nth-child(1){animation-delay:.42s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-li:nth-child(2){animation-delay:.5s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-li:nth-child(3){animation-delay:.58s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-li:nth-child(4){animation-delay:.66s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-pic :is(img,video){animation:cbs-act-pic 1.4s cubic-bezier(.22,1,.36,1) both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-act-now.is-open::before{animation:cbs-act-beat 1.4s ease-out .9s 3}
+  .cbp:not([data-m-edit]) .cb-act-item{transition:transform .22s cubic-bezier(.22,1,.36,1),background-color .22s}
+  .cbp:not([data-m-edit]) .cb-act-go::before{transition:transform .22s cubic-bezier(.22,1,.36,1)}
+  @media (hover:hover){
+    .cbp:not([data-m-edit]) .cb-act-item:hover{transform:translate3d(0,-3px,0)}
+    .cbp:not([data-m-edit]) .cb-act-item:hover .cb-act-go::before{transform:translateX(.05rem) rotate(45deg)}
+  }
+}
+@keyframes cbs-act-rise{from{transform:translate3d(0,36px,0)}to{transform:none}}
+@keyframes cbs-act-pic{from{transform:scale(1.08)}to{transform:none}}
+@keyframes cbs-act-beat{0%,100%{transform:none}45%{transform:scale(1.55)}}
+
+/* ======================================================================================== */
+/* Consultant doctors batch (release 7): the warm serif in light italic, an opening whose     */
+/* photo opens from a circle, a portrait set in type, a line drawn beside steps (a heart      */
+/* trace or a sound wave), numbers that beat once, typical recovery on rail cards, and a list */
+/* of conditions under a pinned photo.                                                        */
+/* ======================================================================================== */
+.cbp-hf-lyric :is(.cb-h,.cb h3,.cb-fact-value,.cb-pl-amount,.cb-stk-num,.cb-ft-value,.cb-sp-day,.cb-initials,.cb-mono-letters){font-weight:400;font-style:italic;letter-spacing:-.015em}
+.cbp-hf-lyric .cb-h em{font-style:normal;font-weight:400}
+
+/* The portrait set in type: the letters of a name, large, in an arch, a circle or a square. */
+.cb-prt{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.6rem,4vw,3rem);align-items:center}
+.cbp .cb-prt-pic{position:relative;margin:0;width:100%;max-width:26rem;aspect-ratio:4/5;overflow:hidden;background:var(--cb-surface);color:var(--cb-surface-accent,var(--accent));border-radius:var(--cb-r-img)}
+.cbp .cb-frame-arch .cb-prt-pic{border-radius:999px 999px var(--cb-r-img) var(--cb-r-img)}
+.cbp .cb-frame-circle .cb-prt-pic{aspect-ratio:1;border-radius:50%}
+.cbp .cb-frame-square .cb-prt-pic{aspect-ratio:1;border-radius:0}
+.cbp .cb-prt-pic img{display:block;width:100%;height:100%;object-fit:cover;border-radius:0}
+.cb-mono{position:absolute;inset:0;display:grid;place-items:center;border-radius:inherit}
+.cb-mono::after{content:"";position:absolute;inset:clamp(.7rem,2vw,1.3rem);border:1px solid currentColor;border-radius:inherit;opacity:.32;pointer-events:none}
+.cb-mono-add{position:absolute;left:50%;bottom:9%;transform:translateX(-50%);padding:.3rem .7rem;border-radius:999px;background:var(--cb-page-bg,#fff);color:var(--ink);font-size:.78rem;white-space:nowrap}
+.cb-mono-letters{font-family:var(--cb-head);font-size:clamp(5.5rem,15vw,12.5rem);font-weight:500;line-height:1;letter-spacing:-.045em;color:inherit}
+.cb-prt .cb-hero-h{font-size:clamp(2.5rem,5.4vw,5.2rem);line-height:1;max-width:14ch}
+.cb-prt .cb-lead{max-width:36rem;font-size:clamp(1.06rem,1.4vw,1.22rem);line-height:1.6}
+@media (min-width:761px){.cb-prt{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(2.5rem,6vw,6rem)}}
+@media (max-width:760px){.cbp .cb-prt-pic{max-width:15rem}.cbp .cb-frame-arch .cb-prt-pic{max-width:13rem}.cb-mono-letters{font-size:clamp(4.5rem,24vw,6.5rem)}}
+
+/* The aperture: a circle a little above the middle widens until the photo fills the width, as
+   the photo comes into view (the page's script sets --p). One number, --ap, scales the circle up
+   and the photo inside down by the same amount, so the photo itself never moves. Without
+   movement --ap stays 1: the photo, whole. The circle (--d across) covers the whole frame from
+   its centre at any shape of screen. */
+@property --ap{syntax:'<number>';inherits:true;initial-value:1}
+.cbp .cb-ap-pic{--h:clamp(22rem,74vh,54rem);--d:calc(max(100vw,var(--h)) * 1.82 + 4px);position:relative;width:100vw;margin:0 0 0 calc(50% - 50vw);height:var(--h);overflow:hidden}
+.cb-ap-ring{position:absolute;left:50%;top:38%;width:var(--d);height:var(--d);margin:calc(var(--d) / -2) 0 0 calc(var(--d) / -2);border-radius:50%;overflow:hidden;transform:scale(var(--ap))}
+.cb-ap-in{position:absolute;left:50%;top:50%;width:100vw;height:var(--h);margin:calc(var(--h) * -.38) 0 0 -50vw;transform-origin:50% 38%;transform:scale(calc(1 / var(--ap)))}
+.cbp .cb-ap-in :is(img,video,.cb-pic-empty){display:block;width:100%;height:100%;object-fit:cover;border-radius:0}
+@media (max-width:760px){.cbp .cb-ap-pic{--h:58vh}}
+/* Centred, the words sit above the middle of the circle, so the opening reads as one lens. */
+.cb-al-centre .cb-aperture .cb-reveal-words{margin-inline:auto}
+
+/* A line drawn beside the steps: a calm heart trace or a sound wave, with a faint copy of the
+   whole line behind it. The window around the drawn copy slides right while the line inside
+   slides back by as much, so the line appears from the left (transforms only). */
+.cb-trace{position:relative;display:block;height:clamp(2.2rem,4.6vw,3.2rem);overflow:hidden;color:var(--cb-accent-text,var(--accent))}
+.cb-trace-ghost,.cb-trace-win,.cb-trace-in{position:absolute;inset:0;display:block}
+.cb-trace-ghost{opacity:.2}
+.cb-trace-win{overflow:hidden}
+.cb-trace-svg{display:block;width:100%;height:100%;overflow:visible}
+.cb-trace-top{margin:0 0 clamp(1.6rem,4vw,2.6rem);max-width:46rem}
+.cb-stk-trace{width:100%;height:clamp(4.4rem,7.5vw,7rem)}
+.cb-stk-trace .cb-trace-svg path,.cb-trace-top .cb-trace-svg path{stroke-width:2.4}
+html.cbm-js .cb-stk.is-live .cb-trace-top{display:none}
+
+/* The same line under the opening's heading, drawn once from the left as the page opens. */
+.cb-trace-hero{width:min(40rem,100%);height:clamp(3.4rem,7vw,5.8rem);margin:clamp(.3rem,1.2vw,.9rem) 0 clamp(1rem,2.4vw,1.8rem)}
+.cb-hero--centred .cb-trace-hero{margin-inline:auto}
+.cb-trace-hero .cb-trace-svg path{stroke-width:2.6}
+.cb-trace-hero .cb-trace-ghost{opacity:.16}
+@keyframes cbs-trace-win{from{transform:translate3d(-100%,0,0)}to{transform:none}}
+@keyframes cbs-trace-in{from{transform:translate3d(100%,0,0)}to{transform:none}}
+
+/* Numbers that beat once, like a pulse, after counting up: set in the accent, and larger in a
+   band, so the beat is the first thing seen there. */
+.cb-factlist.cb-beat .cb-fact-value{color:var(--cb-accent-text,var(--accent))}
+.cb-factlist-band.cb-beat .cb-fact-value{font-size:clamp(3.6rem,9vw,8.4rem)}
+@keyframes cbs-beat{0%{transform:none}12%{transform:scale(1.09)}24%{transform:scale(.985)}36%{transform:scale(1.05)}60%,100%{transform:none}}
+
+/* A condition's card: typical recovery first, large. */
+.cbp .cb-rail-facts .cb-rail-rec{display:grid;justify-content:stretch;gap:.15rem;padding:.7rem 0 .8rem}
+.cb-rail-rec dt{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.cbp .cb-rail-facts .cb-rail-rec dd{text-align:left;font-family:var(--cb-head);font-size:clamp(1.6rem,2.7vw,2.35rem);font-weight:600;line-height:1.05;letter-spacing:-.02em;color:var(--cb-accent-text,var(--accent))}
+/* And marked on a short track of the year (or two): four quarters, the usual months in the
+   accent, so the cards can be compared at a glance as they pass. */
+.cb-rec{position:relative;display:block;height:.6rem;margin:.8rem 0 1.45rem;border-radius:999px;background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--ink) 14%,transparent) 0 calc(25% - 3px),transparent calc(25% - 3px) 25%)}
+.cb-rec i{position:absolute;top:0;bottom:0;left:calc(var(--a) * 100%);width:max(.5rem,calc((var(--b) - var(--a)) * 100%));border-radius:999px;background:var(--accent)}
+.cb-rec::before,.cb-rec::after{position:absolute;top:calc(100% + .45rem);font-family:var(--cb-body-font,inherit);font-size:.72rem;font-weight:500;line-height:1;letter-spacing:.02em;color:var(--ink-dim)}
+.cb-rec::before{content:"0";left:0}
+.cb-rec::after{content:attr(data-end);right:0}
+@media (min-width:761px){.cb-rail-card:has(.cb-rec){flex-basis:clamp(18rem,25vw,23rem)}}
+
+/* A list in the pinned opening's story: set as type between fine lines, each name large. */
+.cb-pinhero-story ul{list-style:none;margin:clamp(1.4rem,3vw,2.2rem) 0 0;padding:0;border-top:1px solid var(--line-strong)}
+.cb-pinhero-story li{margin:0;padding:clamp(1rem,2.4vw,1.5rem) 0;border-bottom:1px solid var(--line-strong)}
+.cb-pinhero-story li strong{display:block;margin-bottom:.3em;font-family:var(--cb-head);font-size:clamp(1.35rem,2.2vw,1.85rem);font-weight:500;line-height:1.15;letter-spacing:-.01em}
+.cbp-hf-lyric .cb-pinhero-story li strong,.cbp-hf-fine .cb-pinhero-story li strong{font-weight:400}
+.cbp-hf-lyric .cb-pinhero-story li strong{font-style:italic}
+
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm:not([data-m-edit]) .cb-ap-pic.is-live{--ap:calc(.07 + .93 * var(--p,0))}
+  html.cbm-js .cbm:not([data-m-edit]) :is(.cb-ap-ring,.cb-ap-in){will-change:transform}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-mono-letters{display:inline-block;animation:cbs-act-rise 1.2s cubic-bezier(.22,1,.36,1) .1s both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-trace-hero .cb-trace-win{animation:cbs-trace-win 1.5s cubic-bezier(.65,0,.35,1) .3s both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-trace-hero .cb-trace-in{animation:cbs-trace-in 1.5s cubic-bezier(.65,0,.35,1) .3s both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-trace-top.is-live .cb-trace-win{transform:translate3d(calc((var(--p,0) - 1) * 100%),0,0)}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-trace-top.is-live .cb-trace-in{transform:translate3d(calc((1 - var(--p,0)) * 100%),0,0)}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-beat .cb-fact-value.is-beat{animation:cbs-beat 1s cubic-bezier(.22,1,.36,1) both;transform-origin:0 75%}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-beat .cb-fact:nth-child(2) .cb-fact-value.is-beat{animation-delay:.12s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-beat .cb-fact:nth-child(3) .cb-fact-value.is-beat{animation-delay:.24s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-beat .cb-fact:nth-child(4) .cb-fact-value.is-beat{animation-delay:.36s}
+}
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  html.cbm-js .cb-stk.is-live .cb-stk-trace .cb-trace-win{transform:translate3d(calc((var(--k,1) / var(--n,1) - 1) * 100%),0,0);transition:transform .7s cubic-bezier(.65,0,.35,1)}
+  html.cbm-js .cb-stk.is-live .cb-stk-trace .cb-trace-in{transform:translate3d(calc((1 - var(--k,1) / var(--n,1)) * 100%),0,0);transition:transform .7s cubic-bezier(.65,0,.35,1)}
+}
+
+/* ======================================================================================== */
+/* Consultant doctors, second batch (release 7): the unhurried pace, a help card that never   */
+/* moves, tiles with friendly shapes that settle with a little bounce, a timeline that fills  */
+/* as it is read, and a night sky that lightens to dawn.                                      */
+/* ======================================================================================== */
+
+/* ---- If you need help now: a card that never moves, for anyone ------------------------- */
+.cb-help{display:grid;gap:clamp(.8rem,2vw,1.2rem);padding:clamp(1.3rem,3.2vw,2.4rem);border:1.5px solid color-mix(in srgb,var(--ink) 26%,transparent);border-radius:calc(var(--cb-r,12px) + 6px);background:color-mix(in srgb,var(--accent) 7%,var(--bg-0))}
+.cbp .cb-help-h{margin:0;font-size:clamp(1.5rem,3vw,2.2rem)}
+.cb-help-intro{max-width:44rem}
+.cb-help-intro p{margin:0}
+.cb-help-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.4rem clamp(1rem,3vw,2rem)}
+.cb-help-item{display:grid;align-content:start;gap:.1rem;padding-top:.9rem;border-top:1px solid color-mix(in srgb,var(--ink) 18%,transparent)}
+.cb-help-name{margin:0;font-weight:600}
+.cbp .cb-help-num{display:inline-flex;align-items:center;justify-self:start;min-height:44px;margin:0;font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:600;letter-spacing:.01em;font-variant-numeric:tabular-nums;color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+.cb-help-detail{margin:0;color:var(--ink-dim);font-size:.95rem}
+@media screen and (prefers-reduced-motion:no-preference){
+  /* Nothing moves it, fades it or holds it back: it is simply there. */
+  html.cbm-js .cbm .cb-still>.cb-in,html.cbm-js .cbm .cb-still *{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;animation:none!important;-webkit-mask:none!important;mask:none!important}
+}
+
+/* The opening's line that goes to the help card: small, calm and still, in the first screen. */
+.cb-hero-help{margin:clamp(.8rem,2vw,1.1rem) 0 0;font-size:1rem;line-height:1.4}
+.cb-hero-help a{display:inline-flex;align-items:center;gap:.6rem;min-height:44px;color:inherit;font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em}
+.cb-hero-help-dot{flex:none;width:.6rem;height:.6rem;border-radius:50%;background:currentColor;opacity:.7}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm .cb-hero-help,html.cbm-js .cbm .cb-hero-help *{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}
+}
+#help-now{scroll-margin-top:calc(var(--header-h,0px) + 1rem)}
+
+/* ---- Tiles with a friendly shape drawn on them (no photo) -------------------------------- */
+.cb-shape{position:relative;display:block;flex:none;width:clamp(3.4rem,5.6vw,4.6rem);height:clamp(3.4rem,5.6vw,4.6rem);margin:clamp(1rem,2vw,1.4rem) clamp(1rem,2vw,1.4rem) 0}
+.cb-shape::before{content:"";position:absolute;inset:0;background:var(--accent)}
+.cb-shape i{position:absolute;right:-10%;bottom:-8%;width:44%;height:44%;border-radius:50%;background:color-mix(in srgb,var(--accent) 18%,#ffc54d)}
+.cb-shape-circle::before{border-radius:50%}
+.cb-shape-arch::before{border-radius:999px 999px .4rem .4rem}
+.cb-shape-leaf::before{border-radius:0 100% 0 100%}
+.cb-shape-drop::before{inset:8%;border-radius:50% 50% 50% 0;transform:rotate(-45deg)}
+.cb-shape-star::before{clip-path:polygon(50% 0,62% 34%,98% 36%,69% 58%,80% 94%,50% 73%,20% 94%,31% 58%,2% 36%,38% 34%)}
+.cb-shape-wave::before{background:radial-gradient(circle at 26% 100%,var(--accent) 0 25%,transparent 25.5%),radial-gradient(circle at 74% 100%,var(--accent) 0 25%,transparent 25.5%),radial-gradient(circle at 50% 100%,color-mix(in srgb,var(--accent) 55%,transparent) 0 44%,transparent 44.5%)}
+.cb-shape-wave i{right:auto;left:-8%;bottom:auto;top:4%;width:38%;height:38%}
+.cb-tl-item.has-shape{align-content:start}
+@media screen and (prefers-reduced-motion:no-preference){
+  /* They arrive rising and settle with a little overshoot, the shape a moment after. */
+  .cbm.cbm-ready[data-m-scroll] .cb-tl-bounce>[data-m]{transform:translate3d(0,34px,0) scale(.92);transition:opacity .55s ease calc(var(--m-i,0) * 90ms),transform 1s cubic-bezier(.34,1.42,.64,1) calc(var(--m-i,0) * 90ms)}
+  .cbm .cb-tl-bounce .cb-shape{transition:transform .9s cubic-bezier(.34,1.6,.64,1) calc(var(--m-i,0) * 90ms + 180ms)}
+  .cbm.cbm-ready .cb-tl-bounce>[data-m]:not(.is-in) .cb-shape{transform:scale(.35) rotate(-24deg)}
+  .cbm .cb-tl-bounce .cb-tl-item.has-shape:hover .cb-shape{transform:rotate(-8deg) scale(1.06);transition-duration:.45s;transition-delay:0s}
+}
+
+/* ---- A timeline that fills as it is read (S14) ----------------------------------------- */
+.cb-tline{position:relative;--p:1;margin-top:clamp(1.4rem,4vw,2.8rem)}
+.cb-steps-timeline{display:grid;gap:clamp(2rem,5vw,3.4rem)}
+.cb-tline-item{position:relative;display:grid;grid-template-columns:minmax(0,1fr);padding-left:2.7rem}
+.cb-tline-item:nth-child(2){--k:1}.cb-tline-item:nth-child(3){--k:2}.cb-tline-item:nth-child(4){--k:3}.cb-tline-item:nth-child(5){--k:4}.cb-tline-item:nth-child(6){--k:5}.cb-tline-item:nth-child(7){--k:6}.cb-tline-item:nth-child(8){--k:7}
+.cb-tline-rail{position:absolute;left:calc(.75rem - 1px);top:.55rem;bottom:.55rem;width:2px;background:color-mix(in srgb,var(--ink) 16%,transparent)}
+.cb-tline-rail i{position:absolute;inset:0;background:var(--accent);transform-origin:50% 0;transform:scaleY(var(--p,1))}
+.cb-tline-dot{position:absolute;left:calc(.75rem - 9px);top:.3rem;width:18px;height:18px;border-radius:50%;background:var(--bg-0);border:2px solid var(--accent);box-sizing:border-box}
+.cb-tline-dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--accent);opacity:clamp(0,calc((var(--p,1) * var(--n,1) - var(--k,0)) * 2.5),1)}
+.cbp .cb-tline-when{margin:0 0 .35rem;font-size:.8rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--cb-accent-text,var(--accent))}
+.cb-tline-item .cb-step-name{margin:0 0 .4rem}
+.cb-tline-item .cb-step-desc{max-width:38rem}
+@media (min-width:761px){
+  .cb-tline-item{grid-template-columns:13rem minmax(0,1fr);column-gap:3.6rem;padding-left:0}
+  .cb-tline-rail{left:calc(13rem + 1.8rem - 1px)}
+  .cb-tline-dot{left:calc(13rem + 1.8rem - 9px)}
+  .cbp .cb-tline-when{margin:0;padding-top:.2rem;text-align:right;font-size:.92rem}
+  .cbp .cb-tline-item .cb-step-name{font-size:clamp(1.45rem,2.2vw,1.95rem)}
+}
+@media screen and (prefers-reduced-motion:no-preference){
+  /* Until the page's script says how far it has been read, the line waits at its start. */
+  html.cbm-js .cbm[data-m-scroll] .cb-tline:not(.is-live){--p:0}
+}
+
+/* ---- Night to day (S2 with M5): a night photo that lightens as the page scrolls ------------ */
+.cbp .cb.cb-hero--dawn{padding:0;color:#fff;--ink:#fff;--ink-dim:rgba(255,255,255,.88);--line:rgba(255,255,255,.3);--line-strong:rgba(255,255,255,.5);--cb-accent-text:#fff}
+.cb-hero--dawn>.cb-in{width:100%;max-width:none;padding:0}
+.cb-dawn{position:relative}
+.cb-dawn-stay{position:relative;display:flex;align-items:flex-end;min-height:clamp(32rem,88vh,54rem);overflow:hidden;overflow:clip;isolation:isolate}
+.cb-dawn .cb-dawn-night{z-index:-4}
+.cb-dawn-stars,.cb-dawn-sky,.cb-dawn-glow{position:absolute;pointer-events:none}
+.cb-dawn-stars{inset:0;z-index:-3;opacity:calc(.85 * (1 - var(--p,0)));background-image:radial-gradient(1.5px 1.5px at 8% 14%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 22% 30%,#fff 50%,transparent 52%),radial-gradient(1.6px 1.6px at 37% 9%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 55% 22%,#fff 50%,transparent 52%),radial-gradient(1.3px 1.3px at 68% 12%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 81% 27%,#fff 50%,transparent 52%),radial-gradient(1.5px 1.5px at 92% 8%,#fff 50%,transparent 52%),radial-gradient(1px 1px at 46% 36%,#fff 50%,transparent 52%)}
+.cb-dawn-sky{inset:0;z-index:-3;opacity:calc(var(--p,0) * .92);background:linear-gradient(180deg,#2c4277 0%,#5a71aa 32%,#a99fc6 60%,#f0c3a4 100%)}
+.cb-dawn-glow{left:-15%;right:-15%;bottom:-36%;height:86%;z-index:-3;opacity:var(--p,0);background:radial-gradient(closest-side,rgba(255,200,150,.95),rgba(255,200,150,0));transform:translate3d(0,calc((1 - var(--p,0)) * 90px),0)}
+.cb-dawn-stay::after{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(6,10,20,.74) 0%,rgba(6,10,20,.42) 48%,rgba(6,10,20,.06) 100%),linear-gradient(0deg,rgba(6,10,20,.55) 0%,rgba(6,10,20,0) 55%)}
+.cb-dawn-words{position:relative;width:min(var(--cb-max,1240px),calc(100% - 2 * var(--cb-gutter,24px)));margin:0 auto;padding:clamp(6rem,16vh,10rem) 0 clamp(3rem,10vh,6rem);transform:translate3d(0,calc(var(--p,0) * -40px),0)}
+.cbp .cb-dawn-words .cb-hero-h{max-width:13ch;font-size:clamp(2.7rem,7vw,6.6rem);line-height:.98}
+.cb-dawn-words .cb-lead{max-width:36rem}
+.cb-hero--dawn .cb-btn{background:#fff;color:#0d1526;border-color:#fff}
+.cb-hero--dawn .cb-btn-2{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.cb-hero--dawn .cb-credit{position:absolute;right:var(--cb-gutter,24px);bottom:.6rem;color:rgba(255,255,255,.8)}
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  /* On a computer the opening stays put while it lightens, then the page carries on. */
+  html.cbm-js .cbm .cb-dawn{height:175vh}
+  html.cbm-js .cbm .cb-dawn-stay{position:sticky;top:0;height:100vh;min-height:0}
+}
+
+/* ---- The unhurried pace: slower than anywhere else ---------------------------------------- */
+/* An opening followed by the help card leaves room for it on the first screen of a computer. */
+.cb-opening:has(+ .cb-notice--help) .cb-inset{min-height:clamp(24rem,58vh,36rem)}
+@media screen and (prefers-reduced-motion:no-preference){
+  /* A still page: the framed opening photo does not drift. */
+  .cbp[data-m-unhurried] .cb-inset-bg :is(img,video){animation:none}
+  .cbp[data-m-unhurried]{--m-dur:1.3s;--m-step:140ms;--m-ease:cubic-bezier(.22,1,.36,1);--m-dist:16px}
+  .cbm[data-m-unhurried][data-m-heading=rising] .cbm-w>span{transition-duration:1.6s;transition-delay:calc(var(--k,0) * 220ms)}
+}
+
+/* ---- The reading serif set light (mental health): quiet, even headings ----------------------- */
+.cbp-hf-quiet :is(.cb-h,.cb h3,.cb-fact-value,.cb-pl-amount,.cb-stk-num,.cb-ft-value,.cb-sp-day,.cb-initials,.cb-mono-letters){font-weight:400;letter-spacing:-.008em}
+.cbp-hf-quiet :is(.cb-h,.cb h3) em{font-weight:400;font-style:italic}
+
+/* ---- Words on the accent of a split opening, at full strength ------------------------------ */
+/* A page that chooses its text typeface (the signature websites) sets the opening's softer words
+   and its Open now line on the accent at full strength, so they read on a mid-tone accent too
+   (Fenwick's amber). Other pages draw as before. */
+.cbp-bodyfont .cb-curtain-words{--ink-dim:var(--cb-on-accent)}
+.cbp-bodyfont .cb-curtain-words .cb-opennow{background:color-mix(in srgb,#fff 24%,transparent)}
+
+/* ======================================================================================== */
+/* Consultant doctors, third batch (release 7) and the second batch's fixes: three windows   */
+/* onto one photo (skin), hand studies drawn in line beside the conditions (hand and wrist),  */
+/* questions as the opening (men's health), branching lines drawn behind the opening          */
+/* (neurology), and a gentle wave drawn through a numbers band (hormones).                    */
+/* ======================================================================================== */
+
+/* ---- Three windows onto one photo ------------------------------------------------------ */
+.cb-tri{display:grid;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+.cb-tri-words{max-width:36rem}
+.cbp .cb-hero--triptych .cb-hero-h{font-size:clamp(2.7rem,6.2vw,5.6rem);line-height:.98;letter-spacing:-.045em}
+.cb-tri-pic{--g:clamp(.4rem,.9vw,.8rem);--h:clamp(21rem,46vw,40rem);position:relative;height:var(--h)}
+.cb-tri-strip{position:absolute;top:calc(var(--t) * 100%);bottom:calc(var(--b) * 100%);width:calc((100% - 2 * var(--g)) / 3);margin:0;overflow:hidden;border-radius:clamp(.3rem,.6vw,.55rem);background:var(--cb-surface)}
+.cb-tri-strip:nth-child(1){--k:0;--t:.12;--b:.04;left:0}
+.cb-tri-strip:nth-child(2){--k:1;--t:0;--b:.14;left:calc((100% - 2 * var(--g)) / 3 + var(--g))}
+.cb-tri-strip:nth-child(3){--k:2;--t:.22;--b:0;left:calc(2 * ((100% - 2 * var(--g)) / 3 + var(--g)))}
+/* The photo lies behind all three windows at once: as wide and as tall as the whole set. */
+.cb-tri-strip img{position:absolute;top:calc(var(--t) / (1 - var(--t) - var(--b)) * -100%);left:calc(var(--k) * -100% - var(--k) * var(--g));width:calc(300% + 2 * var(--g));max-width:none;height:calc(100% / (1 - var(--t) - var(--b)));object-fit:cover}
+.cb-tri-one img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.cb-tri-ledger{margin-top:clamp(2rem,4.5vw,3.6rem);padding:clamp(1.1rem,2.6vw,1.7rem) clamp(1.2rem,3vw,2.4rem);border-radius:clamp(.4rem,.8vw,.7rem);background:var(--cb-deep);color:var(--cb-on-deep);--ink:var(--cb-on-deep);--ink-dim:var(--cb-on-deep);--line:color-mix(in srgb,var(--cb-on-deep) 24%,transparent);--cb-accent-text:var(--cb-on-deep)}
+.cbp .cb-tri-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:1rem clamp(1.4rem,3.5vw,3rem);margin:0}
+.cbp .cb-tri-facts>div{display:block;padding-left:clamp(.9rem,1.6vw,1.2rem);border-left:1px solid var(--line)}
+.cb-tri-facts dt{font-size:.78rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.cbp .cb-tri-facts dd{margin:.45rem 0 0}
+.cb-tri-facts dd p{margin:0}
+.cb-tri-facts a{color:inherit}
+@media (min-width:761px){
+  .cb-tri{grid-template-columns:minmax(0,5fr) minmax(0,6.5fr)}
+}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm:not([data-m-edit]) .cb-tri-strip{animation:cbs-tri-rise 1.3s cubic-bezier(.22,1,.36,1) both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-tri-strip img{animation:cbs-tri-hold 1.3s cubic-bezier(.22,1,.36,1) both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-tri-strip:nth-child(2),html.cbm-js .cbm:not([data-m-edit]) .cb-tri-strip:nth-child(2) img{animation-delay:.14s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-tri-strip:nth-child(3),html.cbm-js .cbm:not([data-m-edit]) .cb-tri-strip:nth-child(3) img{animation-delay:.28s}
+}
+/* Each window rises into place while the photo inside it holds still, so the picture settles. */
+@keyframes cbs-tri-rise{from{transform:translate3d(0,3.2rem,0);opacity:0}to{transform:none;opacity:1}}
+@keyframes cbs-tri-hold{from{transform:translate3d(0,-3.2rem,0)}to{transform:none}}
+
+/* ---- Line studies of a hand beside the conditions (pinned scenes) ----------------------- */
+.cb-hand{display:block;width:100%;height:100%;overflow:visible}
+.cb-hand-line{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.cb-hand-crease{fill:none;stroke:color-mix(in srgb,var(--ink) 42%,transparent);stroke-width:1.3;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.cb-hand-halo{fill:color-mix(in srgb,var(--accent) 16%,transparent);stroke:none}
+.cb-hand-ring{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:4 5;vector-effect:non-scaling-stroke}
+.cb-hand-focus{transform-box:fill-box;transform-origin:center}
+.cb-sc-draw{display:grid;place-items:center;margin:0;aspect-ratio:4/3;padding:clamp(1rem,3vw,1.6rem);border-radius:calc(var(--cb-r-img) + .3rem);background:color-mix(in srgb,var(--accent) 7%,var(--bg-0));border:1px solid var(--line)}
+.cb-sc-draw .cb-hand{width:auto;height:100%;max-height:22rem}
+.cb-sc-stage.is-art{background:color-mix(in srgb,var(--accent) 7%,var(--bg-0));border:1px solid var(--line)}
+.cb-sc-art{position:absolute;inset:7% 12%;display:block}
+/* On a deep band (Fine Motion Hand Therapy) the drawing's panel is deep too, so the light outline
+   reads; the ring is lightened to stay clear of the panel, and the count turns over. */
+.cb-bg-dark :is(.cb-sc-draw,.cb-sc-stage.is-art){background:color-mix(in srgb,var(--accent) 18%,var(--cb-deep))}
+.cb-bg-dark .cb-hand-ring{stroke:color-mix(in srgb,var(--accent) 45%,var(--cb-on-deep))}
+.cb-bg-dark .cb-hand-halo{fill:color-mix(in srgb,var(--accent) 34%,transparent)}
+html.cbm-js .cb-bg-dark .cb-sc.is-live .cb-sc-stage.is-art .cb-sc-count{background:var(--cb-on-deep);color:var(--cb-deep)}
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  html.cbm-js .cb-sc.is-live .cb-sc-stage.is-art .cb-sc-count{background:var(--cb-deep);color:var(--cb-on-deep)}
+  html.cbm-js .cb-sc.is-live .cb-sc-stage.is-art .cb-sc-ticks i{background:color-mix(in srgb,var(--ink) 22%,transparent)}
+  html.cbm-js .cb-sc.is-live .cb-sc-stage.is-art .cb-sc-ticks i.is-on{background:var(--cb-accent-text,var(--accent))}
+  html.cbm-js .cb-sc.is-live .cb-sc-art{opacity:0;transform:translate3d(0,14px,0);transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+  html.cbm-js .cb-sc.is-live .cb-sc-art.is-on{opacity:1;transform:none}
+  html.cbm-js .cb-sc.is-live .cb-sc-art .cb-hand-focus{opacity:0;transform:scale(.55);transition:opacity .5s ease .25s,transform .9s cubic-bezier(.22,1,.36,1) .25s}
+  html.cbm-js .cb-sc.is-live .cb-sc-art.is-on .cb-hand-focus{opacity:1;transform:none}
+}
+
+/* ---- Questions first: plain questions in the opening, each opening softly ---------------- */
+.cb-ask{display:grid;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.cbp .cb-hero--questions .cb-hero-h{font-size:clamp(2.6rem,5.8vw,5rem);line-height:1;letter-spacing:-.04em}
+.cb-ask-qs{padding:clamp(.4rem,1.2vw,.8rem) clamp(1.1rem,2.8vw,2.2rem);border-radius:clamp(.6rem,1.2vw,1rem);background:var(--cb-surface);color:var(--cb-surface-ink);--ink:var(--cb-surface-ink);--ink-dim:var(--cb-surface-dim);--cb-accent-text:var(--cb-surface-accent);--line-strong:color-mix(in srgb,var(--cb-surface-ink) 22%,transparent)}
+.cbp .cb-ask-list{max-width:none}
+.cb-ask-list .cb-faq-item:first-child{border-top:0}
+.cb-ask-list .cb-faq-item:last-child{border-bottom:0}
+.cb-ask-list summary{min-height:44px;font-size:clamp(1.12rem,1.6vw,1.35rem);letter-spacing:-.01em}
+@media (min-width:761px){
+  .cb-ask{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}
+}
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  .cb-ask-words{position:sticky;top:calc(var(--header-h,0px) + 2rem)}
+}
+
+/* ---- Branching lines drawn slowly behind the opening's words ------------------------------ */
+.cb-br{position:relative;display:flex;align-items:center;min-height:clamp(30rem,74vh,44rem)}
+.cb-br-art{position:absolute;top:50%;right:calc(-1 * var(--cb-gutter,1rem));width:min(54%,48rem);aspect-ratio:4/3;translate:0 -50%;color:var(--cb-accent-text,var(--accent));pointer-events:none}
+.cb-br-ghost,.cb-br-win,.cb-br-in{position:absolute;inset:0;display:block}
+.cb-br-ghost{opacity:.16}
+.cb-br-win{overflow:hidden}
+.cb-br-svg{display:block;width:100%;height:100%}
+.cb-br-l{fill:none;stroke:currentColor;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-width:1.2}
+.cb-br-l0{stroke-width:2.6}.cb-br-l1{stroke-width:2.2}.cb-br-l2{stroke-width:1.8}.cb-br-l3{stroke-width:1.5}
+.cb-br-dot{fill:currentColor}
+.cb-br-words{position:relative;z-index:1;max-width:min(36rem,52%)}
+.cbp .cb-hero--branches .cb-hero-h{font-size:clamp(2.7rem,6vw,5.4rem);line-height:1;letter-spacing:-.01em}
+@media (max-width:760px){
+  .cb-br{align-items:flex-end;padding-top:clamp(11.5rem,56vw,16rem)}
+  .cb-br-words{max-width:none}
+  .cb-br-art{top:0;height:clamp(12rem,58vw,17rem);width:auto;aspect-ratio:auto;translate:none;left:calc(-1 * var(--cb-gutter,1rem));right:calc(-1 * var(--cb-gutter,1rem))}
+}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm:not([data-m-edit]) .cb-br-win{animation:cbs-trace-win 3.2s cubic-bezier(.45,0,.25,1) .2s both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-br-in{animation:cbs-trace-in 3.2s cubic-bezier(.45,0,.25,1) .2s both}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-br-in .cb-br-dot{animation:cbs-br-dot .9s ease both;animation-delay:2.4s}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-br-ghost{animation:cbs-br-ghost 2.4s ease .1s both}
+}
+@keyframes cbs-br-dot{from{opacity:0}to{opacity:1}}
+@keyframes cbs-br-ghost{from{opacity:0}to{opacity:.16}}
+
+/* ---- A gentle wave drawn through a numbers band ------------------------------------------- */
+.cb-trace-band{color:var(--accent);height:clamp(2.4rem,5vw,3.8rem);margin:clamp(.4rem,1.4vw,1rem) 0 clamp(-1.4rem,-2vw,-.6rem)}
+.cb-trace-band .cb-trace-svg path{stroke-width:2.4}
+.cb-trace-band .cb-trace-ghost{opacity:.18}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm:not([data-m-edit]) .cb-trace-band.is-live .cb-trace-win{transform:translate3d(calc((var(--p,0) - 1) * 100%),0,0)}
+  html.cbm-js .cbm:not([data-m-edit]) .cb-trace-band.is-live .cb-trace-in{transform:translate3d(calc((1 - var(--p,0)) * 100%),0,0)}
+}
+
+/* ---- A recovery plan: a progress line beside sticky steps (therapy batch 1) -------------- */
+/* --p comes from the page's script as the steps are read (data-scroll="read"); without it, or
+   with movement turned down, the line is simply full. Decoration in the accent itself (it is
+   never words), so it keeps the site's colour where the accent is too light for text. */
+.cb-stk-steps{position:relative;padding-left:clamp(2.4rem,4.4vw,3.6rem)}
+.cb-stk-prog{position:absolute;left:.4rem;top:.5rem;bottom:.5rem;width:6px;border-radius:6px;background:color-mix(in srgb,var(--ink) 13%,transparent)}
+.cb-stk-fill{position:absolute;inset:0;border-radius:inherit;background:var(--accent);transform-origin:50% 0;transform:scaleY(var(--p,1))}
+.cb-stk-mark{position:absolute;left:0;top:0;width:100%;height:100%;transform:translate3d(0,calc(var(--p,1) * 100%),0)}
+.cb-stk-mark::before{content:"";position:absolute;left:50%;top:0;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 24%,transparent)}
+.cbp .cb-step-when{margin:0 0 .55rem;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cb-accent-text,var(--accent))}
+.cb-stk-steps .cb-steps-sticky{margin:0}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm[data-m-scroll] .cb-stk.has-prog:not(.is-live){--p:0}
+}
+
+/* ---- Everyday tasks drawn in line, and tiles on a sideways rail (therapy batch 1) -------- */
+.cb-task{display:block;flex:none;width:clamp(8rem,12vw,10.5rem);aspect-ratio:1;margin:clamp(1.2rem,2.2vw,1.8rem) clamp(1.1rem,2vw,1.5rem) 0}
+.cb-task svg{display:block;width:100%;height:100%;overflow:visible}
+/* Drawings are decoration, never words: the disc and the marked part take the accent itself. */
+.cb-task-disc{fill:color-mix(in srgb,var(--accent) 18%,transparent)}
+.cb-task-line path{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.cb-task-line .a{stroke:var(--accent)}
+.cb-tl-item.has-shape:has(.cb-task){justify-content:flex-start}
+.cb-tl-rail .cb-hs-view{scroll-snap-type:x mandatory}
+.cb-tl-railtrack>.cb-tl-item{flex:0 0 min(78vw,19rem);min-height:21rem}
+.cbp .cb .cb-tl-railtrack h3.cb-tl-name{font-size:clamp(1.45rem,2.2vw,1.85rem);line-height:1.08}
+.cb-tl-railtrack .cb-tl-text{font-size:1rem}
+@media (min-width:761px){.cb-tl-railtrack>.cb-tl-item{flex-basis:clamp(17rem,24vw,21rem);min-height:24rem}}
+.cb-tl-railrow{grid-auto-rows:minmax(18rem,auto)}
+@media screen and (prefers-reduced-motion:no-preference){
+  /* A drawing settles a moment after its card, the disc first. */
+  .cbm .cb-tl-railtrack .cb-task-disc{transform-box:fill-box;transform-origin:center;transition:transform .9s cubic-bezier(.22,1,.36,1) .15s}
+  .cbm .cb-tl-railtrack .cb-tl-item:hover .cb-task-disc{transform:scale(1.08)}
+}
+
+/* ---- Tiles that come in from different sides and fit together (therapy batch 1) --------- */
+@media screen and (prefers-reduced-motion:no-preference){
+  .cbm.cbm-ready[data-m-scroll] .cb-tl-assemble>[data-m]{transform:translate3d(var(--ax,0px),var(--ay,40px),0) scale(.94);transition:opacity .6s cubic-bezier(.22,1,.36,1) calc(var(--m-i,0) * 85ms),transform 1.05s cubic-bezier(.22,1,.36,1) calc(var(--m-i,0) * 85ms)}
+  .cb-tl-assemble>:nth-child(4n+1){--ax:-44px;--ay:8px}
+  .cb-tl-assemble>:nth-child(4n+2){--ax:0px;--ay:-40px}
+  .cb-tl-assemble>:nth-child(4n+3){--ax:44px;--ay:8px}
+  .cb-tl-assemble>:nth-child(4n){--ax:0px;--ay:44px}
+}
+
+/* ---- Booking and paying (owner, 22 Nov) ----------------------------------------------- */
+/* Who takes the payment, beside a pay button; the two steps when booking and paying are separate;
+   "Pay when you book"; a monthly plan's own page; the reminder promise; where to look for an email. */
+.cb-paynote{display:flex;flex-direction:column;gap:.15rem;flex:1 1 100%;font-size:.84rem;line-height:1.4;color:var(--ink-dim)}
+.cb-paysafe{display:block;font-size:.84rem;line-height:1.4;color:var(--ink-dim)}
+.cb-paynote .cb-paysafe{font-size:inherit}
+.cb-thenpay{color:var(--ink)}
+.cb-pl-foot .cb-paysafe{text-align:center}
+.cb-paid{display:inline-block;padding:.05rem .5rem;border-radius:99px;border:1px solid color-mix(in srgb,currentColor 50%,transparent);font-size:.78rem;font-weight:650;color:inherit;white-space:nowrap}
+.cb-bs-time+.cb-paid::before,.cb-bs-price+.cb-paid::before{content:none}
+.cb-pl-manage{justify-self:center;font-size:.9rem}
+.cb-sp-zone{font-size:.86em;color:var(--ink-dim);white-space:nowrap}
+.cb-remind,.cb-spam,.cb-bs-paid{margin:.8rem 0 0}
+.cb-order-safe{margin-top:.4rem}
+.cb-role-guide{margin:1.2rem 0 0;padding:.7rem .9rem;border:1px dashed var(--line-strong);border-radius:var(--cb-r)}
+@media (min-width:761px){
+  .cb-sp-rows .cb-paynote,.cb-sp-tickets .cb-paynote{text-align:right}
+}
+@media (max-width:760px){
+  .cb-pl-manage{display:inline-flex;align-items:center;min-height:44px}
+}
+
+/* ---- Add to calendar (owner, 22 Nov) ----------------------------------------------------- */
+.cb-sp-cal{grid-column:1/-1;margin:0;font-size:.88rem}
+.cb-sp-cal>summary{display:inline-flex;align-items:center;gap:.45rem;min-height:44px;cursor:pointer;color:var(--cb-accent-text,var(--accent));font-weight:600;list-style:none}
+.cb-sp-cal>summary::-webkit-details-marker{display:none}
+.cb-sp-cal>summary::before{content:"";width:.85rem;height:.8rem;border:1.5px solid currentColor;border-top-width:3px;border-radius:.15rem;flex:none}
+.cb-sp-cal>summary:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:.2rem}
+.cb-sp-calgo{display:flex;flex-wrap:wrap;gap:.3rem 1.4rem;margin:0 0 .2rem}
+.cb-sp-calgo a{display:inline-flex;align-items:center;min-height:44px;color:var(--ink);text-decoration:underline;text-underline-offset:.2em}
+.cb-sp-item.is-past .cb-sp-cal{display:none}
+.cb-sp-tickets .cb-sp-cal{padding-left:calc(var(--stub) + 1.1rem)}
+.cb-cal-line{margin:1.2rem 0 0;font-size:.95rem}
+.cb-cal-line a{display:inline-flex;align-items:center;min-height:44px}
+@media (min-width:761px){.cb-sp-rows .cb-sp-cal,.cb-sp-tickets .cb-sp-cal{grid-column:2/-1;padding-left:0}}
+
+/* ---- Batch 2: still water, arched ways to work, steps that climb, a route down the page ---- */
+/* Still water (counselling): the words, then a wide photo of still water and its own reflection,
+   shown whole with the horizon across the middle. As the page opens the water settles: the photo
+   comes to rest, and a softened copy of the water below the horizon (54% down, as the sample photo
+   has it) waits a little stretched and, once the photo is in view, fades as its ripples die away.
+   Transform and opacity only; the copy is not drawn at all with movement turned down or paused. */
+.cb-rf{display:grid;justify-items:center;gap:clamp(2rem,5vw,3.4rem);text-align:center}
+.cb-rf.cb-solo{gap:0}
+.cbp .cb-rf-words{max-width:44rem;margin-inline:auto}
+.cbp .cb-rf-words .cb-lead{margin-inline:auto}
+.cb-rf-words .cb-actions,.cb-rf-words .cb-hero-help{justify-content:center}
+.cbp .cb-hero-pic.cb-rf-water{position:relative;width:100%;max-width:none;height:auto;aspect-ratio:2/1;margin:0;overflow:hidden;border-radius:var(--cb-r-img)}
+.cbp .cb-rf-water>img,.cbp .cb-rf-water>video{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;border-radius:0}
+.cb-rf-ripple{display:none;position:absolute;left:0;right:0;top:54%;bottom:0;overflow:hidden;opacity:0;pointer-events:none}
+.cb-rf-ripple img{position:absolute;left:0;top:calc(-54% / .46);width:100%;height:calc(100% / .46);object-fit:cover;object-position:50% 50%;filter:blur(3px);transform-origin:50% 0}
+@media (max-width:760px){.cbp .cb-hero-pic.cb-rf-water{aspect-ratio:4/3}}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm .cb-rf-water>img{animation:cb-rf-still 3.6s cubic-bezier(.22,1,.36,1) both}
+  /* The page's script stirs the water (is-stirred) and calms it once half the photo is in view. */
+  html.cbm-js .cbm .cb-rf-water.is-stirred .cb-rf-ripple{display:block;opacity:.8}
+  html.cbm-js .cbm .cb-rf-water.is-stirred .cb-rf-ripple img{transform:scaleY(1.07) translate3d(0,8px,0)}
+  html.cbm-js .cbm .cb-rf-water.is-calm .cb-rf-ripple{animation:cb-rf-calm 3.6s cubic-bezier(.45,.05,.3,1) .2s both}
+  html.cbm-js .cbm .cb-rf-water.is-calm .cb-rf-ripple img{animation:cb-rf-wave 3.6s cubic-bezier(.45,.05,.3,1) .2s both}
+  html.cbm-paused .cb-rf-ripple{display:none!important}
+}
+@keyframes cb-rf-calm{from{opacity:.8}to{opacity:0}}
+@keyframes cb-rf-wave{from{transform:scaleY(1.07) translate3d(0,8px,0)}to{transform:none}}
+@keyframes cb-rf-still{from{opacity:.4;transform:scale(1.03)}to{opacity:1;transform:none}}
+
+/* Arched ways to work (solo consultant): the cards are arched at the top, the marked one raised and
+   filled; each rises into place as the section comes into view (--p from the page's script). */
+.cb-pl-arches{gap:2.4rem clamp(1rem,2.4vw,1.8rem);padding-top:2.4rem}
+.cb-pl-arches>.cb-pl-item{border-radius:999px 999px calc(var(--cb-r) + .4rem) calc(var(--cb-r) + .4rem);padding-top:clamp(3.4rem,6vw,4.6rem);text-align:center;align-items:stretch}
+.cb-pl-arches .cb-pl-price{justify-content:center}
+.cb-pl-arches .cb-pl-inc{text-align:left}
+.cb-pl-arches .cb-pl-flag{left:50%;right:auto;transform:translate(-50%,-50%);top:0}
+.cb-pl-arches .cb-pl-name{font-style:italic}
+@media (min-width:761px){
+  .cb-pl-arches{grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));align-items:end}
+  .cb-pl-arches>.cb-pl-item.is-popular{translate:0 -1.6rem;padding-bottom:calc(clamp(1.4rem,2.4vw,1.9rem) + 1.6rem)}
+}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm[data-m-scroll] .cb-pl-arches.is-live>.cb-pl-item{transform:translate3d(0,calc((1 - var(--p,1)) * (2.4rem + var(--k,0) * 1.4rem)),0)}
+}
+/* Steps that climb (a ladder with rise): each step comes up from lower down, the later and taller
+   from further, so the ladder builds itself left to right. */
+@media screen and (prefers-reduced-motion:no-preference) and (min-width:761px){
+  html.cbm-js .cbm[data-m-scroll] .cb-pl-rise.is-live>.cb-pl-item{transform:translate3d(0,calc((1 - var(--p,1)) * (3rem + var(--k,0) * 3.5rem)),0)}
+}
+
+/* A route down the page (consultants): one line drawn as the steps are read, each step at a
+   numbered point on it; on a wide screen the steps sit either side of the line. --p comes from the
+   page's script (data-scroll="read"); without it the line is whole. */
+.cb-route{position:relative;--p:1;margin-top:clamp(1.6rem,4vw,3rem)}
+.cb-steps-route{list-style:none;margin:0;padding:0;display:grid;gap:clamp(2rem,5vw,3.6rem)}
+.cb-route-item{position:relative;padding-left:3.6rem;min-height:2.6rem}
+.cb-route-item:nth-child(2){--k:1}.cb-route-item:nth-child(3){--k:2}.cb-route-item:nth-child(4){--k:3}.cb-route-item:nth-child(5){--k:4}.cb-route-item:nth-child(6){--k:5}.cb-route-item:nth-child(7){--k:6}.cb-route-item:nth-child(8){--k:7}
+.cb-route-line{position:absolute;left:calc(1.3rem - 1px);top:1.3rem;bottom:1.3rem;width:2px;background:color-mix(in srgb,var(--ink) 14%,transparent)}
+.cb-route-line i{position:absolute;inset:0;background:var(--cb-accent-text,var(--accent));transform-origin:50% 0;transform:scaleY(var(--p,1))}
+.cb-route-n{position:absolute;left:0;top:0;display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:50%;background:var(--bg-0,#fff);border:2px solid var(--cb-accent-text,var(--accent));color:var(--cb-accent-text,var(--accent));font-family:var(--cb-head);font-size:.95rem;font-weight:600;font-variant-numeric:tabular-nums;box-sizing:border-box}
+.cb-route-n{isolation:isolate;overflow:hidden}
+.cb-route-n::before{content:"";position:absolute;inset:-2px;border-radius:50%;background:color-mix(in srgb,var(--cb-accent-text,var(--accent)) 16%,var(--bg-0,#fff));transform:scale(clamp(0,calc((var(--p,1) * var(--n,1) - var(--k,0)) * 2),1));z-index:-1}
+.cbp .cb-route-when{margin:0 0 .3rem;font-size:.8rem;font-weight:650;letter-spacing:.09em;text-transform:uppercase;color:var(--cb-accent-text,var(--accent))}
+.cb-route-item .cb-step-name{margin:0 0 .45rem}
+.cb-route-item .cb-step-desc{max-width:34rem}
+@media (min-width:900px){
+  .cb-route-line{left:calc(50% - 1px)}
+  .cb-route-item{width:calc(50% - 3.2rem);padding-left:0}
+  .cb-route-item:nth-child(odd){text-align:right}
+  .cb-route-item:nth-child(odd) .cb-step-desc{margin-left:auto}
+  .cb-route-item:nth-child(even){margin-left:calc(50% + 3.2rem)}
+  .cb-route-item:nth-child(odd) .cb-route-n{left:auto;right:calc(-3.2rem - 1.3rem)}
+  .cb-route-item:nth-child(even) .cb-route-n{left:calc(-3.2rem - 1.3rem)}
+  .cbp .cb-route-item .cb-step-name{font-size:clamp(1.45rem,2.2vw,1.95rem)}
+}
+@media screen and (prefers-reduced-motion:no-preference){
+  html.cbm-js .cbm[data-m-scroll] .cb-route:not(.is-live){--p:0}
+}
+
+/* A giant word behind the opening on a deep band (Kneadwell): set strong enough to read as large
+   type (3:1 at least) on every deep colour, rather than as a faint watermark. With two columns it
+   sits behind the photo's side only, centred under the photo column and sized to it (a letter is
+   about .54em wide; .56 leaves room), so it never runs behind the words or the buttons. The column
+   is worked out as the grid draws it: the content width, the gap, and columns of 1.05 and 1. With
+   one column it stays at the foot of the band, behind the photo, which comes after the words.
+   The word's width comes from its own letters (--bw-em, from the renderer), so a wide word fits
+   too; it may reach a little into the gap, but never past the band's right edge. Edge to edge
+   has no side gutters, so its content width is the window's (a length, never a percentage,
+   which a font size would read against the font size). */
+.cbp .cb-bg-dark .cb-bw-word{color:color-mix(in srgb,currentColor 38%,transparent)}
+@media (min-width:761px){
+  .cbp .cb-bg-dark.cb-hero--backword .cb-bw-word{--bw-w:min(var(--cb-max),calc(100vw - 2 * var(--cb-gutter)));--bw-gap:clamp(2rem,5vw,5rem);--bw-col:calc((var(--bw-w) - var(--bw-gap)) / 2.05);
+    --bw-room:min(var(--bw-gap) * .9,100vw - var(--bw-w));
+    left:calc(50% + var(--bw-w) * .0122 + var(--bw-gap) * .4878 + var(--bw-col) / 2);font-size:min(24rem,calc((var(--bw-col) + var(--bw-room)) / var(--bw-em,calc(var(--len,6) * .56))))}
+  .cbp .cb-bg-dark.cb-hero--backword.cb-w-full .cb-bw-word{--bw-w:100vw}
+}
+/* One column: the word is sized by its own letters too (84vw over --bw-em is 150vw / 4 for Ease,
+   as before), so a wide word stays inside the band. With no photo the word at the foot of the band
+   would sit behind the buttons, so the words leave room under them for its capitals. */
+@media (max-width:760px){
+  .cbp .cb-bg-dark.cb-hero--backword .cb-bw-word{font-size:min(24rem,calc(84vw / var(--bw-em,calc(var(--len,6) * .56))))}
+  .cbp .cb-bg-dark.cb-hero--backword>.cb-in>.cb-hero-words{padding-bottom:27vw}
+}
