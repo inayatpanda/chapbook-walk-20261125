@@ -1,21 +1,34 @@
 {
-  "name": "Your Name",
-  "masthead": "Your Blog Name",
-  "tagline": "A line about your blog.",
-  "description": "A sentence describing your blog — used for SEO and social cards.",
-  "url": "https://your-domain.com",
-  "defaultTheme": "observatory",
+  "name": "chapbook-walk-20261125",
+  "masthead": "chapbook-walk-20261125",
+  "tagline": "",
+  "description": "",
+  "url": "https://inayatpanda.github.io/chapbook-walk-20261125/",
+  "defaultTheme": "still",
   "postBadges": "icon",
   "core": "tori",
   "nav": [
-    { "href": "/",             "label": "Home",        "primary": true },
-    { "href": "/observatory/", "label": "Observatory", "primary": true, "themeLabel": true },
-    { "href": "/posts/",     "label": "Posts",       "primary": true },
-    { "href": "/darkroom/",    "label": "Darkroom",    "primary": true },
-    { "href": "/about/",       "label": "About" },
-    { "href": "/contact/",     "label": "Contact" }
+    {
+      "href": "/",
+      "label": "Home",
+      "primary": true
+    },
+    {
+      "href": "/contact/",
+      "label": "Contact",
+      "primary": true
+    }
   ],
-  "socials": { "linkedin": "", "instagram": "", "github": "" },
-  "newsletter": { "endpoint": "" },
-  "contact": { "endpoint": "" }
+  "socials": {
+    "linkedin": "",
+    "instagram": "",
+    "github": ""
+  },
+  "newsletter": {
+    "endpoint": ""
+  },
+  "contact": {
+    "endpoint": ""
+  },
+  "nameSet": true
 }
