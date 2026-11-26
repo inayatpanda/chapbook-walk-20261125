@@ -1,7 +1,7 @@
 {
-  "name": "chapbook-walk-20261125",
-  "masthead": "chapbook-walk-20261125",
-  "tagline": "",
+  "name": "Hollybrook Sports Massage",
+  "masthead": "Hollybrook Sports Massage",
+  "tagline": "Sports massage in Ashcombe Vale",
   "description": "",
   "url": "https://inayatpanda.github.io/chapbook-walk-20261125/",
   "defaultTheme": "still",
@@ -11,12 +11,25 @@
     {
       "href": "/",
       "label": "Home",
-      "primary": true
+      "primary": false
+    },
+    {
+      "href": "/about/",
+      "label": "About",
+      "primary": false
+    },
+    {
+      "href": "/treatments/",
+      "label": "Treatments"
+    },
+    {
+      "href": "/prices/",
+      "label": "Prices"
     },
     {
       "href": "/contact/",
       "label": "Contact",
-      "primary": true
+      "primary": false
     }
   ],
   "socials": {
@@ -30,5 +43,91 @@
   "contact": {
     "endpoint": ""
   },
-  "nameSet": true
+  "nameSet": true,
+  "signature": {
+    "id": "kneadwell-sports-massage",
+    "version": "kneadwell-rust"
+  },
+  "design": {
+    "accent": "#a6532a",
+    "background": "#f4f1ec",
+    "ink": "#1f1a14"
+  },
+  "professional": {
+    "phone": "01632 960 123",
+    "email": "hello@hollybrook-walk-test.example",
+    "location": "12 Mill Lane, Ashcombe Vale",
+    "hours": "Mon to Fri 9am to 5pm\nSat 10am to 2pm\nClosed Sundays",
+    "services": [
+      {
+        "id": "kneadwellsm-before-an-event-30m",
+        "name": "Before an event",
+        "duration": "30 min",
+        "price": "£35",
+        "sample": true
+      },
+      {
+        "id": "kneadwellsm-desk-and-neck-30m",
+        "name": "Desk and neck",
+        "duration": "30 min",
+        "price": "£35",
+        "sample": true
+      },
+      {
+        "id": "kneadwellsm-sports-massage-30m",
+        "name": "Sports massage",
+        "duration": "30 min",
+        "price": "£35",
+        "sample": true
+      },
+      {
+        "id": "kneadwellsm-sports-massage-60m",
+        "name": "Sports massage",
+        "duration": "60 min",
+        "price": "£55",
+        "sample": true
+      },
+      {
+        "id": "kneadwellsm-sports-massage-90m",
+        "name": "Sports massage",
+        "duration": "90 min",
+        "price": "£75",
+        "sample": true
+      },
+      {
+        "id": "kneadwellsm-after-an-event",
+        "name": "After an event",
+        "duration": "30 to 60 min",
+        "price": "From £35",
+        "sample": true
+      },
+      {
+        "id": "kneadwellsm-block-of-five",
+        "name": "Block of five",
+        "price": "£250",
+        "act": "ask",
+        "sample": true
+      },
+      {
+        "id": "kneadwellsm-monthly",
+        "name": "Monthly",
+        "price": "£50",
+        "payLabel": "Join",
+        "act": "ask",
+        "sample": true
+      },
+      {
+        "id": "serrtqr",
+        "name": "Deep tissue release",
+        "duration": "45 min",
+        "price": "£48"
+      },
+      {
+        "id": "sw5enqa",
+        "name": "Pre-event warm-up",
+        "duration": "20 min",
+        "price": "From £25"
+      }
+    ]
+  }
 }

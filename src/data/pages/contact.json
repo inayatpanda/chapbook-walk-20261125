@@ -1,0 +1,115 @@
+{
+  "v": 1,
+  "title": "Contact",
+  "slug": "contact",
+  "menu": {
+    "show": true,
+    "label": ""
+  },
+  "description": "chapbook-walk-20261125: how to find the studio, opening hours, and how to get in touch.",
+  "template": "sig-knead-contact",
+  "look": {
+    "palette": "kneadwell-rust",
+    "colours": {
+      "bg": "#f4f1ec",
+      "surface": "#e6dfd3",
+      "ink": "#1f1a14",
+      "accent": "#a6532a",
+      "deep": "#1f1a14"
+    },
+    "font": "grotesk",
+    "bodyFont": "clean",
+    "motion": {
+      "scroll": "cascade",
+      "heading": "words",
+      "buttons": "press",
+      "pictures": "depth",
+      "pointer": "lean",
+      "arrive": "veil",
+      "mark": "underline",
+      "pace": "measured",
+      "count": true,
+      "preset": "showtime"
+    }
+  },
+  "blocks": [
+    {
+      "id": "s5uvsi0tho",
+      "type": "hero",
+      "role": "hero",
+      "variant": "minimal",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Contact",
+        "heading": "Find the *studio*",
+        "intro": "Five minutes from the university track, with parking outside."
+      },
+      "sample": true,
+      "origin": "sig-knead-contact/hero"
+    },
+    {
+      "id": "s5uvs9nx3p",
+      "type": "contact",
+      "role": "contact",
+      "variant": "map",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Opening *hours*",
+        "business": true,
+        "openNow": true,
+        "closed": "This is not a medical service. For a new injury, call **NHS 111** or see your GP. In an emergency, call **999**."
+      },
+      "sample": true,
+      "origin": "sig-knead-contact/contact"
+    },
+    {
+      "id": "s5uvslt8lq",
+      "type": "form",
+      "role": "form",
+      "variant": "split",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Send a *message*",
+        "intro": "For club and team bookings, or anything else.",
+        "button": "Send message",
+        "note": "Please do not send health details, or anything urgent, through this form. I will ask what you need to share when we speak."
+      },
+      "sample": true,
+      "origin": "sig-knead-contact/form"
+    },
+    {
+      "id": "s5uvs7081r",
+      "type": "bookstrip",
+      "role": "bookstrip",
+      "variant": "bar",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Rather just *book*?",
+        "button": "Book a massage",
+        "sticky": true
+      },
+      "sample": true,
+      "origin": "sig-knead-contact/bookstrip"
+    }
+  ]
+}

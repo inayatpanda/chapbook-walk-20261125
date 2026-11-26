@@ -1,0 +1,435 @@
+{
+  "v": 1,
+  "title": "Home",
+  "slug": "home",
+  "menu": {
+    "show": true,
+    "label": ""
+  },
+  "description": "chapbook-walk-20261125: sports massage for runners, riders, lifters and weekend players: 30, 60 or 90 minutes, with clinics and workshops.",
+  "template": "sig-knead-home",
+  "look": {
+    "palette": "kneadwell-rust",
+    "colours": {
+      "bg": "#f4f1ec",
+      "surface": "#e6dfd3",
+      "ink": "#1f1a14",
+      "accent": "#a6532a",
+      "deep": "#1f1a14"
+    },
+    "font": "grotesk",
+    "bodyFont": "clean",
+    "motion": {
+      "scroll": "cascade",
+      "heading": "words",
+      "buttons": "press",
+      "pictures": "depth",
+      "pointer": "lean",
+      "arrive": "veil",
+      "mark": "underline",
+      "pace": "measured",
+      "count": true,
+      "preset": "showtime"
+    }
+  },
+  "blocks": [
+    {
+      "id": "s5uvrk7jn0",
+      "type": "hero",
+      "role": "hero",
+      "variant": "backword",
+      "style": {
+        "bg": "dark",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Sports massage in Loughborough",
+        "heading": "Massage for people *who train*",
+        "word": "Ease",
+        "intro": "Deep, focused sports massage for runners, riders, lifters and weekend players. Thirty minutes to ninety, early mornings and Saturdays.",
+        "picture": {
+          "src": "/site-images/cbp-p8-massage-hero.webp",
+          "alt": "A massage couch with rolled rust towels in a warm, softly lit treatment room",
+          "phone": "/site-images/cbp-p8-massage-hero-phone.webp",
+          "w": 1216,
+          "phoneW": 800,
+          "credit": {
+            "creator": "Chapbook",
+            "title": "AI-made sample photo",
+            "license": "ai-generated",
+            "page": ""
+          }
+        },
+        "buttons": [
+          {
+            "label": "Book a massage",
+            "href": "@booking"
+          },
+          {
+            "label": "Call Joe",
+            "href": "@phone"
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-home/hero"
+    },
+    {
+      "id": "s5uvraiqx1",
+      "type": "plans",
+      "role": "ladder",
+      "variant": "ladder",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Session lengths",
+        "heading": "Thirty, sixty or *ninety*",
+        "intro": "Pick the time you need. Each step gives the therapist more room to work.",
+        "items": [
+          {
+            "id": "i1",
+            "service": "kneadwellsm-sports-massage-30m",
+            "per": "a session",
+            "includes": "- One area: calves, back or shoulders\n- Good before an event",
+            "small": "Ten minutes to talk first is free",
+            "pay": {
+              "label": "Pay now",
+              "href": ""
+            }
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-sports-massage-60m",
+            "per": "a session",
+            "includes": "- A full lower or upper body\n- Time for a problem area\n- Stretches to take away",
+            "small": "The one most people book",
+            "pay": {
+              "label": "Pay now",
+              "href": ""
+            },
+            "popular": true
+          },
+          {
+            "id": "i3",
+            "service": "kneadwellsm-sports-massage-90m",
+            "per": "a session",
+            "includes": "- Full body\n- Proper time on two problem areas\n- A plan for the weeks ahead",
+            "small": "Best after a long race or a heavy block",
+            "pay": {
+              "label": "Pay now",
+              "href": ""
+            }
+          }
+        ],
+        "rise": true
+      },
+      "sample": true,
+      "origin": "sig-knead-home/ladder"
+    },
+    {
+      "id": "s5uvry6ax2",
+      "type": "spaces",
+      "role": "events",
+      "variant": "cards",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Events",
+        "heading": "Clinics and workshops, *places left*",
+        "intro": "Pre-race clinics at the club, and small workshops in the studio. The number left is updated by hand.",
+        "items": [
+          {
+            "id": "i4",
+            "name": "Self massage workshop",
+            "date": "2026-11-27",
+            "time": "7pm to 8.30pm",
+            "detail": "Learn to look after your own legs",
+            "price": "£15",
+            "capacity": 12,
+            "left": 7
+          },
+          {
+            "id": "i1",
+            "name": "Foam rolling for runners",
+            "date": "2026-11-28",
+            "time": "6.30pm to 7.30pm",
+            "detail": "Small group in the studio, rollers provided",
+            "price": "£12",
+            "capacity": 10,
+            "left": 2
+          },
+          {
+            "id": "i2",
+            "name": "Pre-race massage clinic",
+            "date": "2026-12-01",
+            "time": "8am to 11am",
+            "detail": "Ten minutes each, at the athletics club",
+            "price": "£10",
+            "capacity": 24,
+            "left": 9
+          },
+          {
+            "id": "i3",
+            "name": "Post-race recovery clinic",
+            "date": "2026-12-08",
+            "time": "10am to 2pm",
+            "detail": "Twenty minutes each, booking needed",
+            "price": "£20",
+            "capacity": 18,
+            "left": 0,
+            "waitlist": {
+              "label": "Join the waiting list",
+              "href": "@email"
+            }
+          }
+        ],
+        "past": "hide"
+      },
+      "sample": true,
+      "origin": "sig-knead-home/events"
+    },
+    {
+      "id": "s5uvr2ecl3",
+      "type": "services",
+      "role": "treatments",
+      "variant": "flip",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Treatments",
+        "heading": "What a session *can be*",
+        "intro": "Turn a card over for the details.",
+        "items": [
+          {
+            "id": "i1",
+            "services": [
+              "kneadwellsm-sports-massage-30m",
+              "kneadwellsm-sports-massage-60m",
+              "kneadwellsm-sports-massage-90m"
+            ],
+            "name": "Sports massage",
+            "description": "Firm, focused work on the muscles you use most, with the pressure agreed as we go.",
+            "picture": {
+              "src": "/site-images/cbp-p8-massage-a.webp",
+              "alt": "Amber glass bottles of oil, a smooth stone and a rolled white towel on a wooden shelf",
+              "phone": "/site-images/cbp-p8-massage-a-phone.webp",
+              "w": 832,
+              "phoneW": 720,
+              "credit": {
+                "creator": "Chapbook",
+                "title": "AI-made sample photo",
+                "license": "ai-generated",
+                "page": ""
+              }
+            },
+            "link": {
+              "label": "Book a massage",
+              "href": "@booking"
+            }
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-before-an-event-30m",
+            "description": "Lighter and quicker, to leave your legs feeling ready, not heavy.",
+            "picture": {
+              "src": "/site-images/cbp-p8-massage-b.webp",
+              "alt": "Red running track lanes with white lines in low sun",
+              "phone": "/site-images/cbp-p8-massage-b-phone.webp",
+              "w": 1088,
+              "phoneW": 800,
+              "credit": {
+                "creator": "Chapbook",
+                "title": "AI-made sample photo",
+                "license": "ai-generated",
+                "page": ""
+              }
+            },
+            "link": {
+              "label": "Book a massage",
+              "href": "@booking"
+            }
+          },
+          {
+            "id": "i3",
+            "service": "kneadwellsm-after-an-event",
+            "description": "Gentle work in the days after a race or a hard block, to help you feel loose again.",
+            "picture": {
+              "src": "/site-images/cbp-p8-massage-d.webp",
+              "alt": "A stack of folded rust towels and a pebble on a white shelf",
+              "phone": "/site-images/cbp-p8-massage-d-phone.webp",
+              "w": 1088,
+              "phoneW": 800,
+              "credit": {
+                "creator": "Chapbook",
+                "title": "AI-made sample photo",
+                "license": "ai-generated",
+                "page": ""
+              }
+            },
+            "link": {
+              "label": "Book a massage",
+              "href": "@booking"
+            }
+          },
+          {
+            "id": "i4",
+            "service": "kneadwellsm-desk-and-neck-30m",
+            "description": "For tight shoulders and necks from long days at a screen.",
+            "picture": {
+              "src": "/site-images/cbp-p8-massage-e.webp",
+              "alt": "A simple wooden bench against a warm wall in a quiet room",
+              "phone": "/site-images/cbp-p8-massage-e-phone.webp",
+              "w": 832,
+              "phoneW": 720,
+              "credit": {
+                "creator": "Chapbook",
+                "title": "AI-made sample photo",
+                "license": "ai-generated",
+                "page": ""
+              }
+            },
+            "link": {
+              "label": "Book a massage",
+              "href": "@booking"
+            }
+          },
+          {
+            "id": "i5",
+            "service": "serrtqr",
+            "link": {
+              "label": "Book",
+              "href": "@booking"
+            }
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-home/treatments"
+    },
+    {
+      "id": "s5uvr8z2g5",
+      "type": "regulator",
+      "role": "regulator",
+      "variant": "panel",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Registration",
+        "heading": "On a register you can *check*",
+        "intro": "Sports massage is not regulated by law in the UK. I am on the register of the Complementary and Natural Healthcare Council, a voluntary register accredited by the Professional Standards Authority, and a member of the Sports Massage Association.",
+        "items": [
+          {
+            "id": "i1",
+            "name": "Joe Barker",
+            "body": "cnhc",
+            "number": "000000",
+            "bodyName": "Complementary and Natural Healthcare Council",
+            "bodyShort": "CNHC",
+            "bodyHref": "https://search.cnhcregister.org.uk/"
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-home/regulator"
+    },
+    {
+      "id": "s5uvrtrii6",
+      "type": "bookstrip",
+      "role": "bookstrip",
+      "variant": "strip",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "s",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Book a *massage*",
+        "items": [
+          {
+            "id": "i1",
+            "service": "kneadwellsm-sports-massage-30m"
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-sports-massage-60m"
+          },
+          {
+            "id": "i3",
+            "service": "kneadwellsm-sports-massage-90m"
+          }
+        ],
+        "button": "Book",
+        "sticky": true,
+        "note": "Move or cancel up to 24 hours before at no cost."
+      },
+      "sample": true,
+      "origin": "sig-knead-home/bookstrip"
+    }
+  ],
+  "held": {
+    "reviews": [
+      {
+        "at": 4,
+        "block": {
+          "id": "s5uvrif2x4",
+          "type": "reviews",
+          "role": "quotes",
+          "variant": "cards",
+          "style": {
+            "bg": "none",
+            "width": "normal",
+            "space": "m",
+            "align": "left"
+          },
+          "data": {
+            "heading": "From the *club*",
+            "items": [
+              {
+                "id": "i1",
+                "quote": "My calves finally stopped nagging before long runs. Joe explains what he is doing and why.",
+                "name": "Client name",
+                "detail": "Marathon runner",
+                "stars": 5
+              },
+              {
+                "id": "i2",
+                "quote": "Firm when it needs to be, never more than I can take. Booking online takes a minute.",
+                "name": "Client name",
+                "detail": "Club cyclist",
+                "stars": 5
+              },
+              {
+                "id": "i3",
+                "quote": "The pre-race clinic is now part of my routine.",
+                "name": "Client name",
+                "detail": "Park runner",
+                "stars": 5
+              }
+            ]
+          },
+          "sample": true,
+          "origin": "sig-knead-home/quotes"
+        }
+      }
+    ]
+  }
+}

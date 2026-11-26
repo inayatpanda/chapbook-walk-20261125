@@ -1,0 +1,239 @@
+{
+  "v": 1,
+  "title": "About",
+  "slug": "about",
+  "menu": {
+    "show": true,
+    "label": ""
+  },
+  "description": "chapbook-walk-20261125: about the sports massage therapist: training, club work, memberships and the CNHC register, which you can check.",
+  "template": "sig-knead-about",
+  "look": {
+    "palette": "kneadwell-rust",
+    "colours": {
+      "bg": "#f4f1ec",
+      "surface": "#e6dfd3",
+      "ink": "#1f1a14",
+      "accent": "#a6532a",
+      "deep": "#1f1a14"
+    },
+    "font": "grotesk",
+    "bodyFont": "clean",
+    "motion": {
+      "scroll": "cascade",
+      "heading": "words",
+      "buttons": "press",
+      "pictures": "depth",
+      "pointer": "lean",
+      "arrive": "veil",
+      "mark": "underline",
+      "pace": "measured",
+      "count": true,
+      "preset": "showtime"
+    }
+  },
+  "blocks": [
+    {
+      "id": "s5uvsd3zx7",
+      "type": "hero",
+      "role": "hero",
+      "variant": "portrait",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Sports massage therapist",
+        "heading": "Joe *Barker*",
+        "intro": "I have worked with runners, cyclists and rugby players for ten years, at the club side and in the studio. I like plain talk, firm hands and a plan you can follow at home.",
+        "buttons": [
+          {
+            "label": "Book a massage",
+            "href": "@booking"
+          },
+          {
+            "label": "Call Joe",
+            "href": "@phone"
+          }
+        ],
+        "monogram": "JB",
+        "frame": "circle"
+      },
+      "sample": true,
+      "origin": "sig-knead-about/hero"
+    },
+    {
+      "id": "s5uvs2xga8",
+      "type": "text",
+      "role": "approach",
+      "variant": "lede",
+      "style": {
+        "bg": "none",
+        "width": "narrow",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "body": "Every session starts with what you are training for and what is bothering you. Then we agree the pressure, and you can say stop at any time.",
+        "mark": "you can say stop at any time"
+      },
+      "sample": true,
+      "origin": "sig-knead-about/approach"
+    },
+    {
+      "id": "s5uvsrfb29",
+      "type": "text",
+      "role": "studio",
+      "variant": "picture-right",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "The studio",
+        "heading": "Warm, quiet and *close to the track*",
+        "body": "A warm treatment room five minutes from the university track, with parking outside and a shower if you have run here.",
+        "picture": {
+          "src": "/site-images/cbp-p8-massage-f.webp",
+          "alt": "Close up of a rust coloured towel folded over a couch",
+          "phone": "/site-images/cbp-p8-massage-f-phone.webp",
+          "w": 1088,
+          "phoneW": 800,
+          "credit": {
+            "creator": "Chapbook",
+            "title": "AI-made sample photo",
+            "license": "ai-generated",
+            "page": ""
+          }
+        }
+      },
+      "sample": true,
+      "origin": "sig-knead-about/studio"
+    },
+    {
+      "id": "s5uvscfkda",
+      "type": "steps",
+      "role": "training",
+      "variant": "row",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Training",
+        "heading": "Training and *experience*",
+        "items": [
+          {
+            "id": "i1",
+            "name": "Sports massage diploma",
+            "description": "A level 5 sports massage qualification, with hands-on assessment."
+          },
+          {
+            "id": "i2",
+            "name": "Club and event work",
+            "description": "Ten seasons with running and cycling clubs, and race day tents."
+          },
+          {
+            "id": "i3",
+            "name": "Kneadwell",
+            "description": "Opened in Loughborough in 2020.",
+            "link": {
+              "label": "Book a massage",
+              "href": "@booking"
+            }
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-about/training"
+    },
+    {
+      "id": "s5uvst7jib",
+      "type": "credentials",
+      "role": "memberships",
+      "variant": "row",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Memberships",
+        "heading": "Memberships and *insurance*",
+        "items": [
+          {
+            "id": "i1",
+            "text": "Member of the Sports Massage Association"
+          },
+          {
+            "id": "i2",
+            "text": "On the CNHC register for sports massage"
+          },
+          {
+            "id": "i3",
+            "text": "First aid trained, and insured"
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-about/memberships"
+    },
+    {
+      "id": "s5uvs8rbqc",
+      "type": "regulator",
+      "role": "regulator",
+      "variant": "panel",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Registration",
+        "heading": "Check my *registration*",
+        "intro": "Sports massage is not regulated by law in the UK. I am on the register of the Complementary and Natural Healthcare Council, a voluntary register accredited by the Professional Standards Authority, and a member of the Sports Massage Association.",
+        "items": [
+          {
+            "id": "i1",
+            "name": "Joe Barker",
+            "body": "cnhc",
+            "number": "000000",
+            "bodyName": "Complementary and Natural Healthcare Council",
+            "bodyShort": "CNHC",
+            "bodyHref": "https://search.cnhcregister.org.uk/"
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-about/regulator"
+    },
+    {
+      "id": "s5uvsyjuhd",
+      "type": "bookstrip",
+      "role": "bookstrip",
+      "variant": "bar",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Ready when *you are*",
+        "intro": "Book online, or call and we will find a time.",
+        "button": "Book a massage",
+        "sticky": true
+      },
+      "sample": true,
+      "origin": "sig-knead-about/bookstrip"
+    }
+  ]
+}

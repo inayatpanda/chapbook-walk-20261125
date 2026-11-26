@@ -1,0 +1,224 @@
+{
+  "v": 1,
+  "title": "Treatments",
+  "slug": "treatments",
+  "menu": {
+    "show": true,
+    "label": ""
+  },
+  "description": "chapbook-walk-20261125: sports massage, before and after events, and desk and neck sessions, with times, prices and plain answers.",
+  "template": "sig-knead-treatments",
+  "look": {
+    "palette": "kneadwell-rust",
+    "colours": {
+      "bg": "#f4f1ec",
+      "surface": "#e6dfd3",
+      "ink": "#1f1a14",
+      "accent": "#a6532a",
+      "deep": "#1f1a14"
+    },
+    "font": "grotesk",
+    "bodyFont": "clean",
+    "motion": {
+      "scroll": "cascade",
+      "heading": "words",
+      "buttons": "press",
+      "pictures": "depth",
+      "pointer": "lean",
+      "arrive": "veil",
+      "mark": "underline",
+      "pace": "measured",
+      "count": true,
+      "preset": "showtime"
+    }
+  },
+  "blocks": [
+    {
+      "id": "s5uvsi13we",
+      "type": "hero",
+      "role": "hero",
+      "variant": "minimal",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Treatments",
+        "heading": "Treatments and *times*",
+        "intro": "Sports massage for training, racing and everyday aches, from thirty minutes to ninety."
+      },
+      "sample": true,
+      "origin": "sig-knead-treatments/hero"
+    },
+    {
+      "id": "s5uvson39f",
+      "type": "services",
+      "role": "board",
+      "variant": "board",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "heading": "The *board*",
+        "items": [
+          {
+            "id": "i1",
+            "service": "kneadwellsm-sports-massage-30m",
+            "lengthShows": "heading",
+            "description": "One area, worked properly."
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-sports-massage-60m",
+            "lengthShows": "heading",
+            "description": "A full lower or upper body."
+          },
+          {
+            "id": "i3",
+            "service": "kneadwellsm-sports-massage-90m",
+            "lengthShows": "heading",
+            "description": "Full body, with time for two problem areas."
+          },
+          {
+            "id": "i4",
+            "service": "kneadwellsm-before-an-event-30m",
+            "lengthShows": "hidden",
+            "description": "Lighter and quicker, the day or two before."
+          },
+          {
+            "id": "i5",
+            "service": "kneadwellsm-after-an-event",
+            "lengthShows": "hidden",
+            "description": "Gentle, in the days after."
+          },
+          {
+            "id": "i6",
+            "service": "kneadwellsm-desk-and-neck-30m",
+            "lengthShows": "hidden",
+            "description": "Shoulders, neck and upper back."
+          },
+          {
+            "id": "i7",
+            "service": "serrtqr",
+            "link": {
+              "label": "Book",
+              "href": "@booking"
+            }
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-treatments/board"
+    },
+    {
+      "id": "s5uvsyrvag",
+      "type": "text",
+      "role": "session",
+      "variant": "picture-left",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "A session",
+        "heading": "What a session is *like*",
+        "body": "We talk for a few minutes about your training and what feels tight. You lie on a warm couch under towels, and only the area being worked on is uncovered. Afterwards you get two or three stretches to take away.",
+        "picture": {
+          "src": "/site-images/cbp-p8-massage-a.webp",
+          "alt": "Amber glass bottles of oil, a smooth stone and a rolled white towel on a wooden shelf",
+          "phone": "/site-images/cbp-p8-massage-a-phone.webp",
+          "w": 832,
+          "phoneW": 720,
+          "credit": {
+            "creator": "Chapbook",
+            "title": "AI-made sample photo",
+            "license": "ai-generated",
+            "page": ""
+          }
+        }
+      },
+      "sample": true,
+      "origin": "sig-knead-treatments/session"
+    },
+    {
+      "id": "s5uvsjxwqh",
+      "type": "faq",
+      "role": "faq",
+      "variant": "accordion",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Good *questions*",
+        "items": [
+          {
+            "id": "i1",
+            "question": "Will it hurt?",
+            "answer": "Deep work can feel strong, but it should never feel like too much. We agree the pressure as we go, and you can say stop at any time."
+          },
+          {
+            "id": "i2",
+            "question": "I have an injury. Is massage right?",
+            "answer": "If you have a new injury, swelling, or pain that is getting worse, see your GP or a physiotherapist first. Massage is for tight, tired muscles; it does not diagnose or treat injuries."
+          },
+          {
+            "id": "i3",
+            "question": "Do I need to be an athlete?",
+            "answer": "No. Plenty of people come for desk shoulders, gardening backs or a long walk ahead."
+          },
+          {
+            "id": "i4",
+            "question": "What should I wear?",
+            "answer": "Shorts are ideal for legs. You will be covered with towels throughout."
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-treatments/faq"
+    },
+    {
+      "id": "s5uvs5paxi",
+      "type": "bookstrip",
+      "role": "bookstrip",
+      "variant": "strip",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "s",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Book a *massage*",
+        "items": [
+          {
+            "id": "i1",
+            "service": "kneadwellsm-sports-massage-30m"
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-sports-massage-60m"
+          },
+          {
+            "id": "i3",
+            "service": "kneadwellsm-sports-massage-90m"
+          }
+        ],
+        "button": "Book",
+        "sticky": true,
+        "note": "Move or cancel up to 24 hours before at no cost."
+      },
+      "sample": true,
+      "origin": "sig-knead-treatments/bookstrip"
+    }
+  ]
+}

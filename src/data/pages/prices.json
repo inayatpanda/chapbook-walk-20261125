@@ -1,0 +1,241 @@
+{
+  "v": 1,
+  "title": "Prices",
+  "slug": "prices",
+  "menu": {
+    "show": true,
+    "label": ""
+  },
+  "description": "chapbook-walk-20261125: prices for 30, 60 and 90 minute sessions, a block of five, a monthly plan and club rates.",
+  "template": "sig-knead-prices",
+  "look": {
+    "palette": "kneadwell-rust",
+    "colours": {
+      "bg": "#f4f1ec",
+      "surface": "#e6dfd3",
+      "ink": "#1f1a14",
+      "accent": "#a6532a",
+      "deep": "#1f1a14"
+    },
+    "font": "grotesk",
+    "bodyFont": "clean",
+    "motion": {
+      "scroll": "cascade",
+      "heading": "words",
+      "buttons": "press",
+      "pictures": "depth",
+      "pointer": "lean",
+      "arrive": "veil",
+      "mark": "underline",
+      "pace": "measured",
+      "count": true,
+      "preset": "showtime"
+    }
+  },
+  "blocks": [
+    {
+      "id": "s5uvsh7y6j",
+      "type": "hero",
+      "role": "hero",
+      "variant": "minimal",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Prices",
+        "heading": "Clear prices, *no surprises*",
+        "intro": "Every price is here before you book. Blocks and a monthly plan cost less per session."
+      },
+      "sample": true,
+      "origin": "sig-knead-prices/hero"
+    },
+    {
+      "id": "s5uvs80qck",
+      "type": "plans",
+      "role": "ladder",
+      "variant": "ladder",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "One session",
+        "heading": "Pick your *time*",
+        "intro": "Pick the time you need. Each step gives the therapist more room to work.",
+        "items": [
+          {
+            "id": "i1",
+            "service": "kneadwellsm-sports-massage-30m",
+            "per": "a session",
+            "includes": "- One area: calves, back or shoulders\n- Good before an event",
+            "small": "Ten minutes to talk first is free",
+            "pay": {
+              "label": "Pay now",
+              "href": ""
+            }
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-sports-massage-60m",
+            "per": "a session",
+            "includes": "- A full lower or upper body\n- Time for a problem area\n- Stretches to take away",
+            "small": "The one most people book",
+            "pay": {
+              "label": "Pay now",
+              "href": ""
+            },
+            "popular": true
+          },
+          {
+            "id": "i3",
+            "service": "kneadwellsm-sports-massage-90m",
+            "per": "a session",
+            "includes": "- Full body\n- Proper time on two problem areas\n- A plan for the weeks ahead",
+            "small": "Best after a long race or a heavy block",
+            "pay": {
+              "label": "Pay now",
+              "href": ""
+            }
+          },
+          {
+            "id": "i4",
+            "service": "sw5enqa"
+          }
+        ],
+        "rise": true
+      },
+      "sample": true,
+      "origin": "sig-knead-prices/ladder"
+    },
+    {
+      "id": "s5uvsirbsl",
+      "type": "plans",
+      "role": "plans",
+      "variant": "rows",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Regulars",
+        "heading": "Blocks and a *monthly plan*",
+        "items": [
+          {
+            "id": "i1",
+            "service": "kneadwellsm-block-of-five",
+            "per": "five 60 minute sessions",
+            "includes": "- Use within six months\n- Share with one other person",
+            "small": "Costs less than five single sessions",
+            "pay": {
+              "label": "Pay now",
+              "href": ""
+            }
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-monthly",
+            "per": "a month",
+            "includes": "- One 60 minute session each month\n- Ten per cent off extra sessions",
+            "small": "Cancel any time",
+            "pay": {
+              "label": "Join",
+              "href": ""
+            }
+          },
+          {
+            "id": "i3",
+            "name": "Clubs and teams",
+            "price": "Ask",
+            "per": "for a quote",
+            "includes": "- Event tents and pre-season screens\n- Rates for members",
+            "small": "Get in touch with dates and numbers"
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-prices/plans"
+    },
+    {
+      "id": "s5uvspla9m",
+      "type": "faq",
+      "role": "cancel",
+      "variant": "two-column",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Changing plans",
+        "heading": "Moving or cancelling",
+        "intro": "Plans change. This is how to move or cancel a booking, and what happens to anything you have paid.",
+        "items": [
+          {
+            "id": "i1",
+            "question": "How do I move or cancel?",
+            "answer": "Use the link in your booking confirmation email, or call us. Please let us know at least 24 hours before, so someone else can have the time."
+          },
+          {
+            "id": "i2",
+            "question": "Deposits and late changes",
+            "answer": "If you paid a deposit, it comes off your fee on the day. Cancel or move with at least 24 hours’ notice and it is refunded or moved to your new time. Once your 14 days to change your mind have passed (see below), a deposit may be kept if you cancel with less notice or miss the appointment."
+          },
+          {
+            "id": "i3",
+            "question": "Refunds",
+            "answer": "Refunds go back to the card or account you paid with. Your bank may take a few days to show it."
+          },
+          {
+            "id": "i4",
+            "question": "Booked online, by phone or by email?",
+            "answer": "You can cancel for any reason until 14 days after the day you book, and we refund what you paid. If you asked us to start within those 14 days and have already had some of the service, you pay for the part you have had. We will ask you to confirm if you would like to start that soon."
+          }
+        ]
+      },
+      "sample": true,
+      "origin": "sig-knead-prices/cancel"
+    },
+    {
+      "id": "s5uvsr6srn",
+      "type": "bookstrip",
+      "role": "bookstrip",
+      "variant": "strip",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "s",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Book a *massage*",
+        "items": [
+          {
+            "id": "i1",
+            "service": "kneadwellsm-sports-massage-30m"
+          },
+          {
+            "id": "i2",
+            "service": "kneadwellsm-sports-massage-60m"
+          },
+          {
+            "id": "i3",
+            "service": "kneadwellsm-sports-massage-90m"
+          }
+        ],
+        "button": "Book",
+        "sticky": true,
+        "note": "Move or cancel up to 24 hours before at no cost."
+      },
+      "sample": true,
+      "origin": "sig-knead-prices/bookstrip"
+    }
+  ]
+}

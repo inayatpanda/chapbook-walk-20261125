@@ -1,0 +1,116 @@
+{
+  "v": 1,
+  "title": "Thank you",
+  "slug": "thank-you",
+  "menu": {
+    "show": false,
+    "label": ""
+  },
+  "description": "chapbook-walk-20261125: thank you, what happens next and how to choose a time.",
+  "template": "any-thanks",
+  "look": {
+    "palette": "kneadwell-rust",
+    "colours": {
+      "bg": "#f4f1ec",
+      "surface": "#e6dfd3",
+      "ink": "#1f1a14",
+      "accent": "#a6532a",
+      "deep": "#1f1a14"
+    },
+    "font": "grotesk",
+    "bodyFont": "clean",
+    "motion": {
+      "scroll": "cascade",
+      "heading": "words",
+      "buttons": "press",
+      "pictures": "depth",
+      "pointer": "lean",
+      "arrive": "veil",
+      "mark": "underline",
+      "pace": "measured",
+      "count": true,
+      "preset": "showtime"
+    }
+  },
+  "blocks": [
+    {
+      "id": "s5uvszxhcs",
+      "type": "hero",
+      "role": "thanks",
+      "variant": "minimal",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "l",
+        "align": "left"
+      },
+      "data": {
+        "kicker": "Thank you",
+        "heading": "Thank you, that is *all done*",
+        "intro": "Whether you have booked a time, paid or both, an email is on its way to you. Here is what happens next."
+      }
+    },
+    {
+      "id": "s5uvs66zqt",
+      "type": "steps",
+      "role": "next",
+      "variant": "line",
+      "style": {
+        "bg": "none",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "heading": "What happens *next*",
+        "items": [
+          {
+            "id": "i1",
+            "name": "Check your email",
+            "description": "A payment receipt comes from the payment service, and a booking confirmation from the booking service. No email after a few minutes? Check your spam folder, or get in touch."
+          },
+          {
+            "id": "i2",
+            "name": "Choose your time, if you have not yet",
+            "description": "If you paid before booking, pick a time that suits you now.",
+            "link": {
+              "label": "Book a time",
+              "href": "@booking"
+            }
+          },
+          {
+            "id": "i3",
+            "name": "Need to change something?",
+            "description": "Use the link in your confirmation email to move or cancel your booking, or get in touch and we will sort it out."
+          }
+        ]
+      }
+    },
+    {
+      "id": "s5uvsp4klu",
+      "type": "cta",
+      "role": "cta",
+      "variant": "band",
+      "style": {
+        "bg": "tint",
+        "width": "normal",
+        "space": "m",
+        "align": "left"
+      },
+      "data": {
+        "heading": "Not booked a time yet?",
+        "body": "Choose a time online, or call and we will find one with you.",
+        "buttons": [
+          {
+            "label": "Book a time",
+            "href": "@booking"
+          },
+          {
+            "label": "Call us",
+            "href": "@phone"
+          }
+        ]
+      }
+    }
+  ]
+}
